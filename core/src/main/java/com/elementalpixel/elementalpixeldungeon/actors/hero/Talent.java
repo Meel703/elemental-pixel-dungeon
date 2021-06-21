@@ -410,6 +410,12 @@ public enum Talent {
 		}
 	}
 
+	public static void onPotionUsed( Hero hero, Potion potion) {
+		if (hero.hasTalent(REVITALISING_CONCOCTION) && hero.HP < (0.5f * hero.HT)) {
+			hero.HP += 2 * hero.pointsInTalent(REVITALISING_CONCOCTION);
+		}
+	}
+
 	public static class SuckerPunchTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
 
