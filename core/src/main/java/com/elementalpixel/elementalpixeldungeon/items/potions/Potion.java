@@ -34,6 +34,7 @@ import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Burning;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Ooze;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.effects.Splash;
 import com.elementalpixel.elementalpixeldungeon.items.Generator;
 import com.elementalpixel.elementalpixeldungeon.items.Item;
@@ -235,6 +236,7 @@ public class Potion extends Item {
 			GameScene.show(new WndUseItem(null, this) );
 			
 		} else if (action.equals( AC_DRINK )) {
+			Talent.onPotionDrunk(Dungeon.hero, this);
 			
 			if (isKnown() && mustThrowPots.contains(getClass())) {
 				

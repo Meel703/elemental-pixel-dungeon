@@ -31,6 +31,7 @@ import com.elementalpixel.elementalpixeldungeon.actors.buffs.CounterBuff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.EnhancedRings;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.FlavourBuff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Haste;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Hunger;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Recharging;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Roots;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.WandEmpower;
@@ -44,6 +45,8 @@ import com.elementalpixel.elementalpixeldungeon.items.Item;
 import com.elementalpixel.elementalpixeldungeon.items.armor.Armor;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.CloakOfShadows;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.HornOfPlenty;
+import com.elementalpixel.elementalpixeldungeon.items.food.Food;
+import com.elementalpixel.elementalpixeldungeon.items.potions.Potion;
 import com.elementalpixel.elementalpixeldungeon.items.rings.Ring;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.elementalpixel.elementalpixeldungeon.items.wands.Wand;
@@ -109,7 +112,17 @@ public enum Talent {
 	//Sniper T3
 	FARSIGHT(107, 3), SHARED_ENCHANTMENT(108, 3), SHARED_UPGRADES(109, 3),
 	//Warden T3
-	DURABLE_TIPS(110, 3), BARKSKIN(111, 3), SHIELDING_DEW(112, 3);
+	DURABLE_TIPS(110, 3), BARKSKIN(111, 3), SHIELDING_DEW(112, 3),
+
+	//Alchemist T1
+	VITAL_BREWS(110), FREAKS_INTUITION(111), FRENZIED_FINISH(112), REVITALISING_CONCOCTION(109),
+	//Alchemist T2
+	ATTUNED_MEAL(100), VOLATILE_POTIONS(101), FLUID_MOVES(102), FAMILIAR_FACE(103), SWIFT_LOBBING(104),;
+	//Alchemist T3
+
+	//Elementalist T3
+
+	//Scientist T3
 
 	public static class ImprovisedProjectileCooldown extends FlavourBuff{};
 	public static class LethalMomentumTracker extends FlavourBuff{};
@@ -370,6 +383,13 @@ public enum Talent {
 		return dmg;
 	}
 
+	public static void onPotionDrunk( Hero hero, Potion potion ) {
+		if (hero.hasTalent(Talent.VITAL_BREWS)) {
+			Buff.affect(hero, Hunger.class).satisfy(Food.energy);
+			hero.pointsInTalent(Talent.VITAL_BREWS);
+		}
+	}
+
 	public static class SuckerPunchTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
 
@@ -401,6 +421,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, NATURES_BOUNTY, SURVIVALISTS_INTUITION, FOLLOWUP_STRIKE, NATURES_AID);
 				break;
 			case ALCHEMIST:
+				Collections.addAll(tierTalents, VITAL_BREWS, FREAKS_INTUITION, FRENZIED_FINISH, REVITALISING_CONCOCTION);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -423,6 +444,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, INVIGORATING_MEAL, RESTORED_NATURE, REJUVENATING_STEPS, HEIGHTENED_SENSES, DURABLE_PROJECTILES);
 				break;
 			case ALCHEMIST:
+				Collections.addAll(tierTalents, ATTUNED_MEAL, VOLATILE_POTIONS, FLUID_MOVES, FAMILIAR_FACE, SWIFT_LOBBING);
 				break;
 		}
 		for (Talent talent : tierTalents){
