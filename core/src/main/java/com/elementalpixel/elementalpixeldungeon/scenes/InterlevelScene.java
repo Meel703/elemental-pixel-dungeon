@@ -30,6 +30,7 @@ import com.elementalpixel.elementalpixeldungeon.ShatteredPixelDungeon;
 import com.elementalpixel.elementalpixeldungeon.Statistics;
 import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Mob;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
 import com.elementalpixel.elementalpixeldungeon.levels.features.Chasm;
@@ -55,6 +56,8 @@ import com.watabou.utils.DeviceCompat;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import static com.elementalpixel.elementalpixeldungeon.Dungeon.hero;
 
 public class InterlevelScene extends PixelScene {
 	
@@ -109,7 +112,7 @@ public class InterlevelScene extends PixelScene {
 				scrollSpeed = 5;
 				break;
 			case DESCEND:
-				if (Dungeon.hero == null){
+				if (hero == null){
 					loadingDepth = 1;
 					fadeTime = SLOW_FADE;
 				} else {
@@ -234,14 +237,14 @@ public class InterlevelScene extends PixelScene {
 					
 					try {
 
-						if (Dungeon.hero != null){
-							Dungeon.hero.spendToWhole();
+						if (hero != null){
+							hero.spendToWhole();
 						}
 						Actor.fixTime();
 
 						switch (mode) {
 							case DESCEND:
-								descend();
+								descend();;
 								break;
 							case ASCEND:
 								ascend();
@@ -350,9 +353,11 @@ public class InterlevelScene extends PixelScene {
 
 	public static Level level;
 
+	public static float dodgeCounter;
 	public static void descend() throws IOException {
+		dodgeCounter = 2;
 
-		if (Dungeon.hero == null) {
+		if (hero == null) {
 			Mob.clearHeldAllies();
 			Dungeon.init();
 			if (noStory) {
@@ -382,13 +387,15 @@ public class InterlevelScene extends PixelScene {
 			}
 		}
 		Dungeon.switchLevel( level, level.entrance );
+
+		Mob enemy = new Mob() {};
 	}
 	
 	private void fall() throws IOException {
 		
 		Mob.holdAllies( Dungeon.level );
 		
-		Buff.affect( Dungeon.hero, Chasm.Falling.class );
+		Buff.affect( hero, Chasm.Falling.class );
 		Dungeon.saveAll();
 
 		Level level;
@@ -437,7 +444,7 @@ public class InterlevelScene extends PixelScene {
 			Dungeon.switchLevel( Dungeon.loadLevel( GamesInProgress.curSlot ), -1 );
 		} else {
 			Level level = Dungeon.loadLevel( GamesInProgress.curSlot );
-			Dungeon.switchLevel( level, Dungeon.hero.pos );
+			Dungeon.switchLevel( level, hero.pos );
 		}
 	}
 	
@@ -446,12 +453,12 @@ public class InterlevelScene extends PixelScene {
 		Mob.holdAllies( Dungeon.level );
 		
 		if (Dungeon.level.locked) {
-			Dungeon.hero.resurrect( Dungeon.depth );
+			hero.resurrect( Dungeon.depth );
 			Dungeon.depth--;
 			Level level = Dungeon.newLevel();
 			Dungeon.switchLevel( level, level.entrance );
 		} else {
-			Dungeon.hero.resurrect( -1 );
+			hero.resurrect( -1 );
 			Dungeon.resetLevel();
 		}
 	}

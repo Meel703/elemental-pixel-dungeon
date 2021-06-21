@@ -48,6 +48,7 @@ import com.elementalpixel.elementalpixeldungeon.items.artifacts.HornOfPlenty;
 import com.elementalpixel.elementalpixeldungeon.items.food.Food;
 import com.elementalpixel.elementalpixeldungeon.items.potions.Potion;
 import com.elementalpixel.elementalpixeldungeon.items.rings.Ring;
+import com.elementalpixel.elementalpixeldungeon.items.rings.RingOfEvasion;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.elementalpixel.elementalpixeldungeon.items.wands.Wand;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.Weapon;
@@ -58,6 +59,7 @@ import com.elementalpixel.elementalpixeldungeon.levels.Level;
 import com.elementalpixel.elementalpixeldungeon.levels.Terrain;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
+import com.elementalpixel.elementalpixeldungeon.scenes.InterlevelScene;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
@@ -415,6 +417,17 @@ public enum Talent {
 			hero.HP += 2 * hero.pointsInTalent(REVITALISING_CONCOCTION);
 		}
 	}
+
+	public static int onDescend(Hero hero) {
+		if (hero.hasTalent(FLUID_MOVES)) {
+			for (int i = 0; i < InterlevelScene.dodgeCounter; i++) {
+				return Hero.INFINITE_EVASION;
+			}
+		}
+
+		return 0;
+	}
+
 
 	public static class SuckerPunchTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
