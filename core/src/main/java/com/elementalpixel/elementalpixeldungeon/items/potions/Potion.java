@@ -33,6 +33,7 @@ import com.elementalpixel.elementalpixeldungeon.actors.blobs.Fire;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Burning;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Ooze;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Poison;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.effects.Splash;
@@ -41,6 +42,7 @@ import com.elementalpixel.elementalpixeldungeon.items.Item;
 import com.elementalpixel.elementalpixeldungeon.items.ItemStatusHandler;
 import com.elementalpixel.elementalpixeldungeon.items.Recipe;
 import com.elementalpixel.elementalpixeldungeon.items.bags.Bag;
+import com.elementalpixel.elementalpixeldungeon.items.bombs.Bomb;
 import com.elementalpixel.elementalpixeldungeon.items.potions.elixirs.ElixirOfHoneyedHealing;
 import com.elementalpixel.elementalpixeldungeon.items.potions.exotic.ExoticPotion;
 import com.elementalpixel.elementalpixeldungeon.items.potions.exotic.PotionOfCleansing;
@@ -79,6 +81,8 @@ import com.watabou.utils.Reflection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import static com.elementalpixel.elementalpixeldungeon.Dungeon.hero;
 
 public class Potion extends Item {
 
@@ -291,16 +295,17 @@ public class Potion extends Item {
 		hero.busy();
 		apply( hero );
 		Talent.onPotionDrunk(Dungeon.hero, this);
-		Talent.onPotionUsed(Dungeon.hero, this);
 
 
 		Sample.INSTANCE.play( Assets.Sounds.DRINK );
 		
 		hero.sprite.operate( hero.pos );
 	}
-	
+
+	public static int targetPos;
 	@Override
 	protected void onThrow( int cell ) {
+		targetPos = cell;
 		if (Dungeon.level.map[cell] == Terrain.WELL || Dungeon.level.pit[cell]) {
 			
 			super.onThrow( cell );
@@ -341,20 +346,31 @@ public class Potion extends Item {
 			if (!isKnown()) {
 				handler.know(this);
 				updateQuickslot();
-				Potion p = Dungeon.hero.belongings.getItem(getClass());
+				Potion p = hero.belongings.getItem(getClass());
 				if (p != null)  p.setAction();
 				if (ExoticPotion.regToExo.get(getClass()) != null) {
-					p = Dungeon.hero.belongings.getItem(ExoticPotion.regToExo.get(getClass()));
+					p = hero.belongings.getItem(ExoticPotion.regToExo.get(getClass()));
 					if (p != null) p.setAction();
 				}
 			}
 			
-			if (Dungeon.hero.isAlive()) {
+			if (hero.isAlive()) {
 				Catalog.setSeen(getClass());
 			}
 		}
 	}
-	
+
+	public static void volatilePotionsExplode() {
+		new Bomb().explode(targetPos);
+	}
+
+	public static void volatilePotionsPoison( ) {
+		Char target = Actor.findChar(targetPos);
+		if (target != null) {
+			Buff.affect( target, Poison.class ).set( 3 + Dungeon.depth / 3 );
+		}
+
+	}
 	@Override
 	public Item identify() {
 		super.identify();

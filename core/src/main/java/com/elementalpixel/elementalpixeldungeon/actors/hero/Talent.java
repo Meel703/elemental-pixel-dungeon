@@ -47,6 +47,13 @@ import com.elementalpixel.elementalpixeldungeon.items.artifacts.CloakOfShadows;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.HornOfPlenty;
 import com.elementalpixel.elementalpixeldungeon.items.food.Food;
 import com.elementalpixel.elementalpixeldungeon.items.potions.Potion;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfFrost;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfLevitation;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfLiquidFlame;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfParalyticGas;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfToxicGas;
+import com.elementalpixel.elementalpixeldungeon.items.potions.exotic.PotionOfCorrosiveGas;
+import com.elementalpixel.elementalpixeldungeon.items.potions.exotic.PotionOfShroudingFog;
 import com.elementalpixel.elementalpixeldungeon.items.rings.Ring;
 import com.elementalpixel.elementalpixeldungeon.items.rings.RingOfEvasion;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfRecharging;
@@ -205,6 +212,8 @@ public enum Talent {
 		if (talent == FARSIGHT){
 			Dungeon.observe();
 		}
+
+
 	}
 
 	public static class CachedRationsDropped extends CounterBuff{};
@@ -245,6 +254,10 @@ public enum Talent {
 		if (hero.hasTalent(INVIGORATING_MEAL)){
 			//effectively 1/2 turns of haste
 			Buff.prolong( hero, Haste.class, 0.67f+hero.pointsInTalent(INVIGORATING_MEAL));
+		}
+		if (hero.hasTalent(ATTUNED_MEAL)) {
+			//Buff.affect( hero, Elementalsurge.class)
+			//TODO this should empower next elemental effect
 		}
 	}
 
@@ -412,11 +425,31 @@ public enum Talent {
 		}
 	}
 
+	//toxic gas, frost, paralytic gas, liquid flame, levitation
+	public static void onPotionThrown( Hero hero, Potion potion ) {
+		if (hero.hasTalent(Talent.VOLATILE_POTIONS)) {
+			if (potion instanceof PotionOfToxicGas ||
+					potion instanceof PotionOfFrost ||
+					potion instanceof PotionOfParalyticGas ||
+					potion instanceof PotionOfLiquidFlame ||
+					potion instanceof PotionOfLevitation ||
+					potion instanceof PotionOfCorrosiveGas ||
+					potion instanceof PotionOfShroudingFog) {
+
+				Potion.volatilePotionsExplode();
+
+				if (hero.pointsInTalent(VOLATILE_POTIONS) == 2) {
+					Potion.volatilePotionsPoison();
+				}
+			}
+		}
+	}
 	public static void onPotionUsed( Hero hero, Potion potion) {
 		if (hero.hasTalent(REVITALISING_CONCOCTION) && hero.HP < (0.5f * hero.HT)) {
 			hero.HP += 2 * hero.pointsInTalent(REVITALISING_CONCOCTION);
 		}
 	}
+
 
 	public static int onDescend(Hero hero) {
 		if (hero.hasTalent(FLUID_MOVES)) {
