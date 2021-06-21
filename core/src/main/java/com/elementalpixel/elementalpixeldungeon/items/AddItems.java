@@ -13,6 +13,7 @@ import com.elementalpixel.elementalpixeldungeon.items.bags.PotionBandolier;
 import com.elementalpixel.elementalpixeldungeon.items.bags.ScrollHolder;
 import com.elementalpixel.elementalpixeldungeon.items.bags.VelvetPouch;
 import com.elementalpixel.elementalpixeldungeon.items.food.Food;
+import com.elementalpixel.elementalpixeldungeon.items.food.SmallRation;
 import com.elementalpixel.elementalpixeldungeon.items.fragments.AirFragment;
 import com.elementalpixel.elementalpixeldungeon.items.fragments.EarthFragment;
 import com.elementalpixel.elementalpixeldungeon.items.fragments.FireFragment;
@@ -150,6 +151,7 @@ public class AddItems extends Item {
             new PlateArmor().upgrade(30).identify().collect();
 
             new Food().quantity(15).collect();
+            new SmallRation().quantity(15).collect();
 
             //SEEDS
             new Sungrass.Seed().quantity(20).collect();

@@ -385,7 +385,8 @@ public enum Talent {
 
 	public static void onPotionDrunk( Hero hero, Potion potion ) {
 		if (hero.hasTalent(Talent.VITAL_BREWS)) {
-			Buff.affect(hero, Hunger.class).satisfy(Food.energy);
+			System.out.println(hero.pointsInTalent(VITAL_BREWS));
+			Buff.affect(hero, Hunger.class).satisfy(75 * hero.pointsInTalent(VITAL_BREWS));
 			hero.pointsInTalent(Talent.VITAL_BREWS);
 		}
 	}
