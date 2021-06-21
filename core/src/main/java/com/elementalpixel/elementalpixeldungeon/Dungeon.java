@@ -335,7 +335,7 @@ public class Dungeon {
 			level = new AirLevel();
 			break;
 		case 40:
-			level = new AirBossLevel();
+			level = new NewPrisonBossLevel();
 			break;
 		case 41:
 		case 42:
