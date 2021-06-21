@@ -308,6 +308,7 @@ public class Potion extends Item {
 
 			Dungeon.level.pressCell( cell );
 			shatter( cell );
+			Talent.onPotionThrow(Dungeon.hero, this);
 			
 		}
 	}

@@ -203,6 +203,8 @@ public enum Talent {
 		if (talent == FARSIGHT){
 			Dungeon.observe();
 		}
+
+
 	}
 
 	public static class CachedRationsDropped extends CounterBuff{};
@@ -243,6 +245,10 @@ public enum Talent {
 		if (hero.hasTalent(INVIGORATING_MEAL)){
 			//effectively 1/2 turns of haste
 			Buff.prolong( hero, Haste.class, 0.67f+hero.pointsInTalent(INVIGORATING_MEAL));
+		}
+		if (hero.hasTalent(ATTUNED_MEAL)) {
+			//Buff.affect( hero, Elementalsurge.class)
+			//TODO this should empower next elemental effect
 		}
 	}
 
@@ -408,6 +414,9 @@ public enum Talent {
 			Buff.affect(hero, Hunger.class).satisfy((Hunger.HUNGRY/4f) + energy);
 			hero.pointsInTalent(Talent.VITAL_BREWS);
 		}
+	}
+
+	public static void onPotionThrow( Hero hero, Potion potion ) {
 	}
 
 	public static class SuckerPunchTracker extends Buff{};
