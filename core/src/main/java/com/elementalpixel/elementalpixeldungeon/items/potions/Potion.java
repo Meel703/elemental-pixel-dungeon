@@ -317,8 +317,6 @@ public class Potion extends Item {
 			Talent.onPotionThrown(Dungeon.hero, this);
 			Talent.onPotionUsed(Dungeon.hero, this);
 
-			Talent.onPotionThrow(hero, this);
-
 		}
 	}
 	

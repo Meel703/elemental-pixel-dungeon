@@ -25,9 +25,6 @@ import com.elementalpixel.elementalpixeldungeon.Assets;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
-import com.elementalpixel.elementalpixeldungeon.actors.blobs.Blob;
-import com.elementalpixel.elementalpixeldungeon.actors.blobs.CorrosiveGas;
-import com.elementalpixel.elementalpixeldungeon.actors.blobs.Fire;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.CounterBuff;
@@ -48,7 +45,6 @@ import com.elementalpixel.elementalpixeldungeon.items.Item;
 import com.elementalpixel.elementalpixeldungeon.items.armor.Armor;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.CloakOfShadows;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.HornOfPlenty;
-import com.elementalpixel.elementalpixeldungeon.items.bombs.Bomb;
 import com.elementalpixel.elementalpixeldungeon.items.food.Food;
 import com.elementalpixel.elementalpixeldungeon.items.potions.Potion;
 import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfFrost;
@@ -426,16 +422,17 @@ public enum Talent {
 			hero.pointsInTalent(Talent.VITAL_BREWS);
 		}
 	}
+
 	//toxic gas, frost, paralytic gas, liquid flame, levitation
-	public static void onPotionThrow( Hero hero, Potion potion ) {
+	public static void onPotionThrown( Hero hero, Potion potion ) {
 		if (hero.hasTalent(Talent.VOLATILE_POTIONS)) {
 			if (potion instanceof PotionOfToxicGas ||
-				potion instanceof PotionOfFrost ||
-				potion instanceof PotionOfParalyticGas ||
-				potion instanceof PotionOfLiquidFlame ||
-				potion instanceof PotionOfLevitation ||
-				potion instanceof PotionOfCorrosiveGas ||
-				potion instanceof PotionOfShroudingFog) {
+					potion instanceof PotionOfFrost ||
+					potion instanceof PotionOfParalyticGas ||
+					potion instanceof PotionOfLiquidFlame ||
+					potion instanceof PotionOfLevitation ||
+					potion instanceof PotionOfCorrosiveGas ||
+					potion instanceof PotionOfShroudingFog) {
 
 				Potion.volatilePotionsExplode();
 
@@ -445,6 +442,12 @@ public enum Talent {
 			}
 		}
 	}
+	public static void onPotionUsed( Hero hero, Potion potion) {
+		if (hero.hasTalent(REVITALISING_CONCOCTION) && hero.HP < (0.5f * hero.HT)) {
+			hero.HP += 2 * hero.pointsInTalent(REVITALISING_CONCOCTION);
+		}
+	}
+
 
 	public static class SuckerPunchTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
