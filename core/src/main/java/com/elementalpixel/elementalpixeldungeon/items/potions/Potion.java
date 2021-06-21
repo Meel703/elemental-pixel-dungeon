@@ -295,6 +295,7 @@ public class Potion extends Item {
 		hero.busy();
 		apply( hero );
 		Talent.onPotionDrunk(Dungeon.hero, this);
+		Talent.onPotionUsed(Dungeon.hero, this);
 
 
 		Sample.INSTANCE.play( Assets.Sounds.DRINK );
@@ -314,8 +315,8 @@ public class Potion extends Item {
 
 			Dungeon.level.pressCell( cell );
 			shatter( cell );
-			Talent.onPotionThrown(Dungeon.hero, this);
 			Talent.onPotionUsed(Dungeon.hero, this);
+			Talent.onPotionThrown(hero, this);
 
 		}
 	}
