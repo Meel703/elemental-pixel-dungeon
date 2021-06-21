@@ -63,9 +63,11 @@ import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
+import com.watabou.utils.Reflection;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 
 public enum Talent {
@@ -124,13 +126,19 @@ public enum Talent {
 
 	//Scientist T3
 
-	public static class ImprovisedProjectileCooldown extends FlavourBuff{};
-	public static class LethalMomentumTracker extends FlavourBuff{};
-	public static class WandPreservationCounter extends CounterBuff{};
-	public static class EmpoweredStrikeTracker extends FlavourBuff{};
-	public static class BountyHunterTracker extends FlavourBuff{};
-	public static class RejuvenatingStepsCooldown extends FlavourBuff{};
-	public static class SeerShotCooldown extends FlavourBuff{};
+	public static class ImprovisedProjectileCooldown extends FlavourBuff{}
+
+	public static class LethalMomentumTracker extends FlavourBuff{}
+
+	public static class WandPreservationCounter extends CounterBuff{}
+
+	public static class EmpoweredStrikeTracker extends FlavourBuff{}
+
+	public static class BountyHunterTracker extends FlavourBuff{}
+
+	public static class RejuvenatingStepsCooldown extends FlavourBuff{}
+
+	public static class SeerShotCooldown extends FlavourBuff{}
 
 	int icon;
 	int maxPoints;
@@ -184,14 +192,16 @@ public enum Talent {
 		}
 
 		if (talent == FREAKS_INTUITION) {
-			int identifier = 2;
-			for (Item item : Dungeon.hero.belongings){
-				if (item instanceof Potion) {
-					(item).identify();
-					identifier --;
-					if (identifier == 0) {
-					}
+			HashSet<Class<? extends Potion>> potions = Potion.getUnknown();
+			if ( hero.pointsInTalent(FREAKS_INTUITION) == 1) {
+				for (int i = 0; i < 2; i ++) {
+					Potion potion = Reflection.newInstance(Random.element(potions));
+					potion.identify();
 				}
+			}
+			else {
+				Potion potion = Reflection.newInstance(Random.element(potions));
+				potion.identify();
 			}
 		}
 
@@ -205,8 +215,9 @@ public enum Talent {
 		}
 	}
 
-	public static class CachedRationsDropped extends CounterBuff{};
-	public static class NatureBerriesAvailable extends CounterBuff{};
+	public static class CachedRationsDropped extends CounterBuff{}
+
+	public static class NatureBerriesAvailable extends CounterBuff{}
 
 	public static void onFoodEaten( Hero hero, float foodVal, Item foodSource ){
 		if (hero.hasTalent(HEARTY_MEAL)){
@@ -404,8 +415,9 @@ public enum Talent {
 		}
 	}
 
-	public static class SuckerPunchTracker extends Buff{};
-	public static class FollowupStrikeTracker extends Buff{};
+	public static class SuckerPunchTracker extends Buff{}
+
+	public static class FollowupStrikeTracker extends Buff{}
 
 	public static final int MAX_TALENT_TIERS = 3;
 

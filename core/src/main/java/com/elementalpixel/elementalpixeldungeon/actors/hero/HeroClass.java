@@ -239,6 +239,7 @@ public enum HeroClass {
 
 		new PotionOfToxicGas().identify();
 		new ScrollOfTeleportation().identify();
+		new PotionOfExperience().collect();
 
 	}
 
