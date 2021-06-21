@@ -50,7 +50,6 @@ import com.elementalpixel.elementalpixeldungeon.items.potions.Potion;
 import com.elementalpixel.elementalpixeldungeon.items.rings.Ring;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.elementalpixel.elementalpixeldungeon.items.wands.Wand;
-import com.elementalpixel.elementalpixeldungeon.items.weapon.AlchemistFlask;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.Weapon;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.melee.MagesStaff;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.melee.MeleeWeapon;
@@ -394,17 +393,6 @@ public enum Talent {
 			}
 		}
 
-		if (hero.hasTalent(Talent.FRENZIED_FINISH)) {
-			if (hero.belongings.weapon instanceof MissileWeapon || hero.belongings.weapon instanceof AlchemistFlask) {
-				Buff.affect(enemy, FrenziedfinishTracker.class);
-			} else if (enemy.buff(FrenziedfinishTracker.class) != null) {
-				dmg += 1 + hero.pointsInTalent(FRENZIED_FINISH);
-				System.out.println(dmg);
-
-				enemy.buff(FrenziedfinishTracker.class).detach();
-			}
-		}
-
 		return dmg;
 	}
 
@@ -416,6 +404,7 @@ public enum Talent {
 			} else {
 				energy = 0f;
 			}
+			System.out.println(hero.pointsInTalent(VITAL_BREWS));
 			Buff.affect(hero, Hunger.class).satisfy((Hunger.HUNGRY/4f) + energy);
 			hero.pointsInTalent(Talent.VITAL_BREWS);
 		}
@@ -423,7 +412,6 @@ public enum Talent {
 
 	public static class SuckerPunchTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
-	public static class FrenziedfinishTracker extends Buff{};
 
 	public static final int MAX_TALENT_TIERS = 3;
 
