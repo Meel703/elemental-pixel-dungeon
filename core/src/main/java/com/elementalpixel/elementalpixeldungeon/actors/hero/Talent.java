@@ -182,6 +182,19 @@ public enum Talent {
 				}
 			}
 		}
+
+		if (talent == FREAKS_INTUITION) {
+			int identifier = 2;
+			for (Item item : Dungeon.hero.belongings){
+				if (item instanceof Potion) {
+					(item).identify();
+					identifier --;
+					if (identifier == 0) {
+					}
+				}
+			}
+		}
+
 		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 1){
 			if (hero.belongings.ring instanceof Ring) hero.belongings.ring.setKnown();
 			if (hero.belongings.misc instanceof Ring) ((Ring) hero.belongings.misc).setKnown();
