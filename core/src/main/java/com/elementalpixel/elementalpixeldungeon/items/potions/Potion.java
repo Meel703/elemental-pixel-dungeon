@@ -236,8 +236,6 @@ public class Potion extends Item {
 			GameScene.show(new WndUseItem(null, this) );
 			
 		} else if (action.equals( AC_DRINK )) {
-			Talent.onPotionDrunk(Dungeon.hero, this);
-			
 			if (isKnown() && mustThrowPots.contains(getClass())) {
 				
 					GameScene.show(
@@ -292,7 +290,9 @@ public class Potion extends Item {
 		hero.spend( TIME_TO_DRINK );
 		hero.busy();
 		apply( hero );
-		
+		Talent.onPotionDrunk(Dungeon.hero, this);
+
+
 		Sample.INSTANCE.play( Assets.Sounds.DRINK );
 		
 		hero.sprite.operate( hero.pos );
