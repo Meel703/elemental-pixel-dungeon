@@ -80,6 +80,7 @@ import com.elementalpixel.elementalpixeldungeon.ui.AttackIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.Banner;
 import com.elementalpixel.elementalpixeldungeon.ui.BusyIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.CharHealthIndicator;
+import com.elementalpixel.elementalpixeldungeon.ui.CharHungerIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.GameLog;
 import com.elementalpixel.elementalpixeldungeon.ui.LootIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.QuickSlotButton;
@@ -161,6 +162,7 @@ public class GameScene extends PixelScene {
 	private Group emoicons;
 	private Group overFogEffects;
 	private Group healthIndicators;
+	private Group hungerIndicators;
 	
 	private Toolbar toolbar;
 	private Toast prompt;
@@ -248,6 +250,7 @@ public class GameScene extends PixelScene {
 		emitters = new Group();
 		effects = new Group();
 		healthIndicators = new Group();
+		hungerIndicators = new Group();
 		emoicons = new Group();
 		overFogEffects = new Group();
 		
@@ -306,6 +309,7 @@ public class GameScene extends PixelScene {
 		add( statuses );
 		
 		add( healthIndicators );
+		add( hungerIndicators );
 		//always appears ontop of other health indicators
 		add( new TargetHealthIndicator() );
 		
@@ -831,6 +835,10 @@ public class GameScene extends PixelScene {
 	
 	public static void add( CharHealthIndicator indicator ){
 		if (scene != null) scene.healthIndicators.add(indicator);
+	}
+
+	public static void add(CharHungerIndicator indicator ) {
+		if (scene != null) scene.hungerIndicators.add(indicator);
 	}
 	
 	public static void add( CustomTilemap t, boolean wall ){

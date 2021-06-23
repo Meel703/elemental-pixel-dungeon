@@ -157,11 +157,11 @@ public class Hero extends Char {
 	public ArrayList<LinkedHashMap<Talent, Integer>> talents = new ArrayList<>();
 	
 	private int attackSkill = 10;
-	private int defenseSkill = 5;
+	public static int defenseSkill = 5;
 
 	public boolean ready = false;
 	private boolean damageInterrupt = true;
-	public HeroAction curAction = null;
+	public static HeroAction curAction = null;
 	public HeroAction lastAction = null;
 
 	private Char enemy;
@@ -387,7 +387,7 @@ public class Hero extends Char {
 
 		return hit;
 	}
-	
+
 	@Override
 	public int attackSkill( Char target ) {
 		KindOfWeapon wep = belongings.weapon;
@@ -409,7 +409,8 @@ public class Hero extends Char {
 			return (int)(attackSkill * accuracy);
 		}
 	}
-	
+
+	public static float evasion;
 	@Override
 	public int defenseSkill( Char enemy ) {
 
@@ -420,7 +421,7 @@ public class Hero extends Char {
 			return INFINITE_EVASION;
 		}
 		
-		float evasion = defenseSkill;
+		evasion = defenseSkill;
 		
 		evasion *= RingOfEvasion.evasionMultiplier( this );
 		

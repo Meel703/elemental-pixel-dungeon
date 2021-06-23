@@ -29,13 +29,17 @@ import com.elementalpixel.elementalpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.CounterBuff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.EnhancedRings;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Evasion;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.FlavourBuff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Haste;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Hunger;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Invisibility;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Recharging;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Roots;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Vulnerable;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.WandEmpower;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Mob;
+import com.elementalpixel.elementalpixeldungeon.actors.mobs.Rat;
 import com.elementalpixel.elementalpixeldungeon.effects.CellEmitter;
 import com.elementalpixel.elementalpixeldungeon.effects.Speck;
 import com.elementalpixel.elementalpixeldungeon.effects.SpellSprite;
@@ -76,6 +80,9 @@ import com.watabou.utils.Random;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+
+import static com.elementalpixel.elementalpixeldungeon.actors.hero.Hero.curAction;
+import static com.elementalpixel.elementalpixeldungeon.items.Item.curUser;
 
 public enum Talent {
 
@@ -172,21 +179,22 @@ public enum Talent {
 		return Messages.get(this, name() + ".desc");
 	}
 
-	public static void onTalentUpgraded( Hero hero, Talent talent){
-		if (talent == NATURES_BOUNTY){
-			if ( hero.pointsInTalent(NATURES_BOUNTY) == 1) Buff.count(hero, NatureBerriesAvailable.class, 4);
-			else                                           Buff.count(hero, NatureBerriesAvailable.class, 2);
+	public static void onTalentUpgraded( Hero hero, Talent talent) {
+		if (talent == NATURES_BOUNTY) {
+			if (hero.pointsInTalent(NATURES_BOUNTY) == 1)
+				Buff.count(hero, NatureBerriesAvailable.class, 4);
+			else Buff.count(hero, NatureBerriesAvailable.class, 2);
 		}
 
-		if (talent == ARMSMASTERS_INTUITION && hero.pointsInTalent(ARMSMASTERS_INTUITION) == 2){
+		if (talent == ARMSMASTERS_INTUITION && hero.pointsInTalent(ARMSMASTERS_INTUITION) == 2) {
 			if (hero.belongings.weapon != null) hero.belongings.weapon.identify();
-			if (hero.belongings.armor != null)  hero.belongings.armor.identify();
+			if (hero.belongings.armor != null) hero.belongings.armor.identify();
 		}
-		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 2){
+		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 2) {
 			if (hero.belongings.ring instanceof Ring) hero.belongings.ring.identify();
 			if (hero.belongings.misc instanceof Ring) hero.belongings.misc.identify();
-			for (Item item : Dungeon.hero.belongings){
-				if (item instanceof Ring){
+			for (Item item : Dungeon.hero.belongings) {
+				if (item instanceof Ring) {
 					((Ring) item).setKnown();
 				}
 			}
@@ -194,26 +202,24 @@ public enum Talent {
 
 		if (talent == FREAKS_INTUITION) {
 			int identifier = 2;
-			for (Item item : Dungeon.hero.belongings){
+			for (Item item : Dungeon.hero.belongings) {
 				if (item instanceof Potion) {
 					(item).identify();
-					identifier --;
+					identifier--;
 					if (identifier == 0) {
 					}
 				}
 			}
 		}
 
-		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 1){
+		if (talent == THIEFS_INTUITION && hero.pointsInTalent(THIEFS_INTUITION) == 1) {
 			if (hero.belongings.ring instanceof Ring) hero.belongings.ring.setKnown();
 			if (hero.belongings.misc instanceof Ring) ((Ring) hero.belongings.misc).setKnown();
 		}
 
-		if (talent == FARSIGHT){
+		if (talent == FARSIGHT) {
 			Dungeon.observe();
 		}
-
-
 	}
 
 	public static class CachedRationsDropped extends CounterBuff{};
@@ -408,6 +414,15 @@ public enum Talent {
 			}
 		}
 
+		if (hero.hasTalent(Talent.FRENZIED_FINISH)) {
+			if (hero.belongings.weapon instanceof MissileWeapon) {
+				Buff.affect(enemy, FrenziedFinishTracker.class);
+			} else if (enemy.buff(FrenziedFinishTracker.class) != null){
+				dmg += 1 + hero.pointsInTalent(FRENZIED_FINISH);
+				enemy.buff(FrenziedFinishTracker.class).detach();
+			}
+		}
+
 		return dmg;
 	}
 
@@ -450,20 +465,16 @@ public enum Talent {
 		}
 	}
 
-
-	public static int onDescend(Hero hero) {
+	public static void onDescend( Hero hero ) {
 		if (hero.hasTalent(FLUID_MOVES)) {
-			for (int i = 0; i < InterlevelScene.dodgeCounter; i++) {
-				return Hero.INFINITE_EVASION;
-			}
+			Buff.affect(hero, Evasion.class, Evasion.DURATION);
 		}
-
-		return 0;
 	}
 
 
 	public static class SuckerPunchTracker extends Buff{};
 	public static class FollowupStrikeTracker extends Buff{};
+	public static class FrenziedFinishTracker extends Buff{};
 
 	public static final int MAX_TALENT_TIERS = 3;
 

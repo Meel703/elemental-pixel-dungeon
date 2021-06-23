@@ -30,6 +30,8 @@ import com.elementalpixel.elementalpixeldungeon.ShatteredPixelDungeon;
 import com.elementalpixel.elementalpixeldungeon.Statistics;
 import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Evasion;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Invisibility;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Mob;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
@@ -58,6 +60,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static com.elementalpixel.elementalpixeldungeon.Dungeon.hero;
+import static com.elementalpixel.elementalpixeldungeon.Dungeon.newLevel;
+import static com.elementalpixel.elementalpixeldungeon.actors.hero.Talent.FLUID_MOVES;
 
 public class InterlevelScene extends PixelScene {
 	
@@ -354,6 +358,7 @@ public class InterlevelScene extends PixelScene {
 	public static Level level;
 
 	public static float dodgeCounter;
+	public static int counter = 0;
 	public static void descend() throws IOException {
 		dodgeCounter = 2;
 
@@ -386,9 +391,9 @@ public class InterlevelScene extends PixelScene {
 				level = Dungeon.loadLevel( GamesInProgress.curSlot );
 			}
 		}
+		Talent.onDescend( hero );
 		Dungeon.switchLevel( level, level.entrance );
 
-		Mob enemy = new Mob() {};
 	}
 	
 	private void fall() throws IOException {
