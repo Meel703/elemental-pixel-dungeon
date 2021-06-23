@@ -22,7 +22,9 @@
 package com.elementalpixel.elementalpixeldungeon.items.potions;
 
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
 
 public class PotionOfExperience extends Potion {
@@ -43,6 +45,14 @@ public class PotionOfExperience extends Potion {
 	
 	@Override
 	public int value() {
-		return isKnown() ? 50 * quantity : super.value();
+		if (Dungeon.hero.hasTalent(Talent.FAMILIAR_FACE)) {
+			if (Dungeon.hero.pointsInTalent(Talent.FAMILIAR_FACE) == 1) {
+				return isKnown() ? (50 * quantity) / 4 * 3 : super.value();
+			} else {
+				return isKnown() ? (50 * quantity) / 2 : super.value();
+			}
+		} else {
+			return isKnown() ? 50 * quantity : super.value();
+		}
 	}
 }

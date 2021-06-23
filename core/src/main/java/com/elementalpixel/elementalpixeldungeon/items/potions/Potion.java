@@ -91,7 +91,8 @@ public class Potion extends Item {
 	//used internally for potions that can be drunk or thrown
 	public static final String AC_CHOOSE = "CHOOSE";
 
-	private static final float TIME_TO_DRINK = 1f;
+
+	private static float TIME_TO_DRINK;
 
 	private static final HashMap<String, Integer> colors = new HashMap<String, Integer>() {
 		{
@@ -288,6 +289,11 @@ public class Potion extends Item {
 	}
 	
 	protected void drink( Hero hero ) {
+		if (Dungeon.hero.hasTalent(Talent.SWIFT_LOBBING)) {
+			TIME_TO_DRINK = 0.5f;
+		} else {
+			TIME_TO_DRINK = 1f;
+		}
 		
 		detach( hero.belongings.backpack );
 		
@@ -438,7 +444,15 @@ public class Potion extends Item {
 	
 	@Override
 	public int value() {
-		return 30 * quantity;
+		if (Dungeon.hero.hasTalent(Talent.FAMILIAR_FACE)) {
+			if (Dungeon.hero.pointsInTalent(Talent.FAMILIAR_FACE) == 1) {
+				return isKnown() ? (30 * quantity) / (4 * 3) : super.value();
+			} else {
+				return isKnown() ? (30 * quantity) / 2 : super.value();
+			}
+		} else {
+			return isKnown() ? 30 * quantity : super.value();
+		}
 	}
 	
 	public static class PlaceHolder extends Potion {

@@ -28,6 +28,7 @@ import com.elementalpixel.elementalpixeldungeon.actors.buffs.MindVision;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroClass;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroSubClass;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
 import com.elementalpixel.elementalpixeldungeon.utils.GLog;
@@ -57,8 +58,12 @@ public class PotionOfMindVision extends Potion {
 	
 	@Override
 	public int value() {
-		if (curUser.heroClass == HeroClass.ALCHEMIST) {
-			return isKnown() ? 25 * quantity : super.value();
+		if (Dungeon.hero.hasTalent(Talent.FAMILIAR_FACE)) {
+			if (Dungeon.hero.pointsInTalent(Talent.FAMILIAR_FACE) == 1) {
+				return isKnown() ? (30 * quantity) / 4 * 3 : super.value();
+			} else {
+				return isKnown() ? (30 * quantity) / 2 : super.value();
+			}
 		} else {
 			return isKnown() ? 30 * quantity : super.value();
 		}

@@ -23,11 +23,13 @@ package com.elementalpixel.elementalpixeldungeon.items.potions;
 
 
 import com.elementalpixel.elementalpixeldungeon.Assets;
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Invisibility;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroClass;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroSubClass;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
 import com.elementalpixel.elementalpixeldungeon.utils.GLog;
@@ -53,8 +55,12 @@ public class PotionOfInvisibility extends Potion {
 	
 	@Override
 	public int value() {
-		if (curUser.heroClass == HeroClass.ALCHEMIST) {
-			return isKnown() ? 35 * quantity : super.value();
+		if (Dungeon.hero.hasTalent(Talent.FAMILIAR_FACE)) {
+			if (Dungeon.hero.pointsInTalent(Talent.FAMILIAR_FACE) == 1) {
+				return isKnown() ? (40 * quantity) / 4 * 3 : super.value();
+			} else {
+				return isKnown() ? (40 * quantity) / 2 : super.value();
+			}
 		} else {
 			return isKnown() ? 40 * quantity : super.value();
 		}

@@ -28,6 +28,7 @@ import com.elementalpixel.elementalpixeldungeon.actors.blobs.Blob;
 import com.elementalpixel.elementalpixeldungeon.actors.blobs.ToxicGas;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroClass;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroSubClass;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
@@ -39,28 +40,33 @@ public class PotionOfToxicGas extends Potion {
 	}
 
 	@Override
-	public void shatter( int cell ) {
+	public void shatter(int cell) {
 
 		if (Dungeon.level.heroFOV[cell]) {
 			identify();
 
-			splash( cell );
-			Sample.INSTANCE.play( Assets.Sounds.SHATTER );
-			Sample.INSTANCE.play( Assets.Sounds.GAS );
+			splash(cell);
+			Sample.INSTANCE.play(Assets.Sounds.SHATTER);
+			Sample.INSTANCE.play(Assets.Sounds.GAS);
 		}
 		if (curUser.subClass == HeroSubClass.SCIENTIST) {
-			GameScene.add( Blob.seed( cell, 1400, ToxicGas.class ) );
+			GameScene.add(Blob.seed(cell, 1400, ToxicGas.class));
 		} else {
-			GameScene.add( Blob.seed( cell, 1000, ToxicGas.class ) );
+			GameScene.add(Blob.seed(cell, 1000, ToxicGas.class));
 		}
 	}
-	
+
 	@Override
 	public int value() {
-		if (curUser.heroClass == HeroClass.ALCHEMIST) {
-			return isKnown() ? 25 * quantity : super.value();
+		if (Dungeon.hero.hasTalent(Talent.FAMILIAR_FACE)) {
+			if (Dungeon.hero.pointsInTalent(Talent.FAMILIAR_FACE) == 1) {
+				return isKnown() ? (30 * quantity) / 4 * 3 : super.value();
+			} else {
+				return isKnown() ? (30 * quantity) / 2 : super.value();
+			}
 		} else {
 			return isKnown() ? 30 * quantity : super.value();
 		}
 	}
 }
+

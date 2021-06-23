@@ -458,6 +458,12 @@ public enum Talent {
 				}
 			}
 		}
+
+		if (hero.hasTalent(SWIFT_LOBBING)) {
+			if (hero.pointsInTalent(SWIFT_LOBBING) == 2) {
+				Buff.affect(hero, Haste.class, 1);
+			}
+		}
 	}
 	public static void onPotionUsed( Hero hero, Potion potion) {
 		if (hero.hasTalent(REVITALISING_CONCOCTION) && hero.HP < (0.5f * hero.HT)) {

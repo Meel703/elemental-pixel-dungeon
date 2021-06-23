@@ -28,6 +28,7 @@ import com.elementalpixel.elementalpixeldungeon.actors.blobs.Blob;
 import com.elementalpixel.elementalpixeldungeon.actors.blobs.ParalyticGas;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroClass;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroSubClass;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
@@ -58,8 +59,12 @@ public class PotionOfParalyticGas extends Potion {
 	
 	@Override
 	public int value() {
-		if (curUser.heroClass == HeroClass.ALCHEMIST) {
-			return isKnown() ? 35 * quantity : super.value();
+		if (Dungeon.hero.hasTalent(Talent.FAMILIAR_FACE)) {
+			if (Dungeon.hero.pointsInTalent(Talent.FAMILIAR_FACE) == 1) {
+				return isKnown() ? (40 * quantity) / 4 * 3 : super.value();
+			} else {
+				return isKnown() ? (40 * quantity) / 2 : super.value();
+			}
 		} else {
 			return isKnown() ? 40 * quantity : super.value();
 		}

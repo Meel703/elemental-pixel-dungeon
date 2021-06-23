@@ -90,8 +90,12 @@ public class PotionOfHealing extends Potion {
 
 	@Override
 	public int value() {
-		if (curUser.heroClass == HeroClass.ALCHEMIST) {
-			return isKnown() ? 25 * quantity : super.value();
+		if (Dungeon.hero.hasTalent(Talent.FAMILIAR_FACE)) {
+			if (Dungeon.hero.pointsInTalent(Talent.FAMILIAR_FACE) == 1) {
+				return isKnown() ? (30 * quantity) / 4 * 3 : super.value();
+			} else {
+				return isKnown() ? (30 * quantity) / 2 : super.value();
+			}
 		} else {
 			return isKnown() ? 30 * quantity : super.value();
 		}
