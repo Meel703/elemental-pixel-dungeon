@@ -49,6 +49,7 @@ import com.elementalpixel.elementalpixeldungeon.effects.particles.EarthParticle;
 import com.elementalpixel.elementalpixeldungeon.effects.particles.SparkParticle;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.DriedRose;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.LloydsBeacon;
+import com.elementalpixel.elementalpixeldungeon.items.fragments.WaterFragment;
 import com.elementalpixel.elementalpixeldungeon.items.quest.MetalShard;
 import com.elementalpixel.elementalpixeldungeon.items.wands.WandOfBlastWave;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
@@ -520,6 +521,8 @@ public class WaterDM300 extends Mob {
 			} while (!Dungeon.level.passable[pos + ofs]);
 			Dungeon.level.drop( new MetalShard(), pos + ofs ).sprite.drop( pos );
 		}
+		Dungeon.level.drop( new WaterFragment(Dungeon.depth), pos ).sprite.drop();
+
 
 		Badges.validateBossSlain();
 

@@ -46,7 +46,7 @@ import com.elementalpixel.elementalpixeldungeon.items.artifacts.DriedRose;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.LloydsBeacon;
 import com.elementalpixel.elementalpixeldungeon.items.fragments.EarthFragment;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfTeleportation;
-import com.elementalpixel.elementalpixeldungeon.levels.NewCityBossLevel;
+import com.elementalpixel.elementalpixeldungeon.levels.EarthBossLevel;
 import com.elementalpixel.elementalpixeldungeon.mechanics.Ballistica;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
@@ -64,7 +64,7 @@ import com.watabou.utils.Reflection;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class DwarfKing extends Mob {
+public class EarthDwarfKing extends Mob {
 
 	{
 		spriteClass = KingSprite.class;
@@ -236,7 +236,7 @@ public class DwarfKing extends Mob {
 
 	private boolean summonSubject( int delay, Class<?extends Mob> type ){
 		Summoning s = new Summoning();
-		s.pos = ((NewCityBossLevel) Dungeon.level).getSummoningPos();
+		s.pos = ((EarthBossLevel) Dungeon.level).getSummoningPos();
 		if (s.pos == -1) return false;
 		s.summon = type;
 		s.delay = delay;
@@ -384,7 +384,7 @@ public class DwarfKing extends Mob {
 			if (HP <= 50) {
 				HP = 50;
 				sprite.showStatus(CharSprite.POSITIVE, Messages.get(this, "invulnerable"));
-				ScrollOfTeleportation.appear(this, NewCityBossLevel.throne);
+				ScrollOfTeleportation.appear(this, EarthBossLevel.throne);
 				properties.add(Property.IMMOVABLE);
 				phase = 2;
 				summonsMade = 0;
@@ -432,8 +432,10 @@ public class DwarfKing extends Mob {
 				h.destroy();
 			}
 			Dungeon.level.drop(new ArmorKit(), pos + Dungeon.level.width()).sprite.drop(pos);
+			Dungeon.level.drop(new EarthFragment(Dungeon.depth), pos + Dungeon.level.width()).sprite.drop(pos);
 		} else {
 			Dungeon.level.drop(new ArmorKit(), pos).sprite.drop();
+			Dungeon.level.drop(new EarthFragment(Dungeon.depth), pos).sprite.drop();
 		}
 
 		Badges.validateBossSlain();
@@ -533,13 +535,13 @@ public class DwarfKing extends Mob {
 					m.maxLvl = -2;
 					GameScene.add(m);
 					m.state = m.HUNTING;
-					if (((DwarfKing)target).phase == 2){
+					if (((EarthDwarfKing)target).phase == 2){
 						Buff.affect(m, KingDamager.class);
 					}
 				} else {
 					Char ch = Actor.findChar(pos);
 					ch.damage(Random.NormalIntRange(20, 40), target);
-					if (((DwarfKing)target).phase == 2){
+					if (((EarthDwarfKing)target).phase == 2){
 						target.damage(target.HT/12, new KingDamager());
 					}
 				}
@@ -605,7 +607,7 @@ public class DwarfKing extends Mob {
 		public void detach() {
 			super.detach();
 			for (Mob m : Dungeon.level.mobs){
-				if (m instanceof DwarfKing){
+				if (m instanceof EarthDwarfKing){
 					m.damage(m.HT/12, this);
 				}
 			}

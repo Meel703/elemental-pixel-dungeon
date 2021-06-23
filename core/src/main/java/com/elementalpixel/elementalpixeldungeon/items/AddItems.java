@@ -168,10 +168,10 @@ public class AddItems extends Item {
             new Swiftthistle.Seed().quantity(20).collect();
 
             //FRAGMENTS
-            new FireFragment(Dungeon.depth).collect();
+            /*new FireFragment(Dungeon.depth).collect();
             new AirFragment(Dungeon.depth).collect();
             new WaterFragment(Dungeon.depth).collect();
-            new EarthFragment(Dungeon.depth).collect();
+            new EarthFragment(Dungeon.depth).collect();*/
 
 
         } else if (action.equals(AC_REMOVE)) {

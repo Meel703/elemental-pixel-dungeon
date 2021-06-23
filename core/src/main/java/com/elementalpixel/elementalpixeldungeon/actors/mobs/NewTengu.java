@@ -53,6 +53,7 @@ import com.elementalpixel.elementalpixeldungeon.items.TomeOfMastery;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.DriedRose;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.LloydsBeacon;
 import com.elementalpixel.elementalpixeldungeon.items.bombs.Bomb;
+import com.elementalpixel.elementalpixeldungeon.items.fragments.AirFragment;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
 import com.elementalpixel.elementalpixeldungeon.levels.NewPrisonBossLevel;
 import com.elementalpixel.elementalpixeldungeon.mechanics.Ballistica;
@@ -201,6 +202,10 @@ public class NewTengu extends Mob {
 		
 		if (Dungeon.hero.subClass == HeroSubClass.NONE) {
 			Dungeon.level.drop( new TomeOfMastery(), pos ).sprite.drop();
+
+			if (Dungeon.depth == 40) {
+				Dungeon.level.drop( new AirFragment(Dungeon.depth), pos ).sprite.drop();
+			}
 		}
 		
 		GameScene.bossSlain();

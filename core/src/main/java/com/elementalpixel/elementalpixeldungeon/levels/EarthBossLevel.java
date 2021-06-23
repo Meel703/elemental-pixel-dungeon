@@ -27,7 +27,7 @@ import com.elementalpixel.elementalpixeldungeon.Bones;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
-import com.elementalpixel.elementalpixeldungeon.actors.mobs.DwarfKing;
+import com.elementalpixel.elementalpixeldungeon.actors.mobs.EarthDwarfKing;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Mob;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.npcs.Imp;
 import com.elementalpixel.elementalpixeldungeon.items.Heap;
@@ -195,11 +195,11 @@ public class EarthBossLevel extends Level {
 	//returns a random pedestal that doesn't already have a summon inbound on it
 	public int getSummoningPos(){
 		Mob king = getKing();
-		HashSet<DwarfKing.Summoning> summons = king.buffs(DwarfKing.Summoning.class);
+		HashSet<EarthDwarfKing.Summoning> summons = king.buffs(EarthDwarfKing.Summoning.class);
 		ArrayList<Integer> positions = new ArrayList<>();
 		for (int pedestal : pedestals) {
 			boolean clear = true;
-			for (DwarfKing.Summoning s : summons) {
+			for (EarthDwarfKing.Summoning s : summons) {
 				if (s.getPos() == pedestal) {
 					clear = false;
 					break;
@@ -218,7 +218,7 @@ public class EarthBossLevel extends Level {
 
 	private Mob getKing(){
 		for (Mob m : mobs){
-			if (m instanceof DwarfKing) return m;
+			if (m instanceof EarthDwarfKing) return m;
 		}
 		return null;
 	}
@@ -280,7 +280,7 @@ public class EarthBossLevel extends Level {
 			}
 		}
 
-		DwarfKing boss = new DwarfKing();
+		EarthDwarfKing boss = new EarthDwarfKing();
 		boss.state = boss.WANDERING;
 		boss.pos = pointToCell(arena.center());
 		GameScene.add( boss );
