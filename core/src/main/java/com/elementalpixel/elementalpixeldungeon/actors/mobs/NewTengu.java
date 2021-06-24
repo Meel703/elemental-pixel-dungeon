@@ -201,7 +201,9 @@ public class NewTengu extends Mob {
 	public void die( Object cause ) {
 		
 		if (Dungeon.hero.subClass == HeroSubClass.NONE) {
-			Dungeon.level.drop( new TomeOfMastery(), pos ).sprite.drop();
+			if (Dungeon.depth < 30) {
+				Dungeon.level.drop(new TomeOfMastery(), pos).sprite.drop();
+			}
 
 			if (Dungeon.depth == 40) {
 				Dungeon.level.drop( new AirFragment(Dungeon.depth), pos ).sprite.drop();

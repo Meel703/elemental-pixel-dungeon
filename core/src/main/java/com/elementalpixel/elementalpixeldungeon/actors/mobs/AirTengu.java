@@ -199,10 +199,6 @@ public class AirTengu extends Mob {
 	@Override
 	public void die( Object cause ) {
 		
-		if (Dungeon.hero.subClass == HeroSubClass.NONE) {
-			Dungeon.level.drop( new TomeOfMastery(), pos ).sprite.drop();
-		}
-		
 		GameScene.bossSlain();
 		super.die( cause );
 		

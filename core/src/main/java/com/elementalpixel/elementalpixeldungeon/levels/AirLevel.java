@@ -59,11 +59,6 @@ public class AirLevel extends RegularLevel {
 	}
 	
 	@Override
-	public ArrayList<Room> initRooms() {
-		return Wandmaker.Quest.spawnRoom(super.initRooms());
-	}
-	
-	@Override
 	protected int standardRooms(boolean forceMax) {
 		if (forceMax) return 8;
 		//6 to 8, average 6.75

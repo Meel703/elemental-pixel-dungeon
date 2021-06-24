@@ -43,6 +43,9 @@ public class PitRoom extends SpecialRoom {
 		
 		Door entrance = entrance();
 		entrance.set( Door.Type.LOCKED );
+		if (Dungeon.depth == 31) {
+			level.addItemToSpawn(new IronKey(Dungeon.depth));
+		}
 		
 		Point well = null;
 		if (entrance.x == left) {

@@ -29,6 +29,7 @@ import com.elementalpixel.elementalpixeldungeon.items.Heap;
 import com.elementalpixel.elementalpixeldungeon.items.Item;
 import com.elementalpixel.elementalpixeldungeon.levels.builders.Builder;
 import com.elementalpixel.elementalpixeldungeon.levels.builders.FigureEightBuilder;
+import com.elementalpixel.elementalpixeldungeon.levels.painters.HallsPainter;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.Painter;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.SewerPainter;
 import com.elementalpixel.elementalpixeldungeon.levels.rooms.Room;
@@ -45,7 +46,7 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class FireBossLevel extends SewerLevel {
+public class FireBossLevel extends FireLevel {
 
 	{
 		color1 = 0x48763c;
@@ -91,7 +92,7 @@ public class FireBossLevel extends SewerLevel {
 	
 	@Override
 	protected Painter painter() {
-		return new SewerPainter()
+		return new HallsPainter()
 				.setWater(0.50f, 5)
 				.setGrass(0.20f, 4)
 				.setTraps(nTraps(), trapClasses(), trapChances());
@@ -165,8 +166,6 @@ public class FireBossLevel extends SewerLevel {
 	@Override
 	public Group addVisuals() {
 		super.addVisuals();
-		if (map[exit-1] != Terrain.WALL_DECO) visuals.add(new PrisonLevel.Torch(exit-1));
-		if (map[exit+1] != Terrain.WALL_DECO) visuals.add(new PrisonLevel.Torch(exit+1));
 		return visuals;
 	}
 	
