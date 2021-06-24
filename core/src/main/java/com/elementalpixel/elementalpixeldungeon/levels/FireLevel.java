@@ -24,14 +24,19 @@ package com.elementalpixel.elementalpixeldungeon.levels;
 
 import com.elementalpixel.elementalpixeldungeon.Assets;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Burning;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.npcs.Ghost;
 import com.elementalpixel.elementalpixeldungeon.effects.Ripple;
 import com.elementalpixel.elementalpixeldungeon.items.DewVial;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.Painter;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.SewerPainter;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.AlarmTrap;
+import com.elementalpixel.elementalpixeldungeon.levels.traps.BlazingTrap;
+import com.elementalpixel.elementalpixeldungeon.levels.traps.BurningTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.ChillingTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.ConfusionTrap;
+import com.elementalpixel.elementalpixeldungeon.levels.traps.CursingTrap;
+import com.elementalpixel.elementalpixeldungeon.levels.traps.ExplosiveTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.FlockTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.OozeTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.ShockingTrap;
@@ -81,12 +86,12 @@ public class FireLevel extends RegularLevel {
 	
 	@Override
 	public String tilesTex() {
-		return Assets.Environment.TILES_SEWERS;
+		return Assets.Environment.TILES_HALLS;
 	}
 	
 	@Override
 	public String waterTex() {
-		return Assets.Environment.WATER_SEWERS;
+		return Assets.Environment.WATER_HALLS;
 	}
 	
 	@Override
@@ -94,9 +99,9 @@ public class FireLevel extends RegularLevel {
 		return Dungeon.depth == 1 ?
 				new Class<?>[]{ WornDartTrap.class } :
 				new Class<?>[]{
-						ChillingTrap.class, ShockingTrap.class, ToxicTrap.class, WornDartTrap.class,
-						AlarmTrap.class, OozeTrap.class,
-						ConfusionTrap.class, FlockTrap.class, SummoningTrap.class, TeleportationTrap.class };
+						BurningTrap.class, BlazingTrap.class, ExplosiveTrap.class,
+						FlockTrap.class, CursingTrap.class
+		};
 }
 
 	@Override
