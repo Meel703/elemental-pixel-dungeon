@@ -420,11 +420,11 @@ public class Hero extends Char {
 			}
 			return INFINITE_EVASION;
 		}
-		
+
 		evasion = defenseSkill;
-		
+
 		evasion *= RingOfEvasion.evasionMultiplier( this );
-		
+
 		if (paralysed > 0) {
 			evasion /= 2;
 		}
@@ -433,7 +433,10 @@ public class Hero extends Char {
 			evasion = belongings.armor.evasionFactor(this, evasion);
 		}
 
-		return Math.round(evasion);
+		Talent.onAttacked(Dungeon.hero);
+
+
+		return Math.round(evasion * Talent.fluidMovesTracker);
 	}
 
 	@Override

@@ -73,6 +73,7 @@ import com.watabou.utils.Reflection;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.management.ConstructorParameters;
 import javax.sound.midi.SysexMessage;
 
 public class Armor extends EquipableItem {
@@ -315,9 +316,10 @@ public class Armor extends EquipableItem {
 			return lvl;
 		}
 	}
-	
-	public float evasionFactor( Char owner, float evasion ){
-		
+
+
+	public float evasionFactor( Char owner, float evasion ) {
+
 		if (hasGlyph(Stone.class, owner) && !((Stone)glyph).testingEvasion()){
 			return 0;
 		}

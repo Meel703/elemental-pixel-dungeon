@@ -121,11 +121,16 @@ public class InterlevelScene extends PixelScene {
 					fadeTime = SLOW_FADE;
 				} else {
 					loadingDepth = Dungeon.depth+1;
+					if (Statistics.deepestFloor < loadingDepth) {
+						Talent.onDescend(Dungeon.hero);
+					}
 					if (!(Statistics.deepestFloor < loadingDepth)) {
 						fadeTime = FAST_FADE;
 					} else if (loadingDepth == 6 || loadingDepth == 11
 							|| loadingDepth == 16 || loadingDepth == 21 || loadingDepth == 26) {
 						fadeTime = SLOW_FADE;
+						Talent.onDescend(Dungeon.hero); //on boss floors, Fluid Moves activates everytime. it's not important now
+														//but it might be later on
 					}
 				}
 				scrollSpeed = 5;
@@ -248,7 +253,7 @@ public class InterlevelScene extends PixelScene {
 
 						switch (mode) {
 							case DESCEND:
-								descend();;
+								descend();
 								break;
 							case ASCEND:
 								ascend();
@@ -357,10 +362,7 @@ public class InterlevelScene extends PixelScene {
 
 	public static Level level;
 
-	public static float dodgeCounter;
-	public static int counter = 0;
 	public static void descend() throws IOException {
-		dodgeCounter = 2;
 
 		if (hero == null) {
 			Mob.clearHeldAllies();
@@ -391,7 +393,8 @@ public class InterlevelScene extends PixelScene {
 				level = Dungeon.loadLevel( GamesInProgress.curSlot );
 			}
 		}
-		Talent.onDescend( hero );
+
+
 		Dungeon.switchLevel( level, level.entrance );
 
 	}

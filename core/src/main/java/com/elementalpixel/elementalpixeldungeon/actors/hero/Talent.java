@@ -471,10 +471,25 @@ public enum Talent {
 		}
 	}
 
+	public static float counter;
 	public static void onDescend( Hero hero ) {
 		if (hero.hasTalent(FLUID_MOVES)) {
-			Buff.affect(hero, Evasion.class, Evasion.DURATION);
+			counter = 2f * hero.pointsInTalent(FLUID_MOVES);
 		}
+	}
+
+
+	public static float fluidMovesTracker;
+	public static float onAttacked(Hero hero) {
+		if (hero.hasTalent(Talent.FLUID_MOVES) && counter != 0) {
+			counter --;
+			return fluidMovesTracker = Hero.INFINITE_EVASION;
+		}
+
+		else {
+			return fluidMovesTracker = 1f;
+		}
+
 	}
 
 
