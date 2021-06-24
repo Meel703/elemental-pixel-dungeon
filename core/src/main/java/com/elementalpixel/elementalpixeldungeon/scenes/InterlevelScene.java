@@ -30,8 +30,6 @@ import com.elementalpixel.elementalpixeldungeon.ShatteredPixelDungeon;
 import com.elementalpixel.elementalpixeldungeon.Statistics;
 import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
-import com.elementalpixel.elementalpixeldungeon.actors.buffs.Evasion;
-import com.elementalpixel.elementalpixeldungeon.actors.buffs.Invisibility;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Mob;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
@@ -60,8 +58,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static com.elementalpixel.elementalpixeldungeon.Dungeon.hero;
-import static com.elementalpixel.elementalpixeldungeon.Dungeon.newLevel;
-import static com.elementalpixel.elementalpixeldungeon.actors.hero.Talent.FLUID_MOVES;
 
 public class InterlevelScene extends PixelScene {
 	
