@@ -75,7 +75,7 @@ public class v0_1_X_Changes {
 		changeInfos.add(changes);
 
 		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.ARMOR_LEATHER, null), "Elemental Infusion",
-				"_-_ v0.1.2a adds Elemental Infusions! Elemental\n\n" +
+				"_-_ v0.1.2a adds Elemental Infusions!\n\n" +
 				        "_-_ Goo, DM300 and YogDzewa now drop Elemental Stone which you can use to infuse your armor or weapon, you can infuse both with the same elements (fire, air, water, earth), but they have different effects. Infusion on armor has always defensive effect and infusion on weapon has always offensive effect."
 				)
 		);
