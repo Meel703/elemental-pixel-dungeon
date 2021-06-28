@@ -28,6 +28,7 @@ import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Charm;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Corrosion;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.MagicImmune;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Momentum;
@@ -414,6 +415,17 @@ public class Armor extends EquipableItem {
 	}
 	
 	public int proc( Char attacker, Char defender, int damage ) {
+
+		if (Dungeon.hero.hasTalent(Talent.CHARMING_CHEMICALS)) {
+			if (10 * Dungeon.hero.pointsInTalent(Talent.CHARMING_CHEMICALS) >= Random.Float( 100)) {
+
+				Buff.affect( attacker, Charm.class, Charm.DURATION ).object = defender.id();
+				attacker.sprite.centerEmitter().start( Speck.factory( Speck.HEART ), 0.2f, 5 );
+
+			}
+
+			return damage;
+		}
 		
 		if (glyph != null && defender.buff(MagicImmune.class) == null) {
 			damage = glyph.proc( this, attacker, defender, damage );
