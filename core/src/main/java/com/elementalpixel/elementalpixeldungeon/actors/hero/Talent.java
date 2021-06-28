@@ -506,7 +506,7 @@ public enum Talent {
 				}
 				if (!(potion instanceof PotionOfExperience) &&
 						!(potion instanceof PotionOfStrength)) {
-					GLog.i( Messages.get("gets_seed"));
+					//GLog.i( Messages.get("gets_seed")); //TODO Finish this
 				}
 			}
 		}
