@@ -46,10 +46,17 @@ import com.elementalpixel.elementalpixeldungeon.items.armor.Armor;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.CloakOfShadows;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.HornOfPlenty;
 import com.elementalpixel.elementalpixeldungeon.items.potions.Potion;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfExperience;
 import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfFrost;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfHaste;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfHealing;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfInvisibility;
 import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfLevitation;
 import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfLiquidFlame;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfMindVision;
 import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfParalyticGas;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfPurity;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfStrength;
 import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfToxicGas;
 import com.elementalpixel.elementalpixeldungeon.items.potions.exotic.PotionOfCorrosiveGas;
 import com.elementalpixel.elementalpixeldungeon.items.potions.exotic.PotionOfShroudingFog;
@@ -63,7 +70,19 @@ import com.elementalpixel.elementalpixeldungeon.items.weapon.missiles.MissileWea
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
 import com.elementalpixel.elementalpixeldungeon.levels.Terrain;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
+import com.elementalpixel.elementalpixeldungeon.plants.Blindweed;
+import com.elementalpixel.elementalpixeldungeon.plants.Dreamfoil;
+import com.elementalpixel.elementalpixeldungeon.plants.Earthroot;
+import com.elementalpixel.elementalpixeldungeon.plants.Fadeleaf;
+import com.elementalpixel.elementalpixeldungeon.plants.Firebloom;
+import com.elementalpixel.elementalpixeldungeon.plants.Icecap;
+import com.elementalpixel.elementalpixeldungeon.plants.Plant;
+import com.elementalpixel.elementalpixeldungeon.plants.Sorrowmoss;
+import com.elementalpixel.elementalpixeldungeon.plants.Stormvine;
+import com.elementalpixel.elementalpixeldungeon.plants.Sungrass;
+import com.elementalpixel.elementalpixeldungeon.plants.Swiftthistle;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
+import com.elementalpixel.elementalpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
@@ -123,12 +142,13 @@ public enum Talent {
 	//Alchemist T1
 	VITAL_BREWS(110), FREAKS_INTUITION(111), FRENZIED_FINISH(112), REVITALISING_CONCOCTION(109),
 	//Alchemist T2
-	ATTUNED_MEAL(100), VOLATILE_POTIONS(101), FLUID_MOVES(102), FAMILIAR_FACE(103), SWIFT_LOBBING(104),;
+	ATTUNED_MEAL(100), VOLATILE_POTIONS(101), FLUID_MOVES(102), FAMILIAR_FACE(103), SWIFT_LOBBING(104),
 	//Alchemist T3
-
+	TRANSMUTERS_TECHNIQUE(105, 3), CHARMING_CHEMICALS(106, 3),
 	//Elementalist T3
-
+	PROTECTIVE_ATTUNEMENT(107, 3), OPPRESSIVE_OFFENCE(108, 3), DEBILITATING_DEFENCE(109, 3),
 	//Scientist T3
+	BACKUP_SUPPLIES(110, 3), VAPORS_OF_DEATH(111, 3), POSSESSIVE_POISON(112, 3),;
 
 	public static class ImprovisedProjectileCooldown extends FlavourBuff{};
 	public static class LethalMomentumTracker extends FlavourBuff{};
@@ -455,9 +475,40 @@ public enum Talent {
 			}
 		}
 	}
-	public static void onPotionUsed( Hero hero, Potion potion) {
+
+	public static void onPotionUsed(Hero hero, Potion potion) {
 		if (hero.hasTalent(REVITALISING_CONCOCTION) && hero.HP < (0.5f * hero.HT)) {
 			hero.HP += 2 * hero.pointsInTalent(REVITALISING_CONCOCTION);
+		}
+
+		if (hero.hasTalent(TRANSMUTERS_TECHNIQUE)) {
+			if ( Random.Float(100) <= 25 * hero.pointsInTalent(TRANSMUTERS_TECHNIQUE)) {
+				if (potion instanceof PotionOfFrost) {
+					new Icecap.Seed().collect();
+				} else if (potion instanceof PotionOfHaste) {
+					new Swiftthistle.Seed().collect();
+				} else if (potion instanceof PotionOfHealing) {
+					new Sungrass.Seed().collect();
+				} else if (potion instanceof PotionOfInvisibility) {
+					new Blindweed.Seed().collect();
+				} else if (potion instanceof PotionOfLevitation) {
+					new Stormvine.Seed().collect();
+				} else if (potion instanceof PotionOfLiquidFlame) {
+					new Firebloom.Seed().collect();
+				} else if (potion instanceof PotionOfMindVision) {
+					new Fadeleaf.Seed().collect();
+				} else if (potion instanceof PotionOfParalyticGas) {
+					new Earthroot.Seed().collect();
+				} else if (potion instanceof PotionOfPurity) {
+					new Dreamfoil.Seed().collect();
+				} else if (potion instanceof PotionOfToxicGas) {
+					new Sorrowmoss.Seed().collect();
+				}
+				if (!(potion instanceof PotionOfExperience) &&
+						!(potion instanceof PotionOfStrength)) {
+					GLog.i( Messages.get("gets_seed"));
+				}
+			}
 		}
 	}
 
@@ -561,6 +612,7 @@ public enum Talent {
 				Collections.addAll(tierTalents, POINT_BLANK, SEER_SHOT);
 				break;
 			case ALCHEMIST:
+				Collections.addAll(tierTalents,TRANSMUTERS_TECHNIQUE, CHARMING_CHEMICALS);
 				break;
 		}
 		for (Talent talent : tierTalents){

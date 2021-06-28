@@ -39,6 +39,8 @@ public class PotionOfFrost extends Potion {
 	{
 		icon = ItemSpriteSheet.Icons.POTION_FROST;
 	}
+
+
 	
 	@Override
 	public void shatter( int cell ) {

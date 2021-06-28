@@ -378,6 +378,7 @@ public class Potion extends Item {
 		}
 
 	}
+
 	@Override
 	public Item identify() {
 		super.identify();
