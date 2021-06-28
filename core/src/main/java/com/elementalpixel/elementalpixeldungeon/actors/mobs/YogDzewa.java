@@ -42,6 +42,7 @@ import com.elementalpixel.elementalpixeldungeon.effects.TargetedCell;
 import com.elementalpixel.elementalpixeldungeon.effects.particles.PurpleParticle;
 import com.elementalpixel.elementalpixeldungeon.effects.particles.ShadowParticle;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.DriedRose;
+import com.elementalpixel.elementalpixeldungeon.items.stones.ElementalStone;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
 import com.elementalpixel.elementalpixeldungeon.mechanics.Ballistica;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
@@ -400,6 +401,7 @@ public class YogDzewa extends Mob {
 		}
 
 		updateVisibility(Dungeon.level);
+		Dungeon.level.drop( new ElementalStone(), pos).sprite.drop();
 
 		GameScene.bossSlain();
 		Dungeon.level.unseal();

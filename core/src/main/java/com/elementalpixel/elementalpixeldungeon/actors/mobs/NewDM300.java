@@ -50,6 +50,7 @@ import com.elementalpixel.elementalpixeldungeon.effects.particles.SparkParticle;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.DriedRose;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.LloydsBeacon;
 import com.elementalpixel.elementalpixeldungeon.items.quest.MetalShard;
+import com.elementalpixel.elementalpixeldungeon.items.stones.ElementalStone;
 import com.elementalpixel.elementalpixeldungeon.items.wands.WandOfBlastWave;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
 import com.elementalpixel.elementalpixeldungeon.levels.NewCavesBossLevel;
@@ -509,6 +510,7 @@ public class NewDM300 extends Mob {
 
 		GameScene.bossSlain();
 		Dungeon.level.unseal();
+		Dungeon.level.drop( new ElementalStone(), pos).sprite.drop();
 
 		//60% chance of 2 shards, 30% chance of 3, 10% chance for 4. Average of 2.5
 		int shards = Random.chances(new float[]{0, 0, 6, 3, 1});

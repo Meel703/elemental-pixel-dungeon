@@ -1069,7 +1069,8 @@ public class GameScene extends PixelScene {
 		
 		return wnd;
 	}
-	
+
+
 	public static boolean cancel() {
 		if (Dungeon.hero != null && (Dungeon.hero.curAction != null || Dungeon.hero.resting)) {
 			

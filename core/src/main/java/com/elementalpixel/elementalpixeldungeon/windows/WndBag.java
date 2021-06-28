@@ -48,7 +48,9 @@ import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfTransmutat
 import com.elementalpixel.elementalpixeldungeon.items.spells.Recycle;
 import com.elementalpixel.elementalpixeldungeon.items.stones.StoneOfIntuition;
 import com.elementalpixel.elementalpixeldungeon.items.wands.Wand;
+import com.elementalpixel.elementalpixeldungeon.items.weapon.AlchemistFlask;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.SpiritBow;
+import com.elementalpixel.elementalpixeldungeon.items.weapon.Weapon;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.melee.MeleeWeapon;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
@@ -96,7 +98,8 @@ public class WndBag extends WndTabbed {
 		ALCHEMY,
 		RECYCLABLE,
 		NOT_EQUIPPED,
-		FRAGMENT
+		FRAGMENT,
+		ARMOR_WEAPON
 	}
 
 	protected static final int COLS_P   = 5;
@@ -454,6 +457,7 @@ public class WndBag extends WndTabbed {
 						mode == Mode.NOT_EQUIPPED && !item.isEquipped(Dungeon.hero) ||
 						mode == Mode.RECYCLABLE && Recycle.isRecyclable(item) ||
 						mode == Mode.FRAGMENT && (item instanceof Fragment) ||
+						mode == Mode.ARMOR_WEAPON && (item instanceof Armor || item instanceof Weapon) ||
 						mode == Mode.ALL
 					);
 				}

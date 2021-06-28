@@ -723,13 +723,11 @@ public class Armor extends EquipableItem {
 		@SuppressWarnings("unchecked")
 		public static Glyph randomCurse( Class<? extends Glyph> ... toIgnore ) {
 			ArrayList<Class<?>> glyphs = new ArrayList<>(Arrays.asList(curses));
-			System.out.println(glyphs);
 			glyphs.removeAll(Arrays.asList(toIgnore));
 			System.out.println(glyphs);
 			if (glyphs.isEmpty()) {
 				return random();
 			} else {
-				System.out.println(glyphs);
 				try {
 					return (Glyph) Reflection.newInstance(Random.element(glyphs));
 				} catch (ClassCastException e) {

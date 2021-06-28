@@ -24,7 +24,6 @@ public class ElementalistImmunity extends FlavourBuff {
     }
 
     {
-        //all harmful blobs
         immunities.add( ConfusionGas.class );
         immunities.add( Paralysis.class );
         immunities.add( Vertigo.class );

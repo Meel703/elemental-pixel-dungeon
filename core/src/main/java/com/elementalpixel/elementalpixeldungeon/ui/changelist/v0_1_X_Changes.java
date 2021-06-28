@@ -22,14 +22,9 @@
 package com.elementalpixel.elementalpixeldungeon.ui.changelist;
 
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.elementalpixel.elementalpixeldungeon.Assets;
-import com.elementalpixel.elementalpixeldungeon.messages.Messages;
-import com.elementalpixel.elementalpixeldungeon.scenes.ChangesScene;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSprite;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
-import com.elementalpixel.elementalpixeldungeon.sprites.MobSprite;
-import com.elementalpixel.elementalpixeldungeon.ui.Icons;
 import com.elementalpixel.elementalpixeldungeon.ui.Window;
 import com.watabou.noosa.Image;
 
@@ -44,6 +39,7 @@ public class v0_1_X_Changes {
 		changeInfos.add(changes);
 		
 		add_v0_1_0_Changes(changeInfos);
+		add_v0_1_2_Changes(changeInfos);
 	}
 	
 
@@ -71,8 +67,17 @@ public class v0_1_X_Changes {
 						"_-_ In the end of each chapter, there will be new boss which will drop fragment of its element. You have to acquire all fragments to fix the Broken Amulet of Yendor"
 				)
 		);
-		
-
 	}
-	
+
+	public static void add_v0_1_2_Changes( ArrayList<ChangeInfo> changeInfos) {
+		ChangeInfo changes = new ChangeInfo("v0.1.2a", false, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.ARMOR_LEATHER, null), "Elemental Infusion",
+				"_-_ v0.1.2a adds Elemental Infusions! Elemental\n\n" +
+				        "_-_ Goo, DM300 and YogDzewa now drop Elemental Stone which you can use to infuse your armor or weapon, you can infuse both with the same elements (fire, air, water, earth), but they have different effects. Infusion on armor has always defensive effect and infusion on weapon has always offensive effect."
+				)
+		);
+	}
 }

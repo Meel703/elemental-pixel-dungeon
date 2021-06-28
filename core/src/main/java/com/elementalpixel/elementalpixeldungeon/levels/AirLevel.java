@@ -33,14 +33,18 @@ import com.elementalpixel.elementalpixeldungeon.levels.traps.AlarmTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.BurningTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.ChillingTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.ConfusionTrap;
+import com.elementalpixel.elementalpixeldungeon.levels.traps.CorrosionTrap;
+import com.elementalpixel.elementalpixeldungeon.levels.traps.DistortionTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.FlockTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.GrippingTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.OozeTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.PoisonDartTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.ShockingTrap;
+import com.elementalpixel.elementalpixeldungeon.levels.traps.StormTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.SummoningTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.TeleportationTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.ToxicTrap;
+import com.elementalpixel.elementalpixeldungeon.levels.traps.WarpingTrap;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.tiles.DungeonTilemap;
 import com.watabou.noosa.Group;
@@ -93,17 +97,18 @@ public class AirLevel extends RegularLevel {
 	@Override
 	protected Class<?>[] trapClasses() {
 		return new Class[]{
-				ChillingTrap.class, ShockingTrap.class, ToxicTrap.class, BurningTrap.class, PoisonDartTrap.class,
-				AlarmTrap.class, OozeTrap.class, GrippingTrap.class,
-				ConfusionTrap.class, FlockTrap.class, SummoningTrap.class, TeleportationTrap.class, };
+				DistortionTrap.class, StormTrap.class, WarpingTrap.class,
+				ConfusionTrap.class, CorrosionTrap.class,
+				ToxicTrap.class, FlockTrap.class,
+};
 	}
 
 	@Override
 	protected float[] trapChances() {
 		return new float[]{
-				4, 4, 4, 4, 4,
-				2, 2, 2,
-				1, 1, 1, 1 };
+				4, 4, 4,
+				2, 2,
+				1, 1 };
 	}
 
 	@Override
@@ -142,7 +147,7 @@ public class AirLevel extends RegularLevel {
 			}
 		}
 	}
-	
+
 	public static class Torch extends Emitter {
 		
 		private int pos;
