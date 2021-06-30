@@ -76,13 +76,11 @@ import com.elementalpixel.elementalpixeldungeon.plants.Earthroot;
 import com.elementalpixel.elementalpixeldungeon.plants.Fadeleaf;
 import com.elementalpixel.elementalpixeldungeon.plants.Firebloom;
 import com.elementalpixel.elementalpixeldungeon.plants.Icecap;
-import com.elementalpixel.elementalpixeldungeon.plants.Plant;
 import com.elementalpixel.elementalpixeldungeon.plants.Sorrowmoss;
 import com.elementalpixel.elementalpixeldungeon.plants.Stormvine;
 import com.elementalpixel.elementalpixeldungeon.plants.Sungrass;
 import com.elementalpixel.elementalpixeldungeon.plants.Swiftthistle;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
-import com.elementalpixel.elementalpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.noosa.particles.Emitter;
 import com.watabou.utils.Bundle;
@@ -235,6 +233,8 @@ public enum Talent {
 	public static class CachedRationsDropped extends CounterBuff{};
 	public static class NatureBerriesAvailable extends CounterBuff{};
 
+	public static boolean ElementalSurge = false;
+
 	public static void onFoodEaten( Hero hero, float foodVal, Item foodSource ){
 		if (hero.hasTalent(HEARTY_MEAL)){
 			//3/5 HP healed, when hero is below 25% health
@@ -272,8 +272,7 @@ public enum Talent {
 			Buff.prolong( hero, Haste.class, 0.67f+hero.pointsInTalent(INVIGORATING_MEAL));
 		}
 		if (hero.hasTalent(ATTUNED_MEAL)) {
-			//Buff.affect( hero, Elementalsurge.class)
-			//TODO this should empower next elemental effect
+			ElementalSurge = true;
 		}
 	}
 

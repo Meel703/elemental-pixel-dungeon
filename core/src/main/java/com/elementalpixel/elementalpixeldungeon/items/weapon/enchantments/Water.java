@@ -21,18 +21,39 @@
 
 package com.elementalpixel.elementalpixeldungeon.items.weapon.enchantments;
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.Weapon;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSprite;
 
 public class Water extends Weapon.Enchantment {
 
     private static ItemSprite.Glowing LIGHT_BLUE = new ItemSprite.Glowing( 0xadd8e6 );
+    public static int counter = 2;
     @Override
     public int proc(Weapon weapon, Char attacker, Char defender, int damage ) {
 
-        weapon.ACC = 1.2f;
+
+        if (Talent.ElementalSurge) {
+            if (Dungeon.hero.pointsInTalent(Talent.ATTUNED_MEAL) == 1) {
+                weapon.ACC = 1.3f;
+                Talent.ElementalSurge = false;
+            } else {
+                weapon.ACC = 1.3f;
+                counter--;
+
+                if (counter == 0) {
+                    Talent.ElementalSurge = false;
+                }
+
+            }
+        } else {
+            weapon.ACC = 1.2f;
+        }
+
         return damage;
+
     }
 
     @Override

@@ -24,27 +24,45 @@ package com.elementalpixel.elementalpixeldungeon.items.armor.glyphs;
 
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
-import com.elementalpixel.elementalpixeldungeon.actors.buffs.Bleeding;
-import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
-import com.elementalpixel.elementalpixeldungeon.actors.buffs.Burning;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.items.armor.Armor;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSprite;
-import com.watabou.utils.Random;
 
 public class Water extends Armor.Glyph {
 
-    private static ItemSprite.Glowing RED = new ItemSprite.Glowing( 0x660022 );
+    private static ItemSprite.Glowing LIGHT_BLUE = new ItemSprite.Glowing( 0xadd8e6 );
+    public static int counter = 2;
+    static int def = Dungeon.hero.defenseSkill;
 
     @Override
     public int proc(Armor armor, Char attacker, Char defender, int damage) {
 
-        Dungeon.hero.defenseSkill += Math.round(Dungeon.depth * 0.667f);
 
-        return Dungeon.hero.defenseSkill;
+
+        if (Talent.ElementalSurge) {
+            if (Dungeon.hero.pointsInTalent(Talent.ATTUNED_MEAL) == 1) {
+                Dungeon.hero.defenseSkill += Math.round(Dungeon.depth * 0.867f);
+                Talent.ElementalSurge = false;
+            } else {
+                Dungeon.hero.defenseSkill += Math.round(Dungeon.depth * 0.867f);
+                counter--;
+
+                if (counter == 0) {
+                    Talent.ElementalSurge = false;
+                }
+
+            }
+        } else {
+            Dungeon.hero.defenseSkill += Math.round(Dungeon.depth * 0.667f);
+        }
+
+        Dungeon.hero.defenseSkill = def;
+
+        return damage;
     }
 
     @Override
     public ItemSprite.Glowing glowing() {
-        return RED;
+        return LIGHT_BLUE;
     }
 }

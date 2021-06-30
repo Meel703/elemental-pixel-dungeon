@@ -22,19 +22,36 @@
 package com.elementalpixel.elementalpixeldungeon.items.armor.glyphs;
 
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Blindness;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Cripple;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.items.armor.Armor;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSprite;
 
 public class Air extends Armor.Glyph {
+    public static int counter = 2;
 
     private static ItemSprite.Glowing WHITE = new ItemSprite.Glowing( 0xFFFFFF );
 
     @Override
     public int proc(Armor armor, Char attacker, Char defender, int damage) {
         Buff.affect(attacker, Cripple.class);
+        if (Talent.ElementalSurge) {
+            if (Dungeon.hero.pointsInTalent(Talent.ATTUNED_MEAL) == 1) {
+                Buff.affect(attacker, Blindness.class);
+                Talent.ElementalSurge = false;
+            } else {
+                counter--;
+                Buff.affect(attacker, Blindness.class);
+
+                if (counter == 0) {
+                    Talent.ElementalSurge = false;
+                }
+            }
+        }
 
         return damage;
 

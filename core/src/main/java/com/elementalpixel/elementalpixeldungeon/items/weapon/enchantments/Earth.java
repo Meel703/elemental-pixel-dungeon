@@ -23,12 +23,14 @@ package com.elementalpixel.elementalpixeldungeon.items.weapon.enchantments;
 
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.Weapon;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSprite;
 
 public class Earth extends Weapon.Enchantment {
 
     private static ItemSprite.Glowing GREEN = new ItemSprite.Glowing( 0x00ff00 );
+    public static int counter = 2;
 
     @Override
     public int proc(Weapon weapon, Char attacker, Char defender, int damage ) {
@@ -37,6 +39,35 @@ public class Earth extends Weapon.Enchantment {
             Dungeon.hero.HP += (Dungeon.hero.HT / 4);
             if (Dungeon.hero.HP > Dungeon.hero.HT) Dungeon.hero.HP = Dungeon.hero.HT;
         }
+
+
+        if (Talent.ElementalSurge) {
+            if (Dungeon.hero.pointsInTalent(Talent.ATTUNED_MEAL) == 1) {
+                if (defender.rooted) {
+                    Dungeon.hero.HP += (Dungeon.hero.HT / 2);
+                    if (Dungeon.hero.HP > Dungeon.hero.HT) Dungeon.hero.HP = Dungeon.hero.HT;
+                }
+                Talent.ElementalSurge = false;
+            } else {
+                if (defender.rooted) {
+                    Dungeon.hero.HP += (Dungeon.hero.HT / 2);
+                    if (Dungeon.hero.HP > Dungeon.hero.HT) Dungeon.hero.HP = Dungeon.hero.HT;
+                }
+                counter--;
+
+                if (counter == 0) {
+                    Talent.ElementalSurge = false;
+                }
+
+            }
+        } else {
+            if (defender.rooted) {
+                Dungeon.hero.HP += (Dungeon.hero.HT / 4);
+                if (Dungeon.hero.HP > Dungeon.hero.HT) Dungeon.hero.HP = Dungeon.hero.HT;
+            }
+        }
+
+
         return damage;
     }
 

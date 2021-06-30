@@ -22,10 +22,12 @@
 package com.elementalpixel.elementalpixeldungeon.items.armor.glyphs;
 
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Burning;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.FlavourBuff;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.items.armor.Armor;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSprite;
 import com.watabou.utils.Random;
@@ -35,12 +37,26 @@ import java.util.HashSet;
 public class Fire extends Armor.Glyph {
 
     private static ItemSprite.Glowing RED = new ItemSprite.Glowing( 0x660022 );
+    public static int counter = 2;
 
     @Override
     public int proc(Armor armor, Char attacker, Char defender, int damage) {
 
+        if (Talent.ElementalSurge) {
+            if (Dungeon.hero.pointsInTalent(Talent.ATTUNED_MEAL) == 1) {
+                attacker.damage(damage / 3, this);
+                Talent.ElementalSurge = false;
+            } else {
+                attacker.damage(damage / 3, this);
+                counter--;
 
-        attacker.damage(damage / 5, this);
+                if (counter == 0) {
+                    Talent.ElementalSurge = false;
+                }
+            }
+        } else {
+            attacker.damage(damage / 5, this);
+        }
         //Buff.affect(Dungeon.hero, FireImmunity.class, FireImmunity.DURATION);
 
         switch (Random.Int(4)) {

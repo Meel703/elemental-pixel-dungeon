@@ -21,17 +21,36 @@
 
 package com.elementalpixel.elementalpixeldungeon.items.weapon.enchantments;
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.Weapon;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSprite;
 
 public class Air extends Weapon.Enchantment {
 
     private static ItemSprite.Glowing WHITE = new ItemSprite.Glowing( 0xFFFFFF );
+    public static int counter = 2;
 
     @Override
     public int proc(Weapon weapon, Char attacker, Char defender, int damage ) {
-        weapon.DLY = 0.75f;
+
+        if (Talent.ElementalSurge) {
+            if (Dungeon.hero.pointsInTalent(Talent.ATTUNED_MEAL) == 1) {
+                weapon.DLY = 0.65f;
+                Talent.ElementalSurge = false;
+            } else {
+                weapon.DLY = 0.65f;
+                counter--;
+
+                if (counter == 0) {
+                    Talent.ElementalSurge = false;
+                }
+
+            }
+        } else {
+            weapon.DLY = 0.75f;
+        }
 
         return damage;
     }

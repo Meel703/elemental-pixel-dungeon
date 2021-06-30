@@ -26,21 +26,42 @@ import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Barkskin;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.items.armor.Armor;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSprite;
 
 public class Earth extends Armor.Glyph {
 
     private static ItemSprite.Glowing GREEN = new ItemSprite.Glowing( 0x00ff00 );
-    public static int counter = 0;
+    public static int counter = 2;
     @Override
     public int proc(Armor armor, Char attacker, Char defender, int damage) {
 
-        if (Dungeon.hero.HP < (Dungeon.hero.HT / 2)) {
-            Buff.affect(Dungeon.hero, Barkskin.class).set( 2 + Dungeon.hero.lvl/3, 2);
+
+
+        if (Talent.ElementalSurge) {
+            if (Dungeon.hero.pointsInTalent(Talent.ATTUNED_MEAL) == 1) {
+                if (Dungeon.hero.HP < (Dungeon.hero.HT / 2)) {
+                    Buff.affect(Dungeon.hero, Barkskin.class).set( 2 + Dungeon.hero.lvl/3, 4);
+                    Talent.ElementalSurge = false;
+                }
+            } else {
+                if (Dungeon.hero.HP < (Dungeon.hero.HT / 2)) {
+                    Buff.affect(Dungeon.hero, Barkskin.class).set(2 + Dungeon.hero.lvl / 3, 4);
+                    counter--;
+                }
+                if (counter == 0) {
+                    Talent.ElementalSurge = false;
+                }
+            }
+        } else {
+            if (Dungeon.hero.HP < (Dungeon.hero.HT / 2)) {
+                Buff.affect(Dungeon.hero, Barkskin.class).set(2 + Dungeon.hero.lvl / 3, 2);
+            }
         }
 
-        return damage;
+
+            return damage;
 
     }
 
