@@ -50,7 +50,7 @@ public class ToxicGas extends Blob implements Hero.Doom {
 				if (cur[cell] > 0 && (ch = Actor.findChar(cell)) != null) {
 					if (!ch.isImmune(this.getClass())) {
 
-						if (curUser.subClass == HeroSubClass.ELEMENTALIST) {
+						if (curUser.subClass == HeroSubClass.ELEMENTALIST && ch instanceof Hero) {
 							ch.HP += damage / 2;
 							if (ch.HP > ch.HT) ch.HP = ch.HT;
 						} else {
