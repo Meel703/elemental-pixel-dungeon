@@ -31,16 +31,12 @@ import com.elementalpixel.elementalpixeldungeon.actors.blobs.ToxicGas;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.BlobImmunity;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Invisibility;
-import com.elementalpixel.elementalpixeldungeon.actors.mobs.Mob;
 import com.elementalpixel.elementalpixeldungeon.effects.CellEmitter;
 import com.elementalpixel.elementalpixeldungeon.effects.particles.FlameParticle;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.Callback;
 import com.watabou.utils.PathFinder;
-
-import java.util.HashMap;
 
 public class AlchemistArmor extends ClassArmor {
 
@@ -56,9 +52,11 @@ public class AlchemistArmor extends ClassArmor {
     @Override
     public void doSpecial() {
 
-        if (curUser.justMoved) { targetPos = curUser.pos; }
+        if (curUser.justMoved) {
+            targetPos = curUser.pos;
+        }
 
-        charge -= 0;
+        charge -= 35;
         updateQuickslot();
 
         Buff.affect(curUser, BlobImmunity.class, BlobImmunity.DURATION);
