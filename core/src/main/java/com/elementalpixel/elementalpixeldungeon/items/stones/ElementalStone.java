@@ -67,15 +67,6 @@ public class ElementalStone extends Item {
             } else if (item instanceof Weapon) {
                 GameScene.show(new WndWeaponInfusion(item));
             }
-
-            if (item == null) {
-
-            } else {
-                ((ElementalStone) curItem).detach(hero.belongings.backpack);
-            }
-
-
-
         }
     };
 }

@@ -22,6 +22,7 @@
 package com.elementalpixel.elementalpixeldungeon.windows;
 
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.items.Item;
 import com.elementalpixel.elementalpixeldungeon.items.stones.ElementalStone;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.Weapon;
@@ -32,11 +33,15 @@ import com.elementalpixel.elementalpixeldungeon.items.weapon.enchantments.Water;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
 import com.elementalpixel.elementalpixeldungeon.scenes.PixelScene;
+import com.elementalpixel.elementalpixeldungeon.sprites.ItemSprite;
+import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
 import com.elementalpixel.elementalpixeldungeon.ui.IconButton;
 import com.elementalpixel.elementalpixeldungeon.ui.Icons;
 import com.elementalpixel.elementalpixeldungeon.ui.RedButton;
 import com.elementalpixel.elementalpixeldungeon.ui.RenderedTextBlock;
 import com.elementalpixel.elementalpixeldungeon.ui.Window;
+
+import static com.elementalpixel.elementalpixeldungeon.items.Item.curItem;
 
 public class WndWeaponInfusion extends Window {
 
@@ -48,19 +53,26 @@ public class WndWeaponInfusion extends Window {
 
         super();
 
-        RenderedTextBlock hl = PixelScene.renderTextBlock( 6 );
-        hl.text( "What element do you want to infuse your weapon with?\n\n", WIDTH );
-        hl.setRect( 0, 0, WIDTH, 0 );
-        add( hl );
+        IconTitle titlebar = new IconTitle();
+        titlebar.icon( new ItemSprite(ItemSpriteSheet.STONE_BLINK, null ) );
+        titlebar.label("Offensive Elemental Infusion");
+        titlebar.setRect( 0, 0, WIDTH, 0 );
+        add( titlebar );
+
+        RenderedTextBlock textBlock = PixelScene.renderTextBlock( 6 );
+        textBlock.text( "What element do you want to infuse your weapon with?\n\n", WIDTH );
+        textBlock.setPos( titlebar.left(), titlebar.bottom() + GAP );
+        add( textBlock );
 
         RedButton btnFire = new RedButton( Messages.get(this,"fire")) {
             @Override
             protected void onClick() {
                 hide();
                 ((Weapon)item).enchant(new Fire());
+                ((ElementalStone) curItem).detach(Dungeon.hero.belongings.backpack);
             }
         };
-        btnFire.setRect( 0, hl.bottom() + GAP, WIDTH, BTN_HEIGHT );
+        btnFire.setRect( 0, textBlock.bottom() + GAP, WIDTH, BTN_HEIGHT );
         add( btnFire );
 
         RedButton btnAir = new RedButton( Messages.get(this, "air" )) {
@@ -68,6 +80,7 @@ public class WndWeaponInfusion extends Window {
             protected void onClick() {
                 hide();
                 ((Weapon)item).enchant(new Air());
+                ((ElementalStone) curItem).detach(Dungeon.hero.belongings.backpack);
             }
         };
         btnAir.setRect( 0, btnFire.bottom() + GAP, WIDTH, BTN_HEIGHT );
@@ -78,6 +91,7 @@ public class WndWeaponInfusion extends Window {
             protected void onClick() {
                 hide();
                 ((Weapon)item).enchant(new Water());
+                ((ElementalStone) curItem).detach(Dungeon.hero.belongings.backpack);
             }
         };
         btnWater.setRect( 0, btnAir.bottom() + GAP, WIDTH, BTN_HEIGHT );
@@ -88,6 +102,7 @@ public class WndWeaponInfusion extends Window {
             protected void onClick() {
                 hide();
                 ((Weapon)item).enchant(new Earth());
+                ((ElementalStone) curItem).detach(Dungeon.hero.belongings.backpack);
             }
         };
         btnEarth.setRect( 0, btnWater.bottom() + GAP, WIDTH, BTN_HEIGHT );
@@ -98,7 +113,6 @@ public class WndWeaponInfusion extends Window {
             @Override
             protected void onClick() {
                 hide();
-                new ElementalStone().collect();
             }
         };
         btnCancel.setRect( 0, btnEarth.bottom() + (GAP * 2), WIDTH, BTN_HEIGHT );
