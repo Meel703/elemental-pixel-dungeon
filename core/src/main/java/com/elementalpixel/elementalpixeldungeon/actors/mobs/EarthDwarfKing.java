@@ -431,10 +431,8 @@ public class EarthDwarfKing extends Mob {
 				}
 				h.destroy();
 			}
-			Dungeon.level.drop(new ArmorKit(), pos + Dungeon.level.width()).sprite.drop(pos);
 			Dungeon.level.drop(new EarthFragment(Dungeon.depth), pos + Dungeon.level.width()).sprite.drop(pos);
 		} else {
-			Dungeon.level.drop(new ArmorKit(), pos).sprite.drop();
 			Dungeon.level.drop(new EarthFragment(Dungeon.depth), pos).sprite.drop();
 		}
 
