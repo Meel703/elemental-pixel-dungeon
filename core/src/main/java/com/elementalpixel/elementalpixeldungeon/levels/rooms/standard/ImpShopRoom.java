@@ -104,6 +104,7 @@ public class ImpShopRoom extends ShopRoom {
 	public void spawnShop(Level level){
 		impSpawned = true;
 		placeShopkeeper(level);
+		placeItems(level);
 	}
 
 	public boolean shopSpawned(){
