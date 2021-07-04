@@ -22,6 +22,7 @@
 package com.elementalpixel.elementalpixeldungeon.levels.rooms.secret;
 
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.blobs.Foliage;
 import com.elementalpixel.elementalpixeldungeon.items.wands.WandOfRegrowth;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
@@ -36,27 +37,37 @@ public class SecretGardenRoom extends SecretRoom {
 	public void paint( Level level ) {
 		
 		Painter.fill( level, this, Terrain.WALL );
-		Painter.fill( level, this, 1, Terrain.GRASS );
+
+		if (Dungeon.depth == 36 || Dungeon.depth == 37 || Dungeon.depth == 38 || Dungeon.depth == 39) {
+			Painter.fill( level, this, 1, Terrain.EMPTY );
+		} else {
+			Painter.fill(level, this, 1, Terrain.GRASS);
+		}
 		
 		boolean[] grass = Patch.generate(width()-2, height()-2, 0.5f, 0, true);
 		for (int i=top + 1; i < bottom; i++) {
 			for (int j=left + 1; j < right; j++) {
-				if (grass[xyToPatchCoords(j, i)]) {
+				if (grass[xyToPatchCoords(j, i)] && Dungeon.depth != 36 && Dungeon.depth != 37 && Dungeon.depth != 38 && Dungeon.depth != 39) {
 					level.map[i * level.width() + j] = Terrain.HIGH_GRASS;
 				}
 			}
 		}
 		
 		entrance().set( Door.Type.HIDDEN );
-		
-		level.plant(new Starflower.Seed(), plantPos(level));
-		level.plant(new WandOfRegrowth.Seedpod.Seed(), plantPos( level ));
-		level.plant(new WandOfRegrowth.Dewcatcher.Seed(), plantPos( level ));
-		
-		if (Random.Int(2) == 0){
-			level.plant(new WandOfRegrowth.Seedpod.Seed(), plantPos( level ));
+
+		if (Dungeon.depth == 36 || Dungeon.depth == 37 || Dungeon.depth == 38 || Dungeon.depth == 39) {
+
 		} else {
-			level.plant(new WandOfRegrowth.Dewcatcher.Seed(), plantPos( level ));
+
+			level.plant(new Starflower.Seed(), plantPos(level));
+			level.plant(new WandOfRegrowth.Seedpod.Seed(), plantPos(level));
+			level.plant(new WandOfRegrowth.Dewcatcher.Seed(), plantPos(level));
+
+			if (Random.Int(2) == 0) {
+				level.plant(new WandOfRegrowth.Seedpod.Seed(), plantPos(level));
+			} else {
+				level.plant(new WandOfRegrowth.Dewcatcher.Seed(), plantPos(level));
+			}
 		}
 		
 		Foliage light = (Foliage)level.blobs.get( Foliage.class );

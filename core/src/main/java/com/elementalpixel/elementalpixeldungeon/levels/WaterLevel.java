@@ -24,10 +24,8 @@ package com.elementalpixel.elementalpixeldungeon.levels;
 
 import com.elementalpixel.elementalpixeldungeon.Assets;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
-import com.elementalpixel.elementalpixeldungeon.actors.mobs.npcs.Blacksmith;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.CavesPainter;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.Painter;
-import com.elementalpixel.elementalpixeldungeon.levels.rooms.Room;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.BurningTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.ConfusionTrap;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.CorrosionTrap;
@@ -48,18 +46,11 @@ import com.watabou.noosa.particles.PixelParticle;
 import com.watabou.utils.PointF;
 import com.watabou.utils.Random;
 
-import java.util.ArrayList;
-
 public class WaterLevel extends RegularLevel {
 
 	{
 		color1 = 0x534f3e;
 		color2 = 0xb9d661;
-	}
-	
-	@Override
-	protected ArrayList<Room> initRooms() {
-		return Blacksmith.Quest.spawn(super.initRooms());
 	}
 	
 	@Override
@@ -80,7 +71,6 @@ public class WaterLevel extends RegularLevel {
 	protected Painter painter() {
 		return new CavesPainter()
 				.setWater(feeling == Feeling.WATER ? 0.85f : 0.30f, 6)
-				.setGrass(feeling == Feeling.GRASS ? 0.65f : 0.15f, 3)
 				.setTraps(nTraps(), trapClasses(), trapChances());
 	}
 	
@@ -113,10 +103,6 @@ public class WaterLevel extends RegularLevel {
 	@Override
 	public String tileName( int tile ) {
 		switch (tile) {
-			case Terrain.GRASS:
-				return Messages.get(WaterLevel.class, "grass_name");
-			case Terrain.HIGH_GRASS:
-				return Messages.get(WaterLevel.class, "high_grass_name");
 			case Terrain.WATER:
 				return Messages.get(WaterLevel.class, "water_name");
 			default:
@@ -131,8 +117,6 @@ public class WaterLevel extends RegularLevel {
 				return Messages.get(WaterLevel.class, "entrance_desc");
 			case Terrain.EXIT:
 				return Messages.get(WaterLevel.class, "exit_desc");
-			case Terrain.HIGH_GRASS:
-				return Messages.get(WaterLevel.class, "high_grass_desc");
 			case Terrain.WALL_DECO:
 				return Messages.get(WaterLevel.class, "wall_deco_desc");
 			case Terrain.BOOKSHELF:

@@ -22,6 +22,7 @@
 package com.elementalpixel.elementalpixeldungeon.levels.rooms.standard;
 
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.items.Generator;
 import com.elementalpixel.elementalpixeldungeon.items.Gold;
 import com.elementalpixel.elementalpixeldungeon.items.Heap;
@@ -39,8 +40,13 @@ public class GrassyGraveRoom extends StandardRoom {
 		for (Door door : connected.values()) {
 			door.set( Door.Type.REGULAR );
 		}
-		
-		Painter.fill( level, this, 1 , Terrain.GRASS );
+
+		if (Dungeon.depth == 36 || Dungeon.depth == 37 || Dungeon.depth == 38 || Dungeon.depth == 39) {
+			Painter.fill( level, this, 1, Terrain.EMPTY);
+		} else {
+
+			Painter.fill(level, this, 1, Terrain.GRASS);
+		}
 		
 		int w = width() - 2;
 		int h = height() - 2;

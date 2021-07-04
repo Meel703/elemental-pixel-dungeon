@@ -53,10 +53,15 @@ public class SecretLarderRoom extends SecretRoom {
 		Point c = center();
 		
 		Painter.fill(level, c.x-1, c.y-1, 3, 3, Terrain.WATER);
-		Painter.set(level, c, Terrain.GRASS);
+		if (Dungeon.depth == 36 || Dungeon.depth == 37 || Dungeon.depth == 38 || Dungeon.depth == 39) {
+
+			Painter.set(level, c, Terrain.EMPTY);
+		} else {
+			Painter.set(level, c, Terrain.GRASS);
+			level.plant(new BlandfruitBush.Seed(), level.pointToCell(c));
+		}
 		
-		level.plant(new BlandfruitBush.Seed(), level.pointToCell(c));
-		
+
 		int extraFood = (int)(Hunger.STARVING - Hunger.HUNGRY) * (1 + Dungeon.depth / 5);
 		
 		while (extraFood > 0){

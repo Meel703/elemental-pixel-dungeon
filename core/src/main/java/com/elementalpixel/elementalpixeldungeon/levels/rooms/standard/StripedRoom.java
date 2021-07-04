@@ -22,6 +22,7 @@
 package com.elementalpixel.elementalpixeldungeon.levels.rooms.standard;
 
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
 import com.elementalpixel.elementalpixeldungeon.levels.Terrain;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.Painter;
@@ -45,18 +46,31 @@ public class StripedRoom extends StandardRoom {
 			Painter.fill(level, this, 1, Terrain.EMPTY_SP);
 			if (width() > height() || (width() == height() && Random.Int(2) == 0)) {
 				for (int i = left + 2; i < right; i += 2) {
-					Painter.fill(level, i, top + 1, 1, height() - 2, Terrain.HIGH_GRASS);
+					if (Dungeon.depth == 36 || Dungeon.depth == 37 || Dungeon.depth == 38 || Dungeon.depth == 39) {
+						Painter.fill(level, i, top + 1, 1, height() - 2, Terrain.EMPTY);
+					} else {
+						Painter.fill(level, i, top + 1, 1, height() - 2, Terrain.HIGH_GRASS);
+					}
 				}
 			} else {
 				for (int i = top + 2; i < bottom; i += 2) {
-					Painter.fill(level, left + 1, i, width() - 2, 1, Terrain.HIGH_GRASS);
+					if (Dungeon.depth == 36 || Dungeon.depth == 37 || Dungeon.depth == 38 || Dungeon.depth == 39) {
+						Painter.fill(level, left + 1, i, width() - 2, 1, Terrain.EMPTY);
+					} else {
+
+						Painter.fill(level, left + 1, i, width() - 2, 1, Terrain.HIGH_GRASS);
+					}
 				}
 			}
 			
 		} else if (sizeCat == SizeCategory.LARGE){
 			int layers = (Math.min(width(), height())-1)/2;
 			for (int i = 1; i <= layers; i++){
-				Painter.fill(level, this, i, (i % 2 == 1) ? Terrain.EMPTY_SP : Terrain.HIGH_GRASS);
+				if (Dungeon.depth == 36 || Dungeon.depth == 37 || Dungeon.depth == 38 || Dungeon.depth == 39) {
+					Painter.fill(level, this, i, (i % 2 == 1) ? Terrain.EMPTY_SP : Terrain.EMPTY);
+				} else {
+					Painter.fill(level, this, i, (i % 2 == 1) ? Terrain.EMPTY_SP : Terrain.HIGH_GRASS);
+				}
 			}
 		}
 	}

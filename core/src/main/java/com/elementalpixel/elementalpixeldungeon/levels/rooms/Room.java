@@ -22,7 +22,9 @@
 package com.elementalpixel.elementalpixeldungeon.levels.rooms;
 
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
+import com.elementalpixel.elementalpixeldungeon.levels.features.Door;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Graph;
@@ -300,7 +302,12 @@ public abstract class Room extends Rect implements Graph.Node, Bundlable {
 
 	//whether or not a painter can make place grass at a specific point
 	public boolean canPlaceGrass(Point p){
-		return true;
+		if (Dungeon.depth == 36 || Dungeon.depth == 37 || Dungeon.depth == 38 || Dungeon.depth == 39) {
+			return false;
+		} else {
+
+			return true;
+		}
 	}
 
 	public final ArrayList<Point> grassPlaceablePoints(){

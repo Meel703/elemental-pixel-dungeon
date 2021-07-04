@@ -22,6 +22,7 @@
 package com.elementalpixel.elementalpixeldungeon.levels.rooms.standard;
 
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.items.Generator;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
 import com.elementalpixel.elementalpixeldungeon.levels.Terrain;
@@ -51,45 +52,57 @@ public class PlantsRoom extends StandardRoom {
 	@Override
 	public void paint(Level level) {
 		Painter.fill( level, this, Terrain.WALL );
-		Painter.fill( level, this, 1, Terrain.GRASS );
-		Painter.fill( level, this, 2, Terrain.HIGH_GRASS );
-		
-		if (Math.min(width(), height()) >= 7){
-			Painter.fill( level, this, 3, Terrain.GRASS );
-		}
-		
-		Point center = center();
-		
-		//place at least 2 plants for rooms with at least 9 in one dimensions
-		if (Math.max(width(), height()) >= 9){
-			
-			//place 4 plants for very large rooms
-			if (Math.min(width(), height()) >= 11) {
-				Painter.drawLine(level, new Point(left+2, center.y), new Point(right-2, center.y), Terrain.HIGH_GRASS);
-				Painter.drawLine(level, new Point(center.x, top+2), new Point(center.x, bottom-2), Terrain.HIGH_GRASS);
-				level.plant( randomSeed(), level.pointToCell(new Point(center.x-1, center.y-1)));
-				level.plant( randomSeed(), level.pointToCell(new Point(center.x+1, center.y-1)));
-				level.plant( randomSeed(), level.pointToCell(new Point(center.x-1, center.y+1)));
-				level.plant( randomSeed(), level.pointToCell(new Point(center.x+1, center.y+1)));
-			
-			//place 2 plants otherwise
-			//left/right
-			} else if (width() > height() || (width() == height() && Random.Int(2) == 0)){
-				Painter.drawLine(level, new Point(center.x, top+2), new Point(center.x, bottom-2), Terrain.HIGH_GRASS);
-				level.plant( randomSeed(), level.pointToCell(new Point(center.x-1, center.y)));
-				level.plant( randomSeed(), level.pointToCell(new Point(center.x+1, center.y)));
-			
-			//top/bottom
-			} else {
-				Painter.drawLine(level, new Point(left+2, center.y), new Point(right-2, center.y), Terrain.HIGH_GRASS);
-				level.plant( randomSeed(), level.pointToCell(new Point(center.x, center.y-1)));
-				level.plant( randomSeed(), level.pointToCell(new Point(center.x, center.y+1)));
-			
+
+		if (Dungeon.depth == 36 || Dungeon.depth == 37 || Dungeon.depth == 38 || Dungeon.depth == 39) {
+			Painter.fill( level, this, 1, Terrain.EMPTY);
+			Painter.fill( level, this, 2, Terrain.EMPTY);
+
+			if (Math.min(width(), height()) >= 7){
+				Painter.fill( level, this, 3, Terrain.EMPTY );
 			}
-			
-		//place just one plant for smaller sized rooms
+
 		} else {
-			level.plant( randomSeed(), level.pointToCell(center));
+
+			Painter.fill(level, this, 1, Terrain.GRASS);
+			Painter.fill(level, this, 2, Terrain.HIGH_GRASS);
+
+			if (Math.min(width(), height()) >= 7) {
+				Painter.fill(level, this, 3, Terrain.GRASS);
+			}
+
+			Point center = center();
+
+			//place at least 2 plants for rooms with at least 9 in one dimensions
+			if (Math.max(width(), height()) >= 9) {
+
+				//place 4 plants for very large rooms
+				if (Math.min(width(), height()) >= 11) {
+					Painter.drawLine(level, new Point(left + 2, center.y), new Point(right - 2, center.y), Terrain.HIGH_GRASS);
+					Painter.drawLine(level, new Point(center.x, top + 2), new Point(center.x, bottom - 2), Terrain.HIGH_GRASS);
+					level.plant(randomSeed(), level.pointToCell(new Point(center.x - 1, center.y - 1)));
+					level.plant(randomSeed(), level.pointToCell(new Point(center.x + 1, center.y - 1)));
+					level.plant(randomSeed(), level.pointToCell(new Point(center.x - 1, center.y + 1)));
+					level.plant(randomSeed(), level.pointToCell(new Point(center.x + 1, center.y + 1)));
+
+					//place 2 plants otherwise
+					//left/right
+				} else if (width() > height() || (width() == height() && Random.Int(2) == 0)) {
+					Painter.drawLine(level, new Point(center.x, top + 2), new Point(center.x, bottom - 2), Terrain.HIGH_GRASS);
+					level.plant(randomSeed(), level.pointToCell(new Point(center.x - 1, center.y)));
+					level.plant(randomSeed(), level.pointToCell(new Point(center.x + 1, center.y)));
+
+					//top/bottom
+				} else {
+					Painter.drawLine(level, new Point(left + 2, center.y), new Point(right - 2, center.y), Terrain.HIGH_GRASS);
+					level.plant(randomSeed(), level.pointToCell(new Point(center.x, center.y - 1)));
+					level.plant(randomSeed(), level.pointToCell(new Point(center.x, center.y + 1)));
+
+				}
+
+				//place just one plant for smaller sized rooms
+			} else {
+				level.plant(randomSeed(), level.pointToCell(center));
+			}
 		}
 		
 		for (Door door : connected.values()) {

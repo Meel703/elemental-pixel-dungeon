@@ -22,6 +22,7 @@
 package com.elementalpixel.elementalpixeldungeon.levels.rooms.special;
 
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.blobs.Foliage;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
 import com.elementalpixel.elementalpixeldungeon.levels.Terrain;
@@ -35,19 +36,28 @@ public class GardenRoom extends SpecialRoom {
 	public void paint( Level level ) {
 		
 		Painter.fill( level, this, Terrain.WALL );
-		Painter.fill( level, this, 1, Terrain.HIGH_GRASS );
-		Painter.fill( level, this, 2, Terrain.GRASS );
+		if (Dungeon.depth == 36 || Dungeon.depth == 37 || Dungeon.depth == 38 || Dungeon.depth == 39) {
+			Painter.fill( level, this, 1, Terrain.EMPTY );
+			Painter.fill( level, this, 2, Terrain.EMPTY );
+		} else {
+			Painter.fill(level, this, 1, Terrain.HIGH_GRASS);
+			Painter.fill(level, this, 2, Terrain.GRASS);
+		}
 		
 		entrance().set( Door.Type.REGULAR );
+		if (Dungeon.depth == 36 || Dungeon.depth == 37 || Dungeon.depth == 38 || Dungeon.depth == 39) {
 
-		int bushes = Random.Int(3);
-		if (bushes == 0) {
-			level.plant(new Sungrass.Seed(), plantPos( level ));
-		} else if (bushes == 1) {
-			level.plant(new BlandfruitBush.Seed(), plantPos( level ));
-		} else if (Random.Int(5) == 0) {
-			level.plant(new Sungrass.Seed(), plantPos( level ));
-			level.plant(new BlandfruitBush.Seed(), plantPos( level ));
+		} else {
+
+			int bushes = Random.Int(3);
+			if (bushes == 0) {
+				level.plant(new Sungrass.Seed(), plantPos(level));
+			} else if (bushes == 1) {
+				level.plant(new BlandfruitBush.Seed(), plantPos(level));
+			} else if (Random.Int(5) == 0) {
+				level.plant(new Sungrass.Seed(), plantPos(level));
+				level.plant(new BlandfruitBush.Seed(), plantPos(level));
+			}
 		}
 		
 		Foliage light = (Foliage)level.blobs.get( Foliage.class );
