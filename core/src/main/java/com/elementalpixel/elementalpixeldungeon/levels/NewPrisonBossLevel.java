@@ -536,7 +536,7 @@ public class NewPrisonBossLevel extends Level {
 		if (Dungeon.depth == 10) {
 			drop(new IronKey(10), randomPrisonCellPos());
 		} else {
-			drop(new IronKey(40), randomPrisonCellPos());
+			drop(new IronKey(45), randomPrisonCellPos());
 		}
 	}
 	

@@ -332,19 +332,19 @@ public class Dungeon {
 		case 37:
 		case 38:
 		case 39:
-			level = new AirLevel();
+			level = new WaterLevel();
 			break;
 		case 40:
-			level = new NewPrisonBossLevel();
+			level = new WaterBossLevel();
 			break;
 		case 41:
 		case 42:
 		case 43:
 		case 44:
-			level = new WaterLevel();
+			level = new AirLevel();
 			break;
 		case 45:
-			level = new WaterBossLevel();
+			level = new NewPrisonBossLevel();
 			break;
 		case 46:
 		case 47:
