@@ -28,7 +28,7 @@ import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
 public class AlchemistDagger extends MeleeWeapon {
 
     {
-        image = ItemSpriteSheet.DIRK;
+        image = ItemSpriteSheet.ALCHEMIST_DAGGER;
         hitSound = Assets.Sounds.HIT;
         hitSoundPitch = 1.3f;
 
@@ -40,8 +40,8 @@ public class AlchemistDagger extends MeleeWeapon {
 
     @Override
     public int max(int lvl) {
-        return  Math.round(2.5f*(tier+1)) +     //5 base, down from 10
-                lvl*Math.round(0.5f*(tier+1));  //+1 per level, down from +2
+        return  Math.round(2.5f*(tier+1)) +
+                lvl*Math.round(0.5f*(tier+1));
     }
 
 }

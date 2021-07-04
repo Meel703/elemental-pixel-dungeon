@@ -201,12 +201,13 @@ public class ItemSpriteSheet {
 	public static final int WORN_SHORTSWORD = WEP_TIER1+0;
 	public static final int CUDGEL          = WEP_TIER1+1;
 	public static final int GLOVES          = WEP_TIER1+2;
-	public static final int RAPIER          = WEP_TIER1+3;
+	public static final int ALCHEMIST_DAGGER= WEP_TIER1+3;
 	public static final int DAGGER          = WEP_TIER1+4;
 	public static final int MAGES_STAFF     = WEP_TIER1+5;
 	static{
 		assignItemRect(WORN_SHORTSWORD, 13, 13);
 		assignItemRect(GLOVES,          12, 16);
+		assignItemRect(ALCHEMIST_DAGGER,13, 14);
 		assignItemRect(DAGGER,          12, 13);
 		assignItemRect(MAGES_STAFF,     15, 16);
 	}
@@ -509,7 +510,7 @@ public class ItemSpriteSheet {
 	static {
 		for (int i = STONES; i < STONES+16; i++)
 			assignItemRect(i, 14, 12);
-		assignItemRect(ELEMENTAL_STONE, 14,14);
+		assignItemRect(ELEMENTAL_STONE, 16,16);
 	}
 
 	private static final int POTIONS        =                               xy(1, 22);  //16 slots
