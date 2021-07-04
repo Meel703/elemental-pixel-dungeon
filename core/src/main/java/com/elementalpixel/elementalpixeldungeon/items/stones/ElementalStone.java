@@ -19,7 +19,7 @@ public class ElementalStone extends Item {
 
 
     {
-        image = ItemSpriteSheet.STONE_BLINK;
+        image = ItemSpriteSheet.ELEMENTAL_STONE;
 
         stackable = true;
         unique = true;
