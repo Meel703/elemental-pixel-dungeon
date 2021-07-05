@@ -170,7 +170,7 @@ public class AlchemistFlask extends Weapon {
     public class AchemistProjectile extends MissileWeapon {
 
         {
-            debuff = Random.Int(1, 100);
+            debuff = Random.Int(1, 101);
 
             if (debuff <= 5) {
                 image = ItemSpriteSheet.POTION_GOLDEN;
@@ -304,8 +304,8 @@ public class AlchemistFlask extends Weapon {
                         damage = 0;
                         break;
 
-                    //5% to corrosion
-                    case 95: case 96: case 97: case 98: case 99:
+                    //6% to corrosion
+                    case 95: case 96: case 97: case 98: case 99: case 100:
                         if (AlchemistFlask.curUser.attack(enemy)) {
                             Buff.affect(enemy, Corrosion.class);
                         }
