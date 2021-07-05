@@ -6,9 +6,13 @@ import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
 import com.elementalpixel.elementalpixeldungeon.actors.blobs.Blob;
 import com.elementalpixel.elementalpixeldungeon.actors.blobs.Fire;
+import com.elementalpixel.elementalpixeldungeon.actors.blobs.Freezing;
 import com.elementalpixel.elementalpixeldungeon.actors.blobs.ToxicGas;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Corrosion;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Cripple;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Paralysis;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Poison;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Roots;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
 import com.elementalpixel.elementalpixeldungeon.effects.CellEmitter;
@@ -21,7 +25,6 @@ import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
 import com.elementalpixel.elementalpixeldungeon.sprites.MissileSprite;
 import com.elementalpixel.elementalpixeldungeon.ui.QuickSlotButton;
-import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
 
@@ -120,7 +123,7 @@ public class AlchemistFlask extends Weapon {
 
     @Override
     public int max(int lvl) {
-        return 5 + (int)(Dungeon.hero.lvl/3f)
+        return 3 + (int)(Dungeon.hero.lvl/3f)
                 + (curseInfusionBonus ? 2 : 0);
     }
 
@@ -135,14 +138,12 @@ public class AlchemistFlask extends Weapon {
     @Override
     public int damageRoll(Char owner) {
         damage += augment.damageFactor(super.damageRoll(owner));
-        System.out.println(damage);
         if (owner instanceof Hero) {
             int exStr = ((Hero)owner).STR() - STRReq();
             if (exStr > 0) {
                 damage += Random.IntRange( 0, exStr );
             }
         }
-        System.out.println(STRReq());
 
         return damage;
     }
@@ -169,31 +170,29 @@ public class AlchemistFlask extends Weapon {
     public class AchemistProjectile extends MissileWeapon {
 
         {
-            debuff = Random.Int(1, 10);
+            debuff = Random.Int(1, 100);
 
-            switch (debuff) {
-                case 1:
-                    image = ItemSpriteSheet.POTION_CHARCOAL;
-                    break;
-                case 2:
-                    image = ItemSpriteSheet.POTION_AZURE;
-                    break;
-                case 3:
-                    image = ItemSpriteSheet.POTION_CRIMSON;
-                    break;
-                case 4:
-                    image = ItemSpriteSheet.POTION_BISTRE;
-                    break;
-                case 5:
-                    image = ItemSpriteSheet.POTION_TURQUOISE;
-                    break;
-                default:
-                    image = ItemSpriteSheet.POTION_AMBER;
+            if (debuff <= 5) {
+                image = ItemSpriteSheet.POTION_GOLDEN;
+            } else if (debuff <= 11) {
+                image = ItemSpriteSheet.POTION_CHARCOAL;
+            } else if (debuff <= 19) {
+                image = ItemSpriteSheet.POTION_MAGENTA;
+            } else if (debuff <= 29) {
+                image = ItemSpriteSheet.POTION_BISTRE;
+            } else if (debuff <= 44) {
+                image = ItemSpriteSheet.POTION_AMBER;
+            } else if (debuff <= 59) {
+                image = ItemSpriteSheet.POTION_JADE;
+            } else if (debuff <= 74) {
+                image = ItemSpriteSheet.POTION_TURQUOISE;
+            } else if (debuff <= 94) {
+                image = ItemSpriteSheet.POTION_IVORY;
+            } else {
+                image = ItemSpriteSheet.POTION_CRIMSON;
             }
 
-                //image = ItemSpriteSheet.ALCHEMIST_PROJECTILE;
-
-                hitSound = Assets.Sounds.SHATTER;
+            hitSound = Assets.Sounds.SHATTER;
 
         }
 
@@ -219,11 +218,7 @@ public class AlchemistFlask extends Weapon {
 
         @Override
         public float accuracyFactor(Char owner) {
-            if (AlchemistFlask.this.augment == Augment.DAMAGE){
-                return Float.POSITIVE_INFINITY * 100;
-            } else {
-                return super.accuracyFactor(owner) * 100;
-            }
+            return super.accuracyFactor(owner);
         }
 
         @Override
@@ -241,47 +236,88 @@ public class AlchemistFlask extends Weapon {
             } else {
 
                 switch (debuff) {
-                    case 1:
-                        damageRoll(curUser);
-                        damage *= 2;
-                        damage = 0;
-                        break;
-                    case 2:
-                        Buff.affect( enemy, Paralysis.class, Paralysis.DURATION - 9f);
-                        damage = 0;
-                        break;
-                    case 3:
-                        Buff.affect( enemy, Roots.class, Roots.DURATION - 4);
-                        damage = 0;
-                        break;
-                    case 4:
-                        if (!Dungeon.level.solid[targetPos]) {
-                            GameScene.add( Blob.seed( targetPos, 1, Fire.class ) );
-                            CellEmitter.get( targetPos ).burst( FlameParticle.FACTORY, 1 );
+
+                    //5% to paralysis
+                    case 1: case 2: case 3: case 4: case 5:
+                        if (AlchemistFlask.curUser.attack(enemy)) {
+                            Buff.affect(enemy, Paralysis.class);
                         }
+                        damage = 0;
+                        break;
 
+                    //6% to root
+                    case 6: case 7: case 8: case 9: case 10: case 11:
+                        if (AlchemistFlask.curUser.attack(enemy)) {
+                            Buff.affect(enemy, Roots.class);
+                        }
                         damage = 0;
                         break;
-                    case 5:
-                        GameScene.add( Blob.seed( targetPos, 50 + 20 * Dungeon.depth, ToxicGas.class ) );
-                        Sample.INSTANCE.play(Assets.Sounds.GAS);
-                        damage = 0;
-                        break;
-                    default:
-                        damageRoll( curUser );
-                        damage = 0;
-                        break;
-                }
 
-                if (!curUser.shoot(enemy, this)) {
-                    Splash.at(cell, 0xCC99FFFF, 1);
+                    //8% to poison
+                    case 12: case 13: case 14: case 15: case 16: case 17: case 18: case 19:
+                        if (AlchemistFlask.curUser.attack(enemy)) {
+                            Buff.affect(enemy, Poison.class);
+                        }
+                        damage = 0;
+                        break;
+
+                    //10% to Cripple
+                    case 20: case 21: case 22: case 23: case 24: case 25: case 26: case 27: case 28: case 29:
+                        if (AlchemistFlask.curUser.attack(enemy)) {
+                            Buff.affect(enemy, Cripple.class);
+                        }
+                        damage = 0;
+                        break;
+
+                    //15% to Burning
+                    case 30: case 31: case 32: case 33: case 34: case 35: case 36: case 37: case 38: case 39: case 40: case 41: case 42: case 43: case 44:
+                        if (AlchemistFlask.curUser.attack(enemy)) {
+                            GameScene.add(Blob.seed(targetPos, 2, Fire.class));
+                            CellEmitter.get(targetPos).burst(FlameParticle.FACTORY, 2);
+                        }
+                        damage = 0;
+                        break;
+
+                    //15% to toxic gas
+                    case 45: case 46: case 47: case 48: case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57: case 58: case 59:
+                        if (AlchemistFlask.curUser.attack(enemy)) {
+                            GameScene.add(Blob.seed(targetPos, 2, ToxicGas.class));
+                            CellEmitter.get(targetPos).burst(FlameParticle.FACTORY, 2);
+                        }
+                        damage = 0;
+                        break;
+
+                    //15% to frost
+                    case 60: case 61: case 62: case 63: case 64: case 65: case 66: case 67: case 68: case 69: case 70: case 71: case 72: case 73: case 74:
+                        if (AlchemistFlask.curUser.attack(enemy)) {
+                            GameScene.add(Blob.seed(targetPos, 10, Freezing.class));
+                        }
+                        damage = 0;
+                        break;
+
+                    //20% no special effect
+                    default: case 75: case 76: case 77: case 78: case 79: case 80: case 81: case 82: case 83: case 84: case 85: case 86: case 87: case 88: case 89: case 90:
+                    case 91: case 92: case 93: case 94:
+                        if (AlchemistFlask.curUser.attack(enemy)) {
+
+                        }
+                        damage = 0;
+                        break;
+
+                    //5% to corrosion
+                    case 95: case 96: case 97: case 98: case 99:
+                        if (AlchemistFlask.curUser.attack(enemy)) {
+                            Buff.affect(enemy, Corrosion.class);
+                        }
+                        damage = 0;
+                        break;
                 }
             }
         }
 
         @Override
         public void throwSound() {
-            Sample.INSTANCE.play( Assets.Sounds.ATK_SPIRITBOW, 1, Random.Float(0.87f, 1.15f) );
+
         }
 
         int flurryCount = -1;
