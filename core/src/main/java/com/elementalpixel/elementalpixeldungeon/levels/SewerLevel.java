@@ -26,7 +26,6 @@ import com.elementalpixel.elementalpixeldungeon.Assets;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.npcs.Ghost;
 import com.elementalpixel.elementalpixeldungeon.effects.Ripple;
-import com.elementalpixel.elementalpixeldungeon.items.DewVial;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.Painter;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.SewerPainter;
 import com.elementalpixel.elementalpixeldungeon.levels.traps.AlarmTrap;
@@ -111,13 +110,8 @@ public class SewerLevel extends RegularLevel {
 	
 	@Override
 	protected void createItems() {
-		if (!Dungeon.LimitedDrops.DEW_VIAL.dropped()) {
-			addItemToSpawn( new DewVial() );
-			Dungeon.LimitedDrops.DEW_VIAL.drop();
-		}
-
 		Ghost.Quest.spawn( this );
-		
+
 		super.createItems();
 	}
 	

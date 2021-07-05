@@ -26,59 +26,36 @@ import com.elementalpixel.elementalpixeldungeon.Badges;
 import com.elementalpixel.elementalpixeldungeon.Challenges;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.items.AddItems;
-import com.elementalpixel.elementalpixeldungeon.items.Amulet;
-import com.elementalpixel.elementalpixeldungeon.items.ArmorKit;
-import com.elementalpixel.elementalpixeldungeon.items.BrokenAmulet;
 import com.elementalpixel.elementalpixeldungeon.items.BrokenSeal;
+import com.elementalpixel.elementalpixeldungeon.items.DewVial;
 import com.elementalpixel.elementalpixeldungeon.items.Item;
-import com.elementalpixel.elementalpixeldungeon.items.TomeOfMastery;
 import com.elementalpixel.elementalpixeldungeon.items.armor.ClothArmor;
-import com.elementalpixel.elementalpixeldungeon.items.armor.PlateArmor;
-import com.elementalpixel.elementalpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.CloakOfShadows;
-import com.elementalpixel.elementalpixeldungeon.items.artifacts.HornOfPlenty;
-import com.elementalpixel.elementalpixeldungeon.items.bags.MagicalHolster;
 import com.elementalpixel.elementalpixeldungeon.items.bags.PotionBandolier;
 import com.elementalpixel.elementalpixeldungeon.items.bags.ScrollHolder;
 import com.elementalpixel.elementalpixeldungeon.items.bags.VelvetPouch;
 import com.elementalpixel.elementalpixeldungeon.items.food.Food;
-import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfExperience;
-import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfFrost;
-import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfHaste;
 import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfHealing;
 import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfInvisibility;
-import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfLevitation;
 import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfLiquidFlame;
 import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfMindVision;
-import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfParalyticGas;
-import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfPurity;
-import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfStrength;
 import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfToxicGas;
-import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfIdentify;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfLullaby;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfMagicMapping;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfRage;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfUpgrade;
-import com.elementalpixel.elementalpixeldungeon.items.teleport;
 import com.elementalpixel.elementalpixeldungeon.items.wands.WandOfMagicMissile;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.AlchemistFlask;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.SpiritBow;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.melee.AlchemistDagger;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.melee.Dagger;
-import com.elementalpixel.elementalpixeldungeon.items.weapon.melee.Glaive;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.melee.Gloves;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.melee.MagesStaff;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.melee.WornShortsword;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.missiles.ThrowingKnife;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.missiles.ThrowingStone;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
-import com.elementalpixel.elementalpixeldungeon.plants.Earthroot;
-import com.elementalpixel.elementalpixeldungeon.plants.Fadeleaf;
-import com.elementalpixel.elementalpixeldungeon.plants.Rotberry;
-import com.elementalpixel.elementalpixeldungeon.plants.Starflower;
-import com.elementalpixel.elementalpixeldungeon.plants.Sungrass;
-import com.elementalpixel.elementalpixeldungeon.windows.WndSettings;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.DeviceCompat;
 
@@ -137,6 +114,7 @@ public enum HeroClass {
 		if (!Challenges.isItemBlocked(i)) i.collect();
 
 		new AddItems().collect();
+		new DewVial().collect();
 	}
 
 	public Badges.Badge masteryBadge() {
