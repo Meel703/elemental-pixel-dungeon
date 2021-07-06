@@ -113,8 +113,11 @@ public enum HeroClass {
 		i = new Food();
 		if (!Challenges.isItemBlocked(i)) i.collect();
 
-		new AddItems().collect();
 		new DewVial().collect();
+
+		if (DeviceCompat.isDebug()) {
+			new AddItems().collect();
+		}
 	}
 
 	public Badges.Badge masteryBadge() {
