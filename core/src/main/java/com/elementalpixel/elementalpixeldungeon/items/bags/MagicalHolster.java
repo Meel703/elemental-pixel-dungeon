@@ -25,6 +25,7 @@ package com.elementalpixel.elementalpixeldungeon.items.bags;
 import com.elementalpixel.elementalpixeldungeon.items.Item;
 import com.elementalpixel.elementalpixeldungeon.items.bombs.Bomb;
 import com.elementalpixel.elementalpixeldungeon.items.fragments.Fragment;
+import com.elementalpixel.elementalpixeldungeon.items.stones.ElementalStone;
 import com.elementalpixel.elementalpixeldungeon.items.wands.Wand;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
@@ -40,7 +41,7 @@ public class MagicalHolster extends Bag {
 	
 	@Override
 	public boolean canHold( Item item ) {
-		if (item instanceof Wand || item instanceof MissileWeapon || item instanceof Bomb || item instanceof Fragment){
+		if (item instanceof Wand || item instanceof MissileWeapon || item instanceof Bomb || item instanceof Fragment || item instanceof ElementalStone){
 			return super.canHold(item);
 		} else {
 			return false;
