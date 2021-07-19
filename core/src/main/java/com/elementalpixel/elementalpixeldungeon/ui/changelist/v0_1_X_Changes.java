@@ -44,6 +44,7 @@ public class v0_1_X_Changes {
 		add_v0_1_0_Changes(changeInfos);
 		add_v0_1_2_Changes(changeInfos);
 		add_v0_1_2_1_Changes(changeInfos);
+		add_v0_1_2_2_Changes(changeInfos);
 	}
 	
 
@@ -126,6 +127,35 @@ public class v0_1_X_Changes {
 						"_-_ 15% chance to Toxic Gas\n" +
 						"_-_ 20% chance to no special effect"
 		));
+
+	}
+
+	public static void add_v0_1_2_2_Changes( ArrayList<ChangeInfo> changeInfos ) {
+		ChangeInfo changes = new ChangeInfo("v0.1.2.2a", false, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+						"_-_ Alchemist Flask no longer scales with your equipped weapon\n\n" +
+								"_-_ Icon should look better on different devices"
+				)
+		);
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+				"_-_ Magical Holster can store Elemental Stones\n\n" +
+						"_-_ Testing item can be acquired only via debug mode\n\n" +
+						"_-_ Minor changes to the Alchemist Flask\n\n" +
+						"_-_ Completed T3 talents"
+
+				)
+		);
+
+		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.ELEMENTAL_STONE, null), "Elemental Stones",
+				"Elemental Stones can transfer upgrades! Movable are only upgrades gained via upgrading with Scroll of Upgrade\n"
+
+		));
+
+
 
 	}
 }
