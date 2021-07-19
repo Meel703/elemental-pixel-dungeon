@@ -84,6 +84,7 @@ abstract public class ClassArmor extends Armor {
 		classArmor.inscribe( armor.glyph );
 		classArmor.cursed = armor.cursed;
 		classArmor.curseInfusionBonus = armor.curseInfusionBonus;
+		classArmor.upgradeCounter = armor.upgradeCounter;
 		classArmor.identify();
 
 		classArmor.charge = 0;
