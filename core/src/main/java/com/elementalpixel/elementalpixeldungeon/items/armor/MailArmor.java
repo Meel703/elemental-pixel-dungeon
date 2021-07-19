@@ -28,8 +28,9 @@ public class MailArmor extends Armor {
 
 	{
 		image = ItemSpriteSheet.ARMOR_MAIL;
+		upgradeCounter = 0;
 	}
-	
+
 	public MailArmor() {
 		super( 3 );
 	}

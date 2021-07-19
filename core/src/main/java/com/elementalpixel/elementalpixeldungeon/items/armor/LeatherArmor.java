@@ -28,8 +28,9 @@ public class LeatherArmor extends Armor {
 
 	{
 		image = ItemSpriteSheet.ARMOR_LEATHER;
+		upgradeCounter = 0;
 	}
-	
+
 	public LeatherArmor() {
 		super( 2 );
 	}

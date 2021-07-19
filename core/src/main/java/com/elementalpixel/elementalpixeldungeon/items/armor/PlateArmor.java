@@ -28,8 +28,9 @@ public class PlateArmor extends Armor {
 
 	{
 		image = ItemSpriteSheet.ARMOR_PLATE;
+		upgradeCounter = 0;
 	}
-	
+
 	public PlateArmor() {
 		super( 5 );
 	}

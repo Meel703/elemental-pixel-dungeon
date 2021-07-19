@@ -28,8 +28,9 @@ public class ScaleArmor extends Armor {
 
 	{
 		image = ItemSpriteSheet.ARMOR_SCALE;
+		upgradeCounter = 0;
 	}
-	
+
 	public ScaleArmor() {
 		super( 4 );
 	}

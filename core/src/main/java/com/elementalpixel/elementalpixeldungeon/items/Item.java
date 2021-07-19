@@ -78,7 +78,8 @@ public class Item implements Bundlable {
     protected int quantity = 1;
 	public boolean dropsDownHeap = false;
 	
-	private int level = 0;
+	public int level = 0;
+	public int upgradeCounter;
 
 	public boolean levelKnown = false;
 	
@@ -303,7 +304,7 @@ public class Item implements Bundlable {
 	public int level(){
 		return level;
 	}
-	
+
 	//returns the level of the item, after it may have been modified by temporary boosts/reductions
 	//note that not all item properties should care about buffs/debuffs! (e.g. str requirement)
 	public int buffedLvl(){
@@ -319,7 +320,8 @@ public class Item implements Bundlable {
 
 		updateQuickslot();
 	}
-	
+
+
 	public Item upgrade() {
 		
 		this.level++;
@@ -340,7 +342,7 @@ public class Item implements Bundlable {
 	public Item degrade() {
 		
 		this.level--;
-		
+
 		return this;
 	}
 	
@@ -374,6 +376,14 @@ public class Item implements Bundlable {
 	
 	public boolean isEquipped( Hero hero ) {
 		return false;
+	}
+
+	public boolean isUpgraded(Item item) {
+		if (item.level > 0 && item.upgradeCounter > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public Item identify() {

@@ -30,8 +30,9 @@ public class ClothArmor extends Armor {
 		image = ItemSpriteSheet.ARMOR_CLOTH;
 
 		bones = false; //Finding them in bones would be semi-frequent and disappointing.
+		upgradeCounter = 0;
 	}
-	
+
 	public ClothArmor() {
 		super( 1 );
 	}
