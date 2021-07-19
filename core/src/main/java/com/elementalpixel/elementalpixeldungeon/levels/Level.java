@@ -186,6 +186,36 @@ public abstract class Level implements Bundlable {
 
 			addItemToSpawn(Generator.random(Generator.Category.FOOD));
 
+			if (Dungeon.hero.hasTalent(Talent.BACKUP_SUPPLIES)) {
+				if (Dungeon.hero.pointsInTalent(Talent.BACKUP_SUPPLIES) == 1) {
+					java.util.Random rand = new java.util.Random();
+					int r = rand.nextInt(3);
+
+					switch (r) {
+						case 1:
+							addItemToSpawn(Generator.random(Generator.Category.POTION));
+							break;
+						case 2:
+							break;
+					}
+				} else if (Dungeon.hero.pointsInTalent(Talent.BACKUP_SUPPLIES) == 2) {
+					addItemToSpawn(Generator.random(Generator.Category.POTION));
+				} else if (Dungeon.hero.pointsInTalent(Talent.BACKUP_SUPPLIES) == 3) {
+					addItemToSpawn(Generator.random(Generator.Category.POTION));
+
+					java.util.Random rand = new java.util.Random();
+					int r = rand.nextInt(3);
+
+					switch (r) {
+						case 1:
+							addItemToSpawn(Generator.random(Generator.Category.POTION));
+							break;
+						case 2:
+							break;
+					}
+				}
+			}
+
 			if (Dungeon.isChallenged(Challenges.DARKNESS)){
 				addItemToSpawn( new Torch() );
 			}

@@ -132,7 +132,7 @@ public class TomeOfMastery extends Item {
 		GLog.w( Messages.get(this, "way", way.title()) );
 
 		if ( curUser.subClass == HeroSubClass.ELEMENTALIST) {
-			Buff.affect(curUser, ElementalistImmunity.class);
+			Buff.affect(curUser, ElementalistImmunity.class, ElementalistImmunity.DURATION);
 		}
 		
 	}

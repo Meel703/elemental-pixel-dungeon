@@ -703,6 +703,39 @@ public abstract class Mob extends Char {
 				}
 			}
 		}
+
+		if (Dungeon.hero.hasTalent(Talent.POSSESSIVE_POISON)) {
+
+			if (Dungeon.hero.pointsInTalent(Talent.POSSESSIVE_POISON) == 1) {
+				java.util.Random rand = new java.util.Random();
+				int r = rand.nextInt(11);
+
+				if (r == 1)  {
+					Buff.affect(this, Corruption.class);
+				} else {
+
+				}
+			} else if (Dungeon.hero.pointsInTalent(Talent.POSSESSIVE_POISON) == 2) {
+				java.util.Random rand = new java.util.Random();
+				int r = rand.nextInt(6);
+
+				if (r == 1) {
+					Buff.affect(this, Corruption.class);
+				} else {
+
+				}
+
+			} else {
+				java.util.Random rand = new java.util.Random();
+				int r = rand.nextInt(5);
+
+				if (r == 1) {
+					Buff.affect(this, Corruption.class);
+				} else {
+
+				}
+			}
+		}
 	}
 	
 	public void rollToDropLoot(){

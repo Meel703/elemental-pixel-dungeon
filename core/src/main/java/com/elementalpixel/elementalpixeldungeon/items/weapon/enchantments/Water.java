@@ -52,7 +52,12 @@ public class Water extends Weapon.Enchantment {
             weapon.ACC = 1.2f;
         }
 
-        return damage;
+
+        if (Dungeon.hero.hasTalent(Talent.OPPRESSIVE_OFFENCE)) {
+            return damage + Math.round(damage * (0.1f * Dungeon.hero.pointsInTalent(Talent.OPPRESSIVE_OFFENCE)) );
+        } else {
+            return damage;
+        }
 
     }
 

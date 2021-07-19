@@ -52,7 +52,11 @@ public class Air extends Weapon.Enchantment {
             weapon.DLY = 0.75f;
         }
 
-        return damage;
+        if (Dungeon.hero.hasTalent(Talent.OPPRESSIVE_OFFENCE)) {
+            return damage + Math.round(damage * (0.1f * Dungeon.hero.pointsInTalent(Talent.OPPRESSIVE_OFFENCE)) );
+        } else {
+            return damage;
+        }
     }
 
     @Override

@@ -60,8 +60,11 @@ public class Earth extends Armor.Glyph {
             }
         }
 
-
+        if (Dungeon.hero.hasTalent(Talent.OPPRESSIVE_OFFENCE)) {
+            return damage - Math.round(damage * (0.05f * Dungeon.hero.pointsInTalent(Talent.OPPRESSIVE_OFFENCE)) );
+        } else {
             return damage;
+        }
 
     }
 

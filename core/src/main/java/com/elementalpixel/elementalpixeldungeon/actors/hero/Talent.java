@@ -28,6 +28,7 @@ import com.elementalpixel.elementalpixeldungeon.actors.Char;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.ArtifactRecharge;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.CounterBuff;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.ElementalistImmunity;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.EnhancedRings;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.FlavourBuff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Haste;
@@ -144,9 +145,9 @@ public enum Talent {
 	//Alchemist T3
 	TRANSMUTERS_TECHNIQUE(105, 3), CHARMING_CHEMICALS(106, 3),
 	//Elementalist T3
-	PROTECTIVE_ATTUNEMENT(107, 3), OPPRESSIVE_OFFENCE(108, 3), DEBILITATING_DEFENCE(109, 3),
+	CHEMICAL_RESISTANCE(107, 3), OPPRESSIVE_OFFENCE(108, 3), DEBILITATING_DEFENCE(109, 3),
 	//Scientist T3
-	BACKUP_SUPPLIES(110, 3), VAPORS_OF_DEATH(111, 3), POSSESSIVE_POISON(112, 3),;
+	BACKUP_SUPPLIES(110, 3), RENEWABLE_POTIONS(111, 3), POSSESSIVE_POISON(112, 3),;
 
 	public static class ImprovisedProjectileCooldown extends FlavourBuff{};
 	public static class LethalMomentumTracker extends FlavourBuff{};
@@ -227,6 +228,20 @@ public enum Talent {
 
 		if (talent == FARSIGHT) {
 			Dungeon.observe();
+		}
+
+		if (talent == CHEMICAL_RESISTANCE) {
+			if (hero.pointsInTalent(CHEMICAL_RESISTANCE) == 1) {
+				Buff.affect(hero, ElementalistImmunity.ChillImmunity.class, ElementalistImmunity.DURATION);
+			}
+
+			if (hero.pointsInTalent(CHEMICAL_RESISTANCE) == 2) {
+				Buff.affect(hero, ElementalistImmunity.ElectricityImmunity.class, ElementalistImmunity.DURATION);
+			}
+
+			if (hero.pointsInTalent(CHEMICAL_RESISTANCE) == 3) {
+				Buff.affect(hero, ElementalistImmunity.CorrosionImmunity.class, ElementalistImmunity.DURATION);
+			}
 		}
 	}
 
@@ -473,6 +488,39 @@ public enum Talent {
 				Buff.affect(hero, Haste.class, 1);
 			}
 		}
+
+		if (Dungeon.hero.hasTalent(Talent.RENEWABLE_POTIONS)) {
+
+			if (Dungeon.hero.pointsInTalent(Talent.RENEWABLE_POTIONS) == 1) {
+				java.util.Random rand = new java.util.Random();
+				int r = rand.nextInt(11);
+
+				if (r == 1 && !(potion instanceof PotionOfStrength) && !(potion instanceof PotionOfExperience))  {
+					potion.collect();
+				} else {
+
+				}
+			} else if (Dungeon.hero.pointsInTalent(Talent.RENEWABLE_POTIONS) == 2) {
+				java.util.Random rand = new java.util.Random();
+				int r = rand.nextInt(6);
+
+				if (r == 1 && !(potion instanceof PotionOfStrength) && !(potion instanceof PotionOfExperience))  {
+					potion.collect();
+				} else {
+
+				}
+
+			} else {
+				java.util.Random rand = new java.util.Random();
+				int r = rand.nextInt(5);
+
+				if (r == 1 && !(potion instanceof PotionOfStrength) && !(potion instanceof PotionOfExperience))  {
+					potion.collect();
+				} else {
+
+				}
+			}
+		}
 	}
 
 	public static void onPotionUsed(Hero hero, Potion potion) {
@@ -663,7 +711,10 @@ public enum Talent {
 				Collections.addAll(tierTalents, DURABLE_TIPS, BARKSKIN, SHIELDING_DEW);
 				break;
 			case SCIENTIST:
+				Collections.addAll(tierTalents, BACKUP_SUPPLIES, POSSESSIVE_POISON, RENEWABLE_POTIONS);
+				break;
 			case ELEMENTALIST:
+				Collections.addAll(tierTalents, CHEMICAL_RESISTANCE, OPPRESSIVE_OFFENCE, DEBILITATING_DEFENCE);
 				break;
 		}
 		for (Talent talent : tierTalents){
@@ -677,7 +728,7 @@ public enum Talent {
 
 	private static final String TALENT_TIER = "talents_tier_";
 
-	public static void storeTalentsInBundle( Bundle bundle, Hero hero ){
+	public static void storeTalentsInBundle(Bundle bundle, Hero hero ){
 		for (int i = 0; i < MAX_TALENT_TIERS; i++){
 			LinkedHashMap<Talent, Integer> tier = hero.talents.get(i);
 			Bundle tierBundle = new Bundle();

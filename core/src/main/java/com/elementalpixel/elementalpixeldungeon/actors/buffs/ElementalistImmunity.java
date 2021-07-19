@@ -3,34 +3,22 @@ package com.elementalpixel.elementalpixeldungeon.actors.buffs;
 
 
 import com.elementalpixel.elementalpixeldungeon.actors.blobs.ConfusionGas;
-import com.elementalpixel.elementalpixeldungeon.messages.Messages;
+import com.elementalpixel.elementalpixeldungeon.actors.blobs.Electricity;
+
+import static jdk.nashorn.internal.objects.Global.Infinity;
 
 public class ElementalistImmunity extends FlavourBuff {
 
-    {
-        type = buffType.POSITIVE;
-    }
-
-    public static final float DURATION = 99999999999999999999999999999999999999f;
-
-    @Override
-    public float iconFadePercent() {
-        return Math.max(0, (DURATION - visualcooldown()) / DURATION);
-    }
-
-    @Override
-    public String toString() {
-        return Messages.get(this, "name");
-    }
+    public static final float DURATION = (float) Infinity;
 
     {
-        immunities.add( ConfusionGas.class );
-        immunities.add( Paralysis.class );
-        immunities.add( Vertigo.class );
+        immunities.add(ConfusionGas.class);
+        immunities.add(Paralysis.class);
+        immunities.add(Vertigo.class);
+
     }
 
-    @Override
-    public String desc() {
-        return Messages.get(this, "desc", dispTurns());
-    }
+    public static class ChillImmunity extends FlavourBuff { { immunities.add(Chill.class); } }
+    public static class ElectricityImmunity extends FlavourBuff { { immunities.add(Electricity.class); } }
+    public static class CorrosionImmunity extends FlavourBuff { { immunities.add(Corrosion.class); } }
 }

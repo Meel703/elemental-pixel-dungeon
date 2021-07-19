@@ -63,10 +63,11 @@ public class Fire extends Weapon.Enchantment {
             }
         }
 
-
-
-
-        return damage;
+        if (Dungeon.hero.hasTalent(Talent.OPPRESSIVE_OFFENCE)) {
+            return damage + Math.round(damage * (0.1f * Dungeon.hero.pointsInTalent(Talent.OPPRESSIVE_OFFENCE)) );
+        } else {
+            return damage;
+        }
     }
 
     @Override
