@@ -444,7 +444,7 @@ public class WndBag extends WndTabbed {
 						mode == Mode.QUICKSLOT && (item.defaultAction != null) ||
 						mode == Mode.WEAPON && (item instanceof MeleeWeapon) ||
 						mode == Mode.ARMOR && (item instanceof Armor) ||
-						mode == Mode.ENCHANTABLE && (item instanceof MeleeWeapon || item instanceof SpiritBow || item instanceof Armor) ||
+						mode == Mode.ENCHANTABLE && (item instanceof MeleeWeapon || item instanceof SpiritBow || item instanceof Armor || item instanceof AlchemistFlask) ||
 						mode == Mode.WAND && (item instanceof Wand) ||
 						mode == Mode.SEED && SandalsOfNature.canUseSeed(item) ||
 						mode == Mode.FOOD && (item instanceof Food) ||

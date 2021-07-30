@@ -14,8 +14,8 @@ allprojects {
         appName = 'Elemental Pixel Dungeon'
         appPackageName = 'com.elementalpixel.elementalpixeldungeon'
 
-        appVersionCode = 7
-        appVersionName = '0.1.2.1a'
+        appVersionCode = 8
+        appVersionName = '0.1.2.2a'
 
         appJavaCompatibility = JavaVersion.VERSION_1_8
 

@@ -18,6 +18,7 @@ import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
 import com.elementalpixel.elementalpixeldungeon.effects.CellEmitter;
 import com.elementalpixel.elementalpixeldungeon.effects.Splash;
 import com.elementalpixel.elementalpixeldungeon.effects.particles.FlameParticle;
+import com.elementalpixel.elementalpixeldungeon.items.rings.RingOfFuror;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.missiles.MissileWeapon;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.scenes.CellSelector;
@@ -43,6 +44,10 @@ public class AlchemistFlask extends Weapon {
         unique = true;
         bones = false;
     }
+
+    public boolean special = false;
+    public float specialBonusDamage = 0f;
+
     public int debuff;
 
     @Override
@@ -144,8 +149,43 @@ public class AlchemistFlask extends Weapon {
             }
         }
 
+        if (special){
+            damage = Math.round(damage * (1f + specialBonusDamage));
+
+            switch (augment){
+                case NONE:
+                    damage = Math.round(damage * 0.667f);
+                    break;
+                case SPEED:
+                    damage = Math.round(damage * 0.5f);
+                    break;
+                case DAMAGE:
+                    int distance = Dungeon.level.distance(owner.pos, targetPos) - 1;
+                    float multiplier = Math.min(3f, 1.2f * (float)Math.pow(1.125f, distance));
+                    damage = Math.round(damage * multiplier);
+                    break;
+            }
+        }
+
         return damage;
     }
+
+    @Override
+    public float speedFactor(Char owner) {
+        if (special){
+            switch (augment){
+                case NONE: default:
+                    return 0f;
+                case SPEED:
+                    return 1f * RingOfFuror.attackDelayMultiplier(owner);
+                case DAMAGE:
+                    return 2f * RingOfFuror.attackDelayMultiplier(owner);
+            }
+        } else {
+            return super.speedFactor(owner);
+        }
+    }
+
 
     @Override
     public int level() {
@@ -217,7 +257,11 @@ public class AlchemistFlask extends Weapon {
 
         @Override
         public float accuracyFactor(Char owner) {
-            return super.accuracyFactor(owner);
+            if (special && AlchemistFlask.this.augment == Augment.DAMAGE){
+                return Float.POSITIVE_INFINITY;
+            } else {
+                return super.accuracyFactor(owner);
+            }
         }
 
         @Override
@@ -302,6 +346,8 @@ public class AlchemistFlask extends Weapon {
                         }
                         break;
                 }
+
+                if (special && AlchemistFlask.this.augment != Augment.SPEED) special = false;
             }
         }
 
@@ -316,13 +362,14 @@ public class AlchemistFlask extends Weapon {
         public void cast(final Hero user, final int dst) {
             final int cell = throwPos( user, dst );
             AlchemistFlask.this.targetPos = cell;
-            if (AlchemistFlask.this.augment == Augment.SPEED){
+            if (special && AlchemistFlask.this.augment == Augment.SPEED){
                 if (flurryCount == -1) flurryCount = 3;
 
                 final Char enemy = Actor.findChar( cell );
 
                 if (enemy == null){
                     user.spendAndNext(castDelay(user, dst));
+                    special = false;
                     flurryCount = -1;
                     return;
                 }
@@ -348,6 +395,7 @@ public class AlchemistFlask extends Weapon {
 
                                         if (last) {
                                             user.spendAndNext(castDelay(user, dst));
+                                            special = false;
                                             flurryCount = -1;
                                         }
                                     }
