@@ -35,7 +35,6 @@ import com.elementalpixel.elementalpixeldungeon.actors.buffs.AdrenalineSurge;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Amok;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Awareness;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Barkskin;
-import com.elementalpixel.elementalpixeldungeon.actors.buffs.Berserk;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Bless;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Burning;
@@ -49,6 +48,7 @@ import com.elementalpixel.elementalpixeldungeon.actors.buffs.Invisibility;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.MindVision;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Momentum;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Paralysis;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Rage;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Regeneration;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.SnipersMark;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Vertigo;
@@ -480,7 +480,8 @@ public class Hero extends Char {
 		if (buff(HoldFast.class) != null){
 			dr += Random.NormalIntRange(0, 2*pointsInTalent(Talent.HOLD_FAST));
 		}
-		
+
+
 		return dr;
 	}
 	
@@ -497,8 +498,8 @@ public class Hero extends Char {
 		}
 		if (dmg < 0) dmg = 0;
 		
-		Berserk berserk = buff(Berserk.class);
-		if (berserk != null) dmg = berserk.damageFactor(dmg);
+		Rage rage = buff(Rage.class);
+		if(rage != null) dmg = rage.damageFactor(dmg);
 		
 		return buff( Fury.class ) != null ? (int)(dmg * 1.5f) : dmg;
 	}
@@ -1122,9 +1123,8 @@ public class Hero extends Char {
 	@Override
 	public int defenseProc( Char enemy, int damage ) {
 		
-		if (damage > 0 && subClass == HeroSubClass.BERSERKER){
-			Berserk berserk = Buff.affect(this, Berserk.class);
-			berserk.damage(damage);
+		if (damage >= 0 && subClass == HeroSubClass.BERSERKER){
+			Buff.affect(this, Rage.class).gainLevel();
 		}
 		
 		if (belongings.armor != null) {
@@ -1444,10 +1444,7 @@ public class Hero extends Char {
 		
 		AlchemistsToolkit.kitEnergy kit = buff(AlchemistsToolkit.kitEnergy.class);
 		if (kit != null) kit.gainCharge(percent);
-		
-		Berserk berserk = buff(Berserk.class);
-		if (berserk != null) berserk.recover(percent);
-		
+
 		if (source != PotionOfExperience.class) {
 			for (Item i : belongings) {
 				i.onHeroGainExp(percent, this);
@@ -1679,19 +1676,8 @@ public class Hero extends Char {
 	//effectively cache this buff to prevent having to call buff(Berserk.class) a bunch.
 	//This is relevant because we call isAlive during drawing, which has both performance
 	//and concurrent modification implications if that method calls buff(Berserk.class)
-	private Berserk berserk;
 
-	@Override
-	public boolean isAlive() {
-		
-		if (HP <= 0){
-			if (berserk == null) berserk = buff(Berserk.class);
-			return berserk != null && berserk.berserking();
-		} else {
-			berserk = null;
-			return super.isAlive();
-		}
-	}
+	//comments above are outdated, since buff(Berserk.class) has been removed
 
 	@Override
 	public void move( int step ) {

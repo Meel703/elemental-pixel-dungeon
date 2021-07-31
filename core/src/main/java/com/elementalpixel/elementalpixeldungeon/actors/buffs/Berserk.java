@@ -116,7 +116,6 @@ public class Berserk extends Buff {
 
 	public boolean berserking(){
 		if (target.HP == 0 && state == State.NORMAL && power >= 1f){
-
 			BrokenSeal.WarriorShield shield = target.buff(BrokenSeal.WarriorShield.class);
 			if (shield != null){
 				state = State.BERSERK;
