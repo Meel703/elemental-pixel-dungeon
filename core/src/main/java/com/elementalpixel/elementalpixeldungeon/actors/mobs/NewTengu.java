@@ -204,7 +204,7 @@ public class NewTengu extends Mob {
 			if (Dungeon.depth == 10) {
 				Dungeon.level.drop(new TomeOfMastery(), pos).sprite.drop();
 			} else if (Dungeon.depth == 45) {
-				Dungeon.level.drop( new AirFragment(Dungeon.depth), pos ).sprite.drop();
+				Dungeon.level.drop( new AirFragment(), pos ).sprite.drop();
 			}
 		}
 		

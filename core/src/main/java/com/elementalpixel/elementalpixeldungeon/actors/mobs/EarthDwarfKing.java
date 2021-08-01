@@ -38,7 +38,6 @@ import com.elementalpixel.elementalpixeldungeon.effects.Pushing;
 import com.elementalpixel.elementalpixeldungeon.effects.Speck;
 import com.elementalpixel.elementalpixeldungeon.effects.particles.ElmoParticle;
 import com.elementalpixel.elementalpixeldungeon.effects.particles.ShadowParticle;
-import com.elementalpixel.elementalpixeldungeon.items.ArmorKit;
 import com.elementalpixel.elementalpixeldungeon.items.Heap;
 import com.elementalpixel.elementalpixeldungeon.items.Item;
 import com.elementalpixel.elementalpixeldungeon.items.armor.glyphs.Viscosity;
@@ -431,9 +430,9 @@ public class EarthDwarfKing extends Mob {
 				}
 				h.destroy();
 			}
-			Dungeon.level.drop(new EarthFragment(Dungeon.depth), pos + Dungeon.level.width()).sprite.drop(pos);
+			Dungeon.level.drop(new EarthFragment(), pos + Dungeon.level.width()).sprite.drop(pos);
 		} else {
-			Dungeon.level.drop(new EarthFragment(Dungeon.depth), pos).sprite.drop();
+			Dungeon.level.drop(new EarthFragment(), pos).sprite.drop();
 		}
 
 		Badges.validateBossSlain();

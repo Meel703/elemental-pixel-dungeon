@@ -11,7 +11,7 @@ public class WaterFragment extends Fragment {
         bones = false;
     }
 
-    public WaterFragment(int depth) {
+    public WaterFragment() {
         super();
     }
 

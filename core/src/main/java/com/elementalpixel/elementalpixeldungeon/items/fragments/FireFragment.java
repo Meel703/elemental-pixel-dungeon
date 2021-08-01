@@ -1,12 +1,7 @@
 package com.elementalpixel.elementalpixeldungeon.items.fragments;
 
-import com.elementalpixel.elementalpixeldungeon.Dungeon;
-import com.elementalpixel.elementalpixeldungeon.ShatteredPixelDungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
-import com.watabou.noosa.Game;
-
-import java.io.IOException;
 
 public class FireFragment extends Fragment {
     {
@@ -16,7 +11,7 @@ public class FireFragment extends Fragment {
         bones = false;
     }
 
-    public FireFragment(int depth) {
+    public FireFragment() {
         super();
     }
 

@@ -22,7 +22,6 @@
 package com.elementalpixel.elementalpixeldungeon.actors.mobs;
 
 
-import com.elementalpixel.elementalpixeldungeon.Badges;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
@@ -32,8 +31,6 @@ import com.elementalpixel.elementalpixeldungeon.actors.buffs.Ooze;
 import com.elementalpixel.elementalpixeldungeon.effects.Speck;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.DriedRose;
 import com.elementalpixel.elementalpixeldungeon.items.fragments.FireFragment;
-import com.elementalpixel.elementalpixeldungeon.items.keys.SkeletonKey;
-import com.elementalpixel.elementalpixeldungeon.items.quest.GooBlob;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
 import com.elementalpixel.elementalpixeldungeon.sprites.CharSprite;
@@ -42,7 +39,6 @@ import com.elementalpixel.elementalpixeldungeon.ui.BossHealthBar;
 import com.elementalpixel.elementalpixeldungeon.utils.GLog;
 import com.watabou.noosa.Camera;
 import com.watabou.utils.Bundle;
-import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
 public class FireGoo extends Mob {
@@ -229,7 +225,7 @@ public class FireGoo extends Mob {
 		
 		GameScene.bossSlain();
 
-		Dungeon.level.drop( new FireFragment( Dungeon.depth ), pos ).sprite.drop();
+		Dungeon.level.drop( new FireFragment(), pos ).sprite.drop();
 
 		yell( Messages.get(this, "defeated") );
 	}

@@ -11,7 +11,7 @@ public class EarthFragment extends Fragment {
         bones = false;
     }
 
-    public EarthFragment(int depth) {
+    public EarthFragment() {
         super();
     }
 

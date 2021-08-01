@@ -53,14 +53,13 @@ import com.elementalpixel.elementalpixeldungeon.items.fragments.WaterFragment;
 import com.elementalpixel.elementalpixeldungeon.items.quest.MetalShard;
 import com.elementalpixel.elementalpixeldungeon.items.wands.WandOfBlastWave;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
-import com.elementalpixel.elementalpixeldungeon.levels.WaterBossLevel;
 import com.elementalpixel.elementalpixeldungeon.levels.Terrain;
+import com.elementalpixel.elementalpixeldungeon.levels.WaterBossLevel;
 import com.elementalpixel.elementalpixeldungeon.mechanics.Ballistica;
 import com.elementalpixel.elementalpixeldungeon.mechanics.ConeAOE;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
 import com.elementalpixel.elementalpixeldungeon.sprites.CharSprite;
-import com.elementalpixel.elementalpixeldungeon.sprites.DM300Sprite;
 import com.elementalpixel.elementalpixeldungeon.sprites.WaterDM300Sprite;
 import com.elementalpixel.elementalpixeldungeon.tiles.DungeonTilemap;
 import com.elementalpixel.elementalpixeldungeon.ui.BossHealthBar;
@@ -521,7 +520,7 @@ public class WaterDM300 extends Mob {
 			} while (!Dungeon.level.passable[pos + ofs]);
 			Dungeon.level.drop( new MetalShard(), pos + ofs ).sprite.drop( pos );
 		}
-		Dungeon.level.drop( new WaterFragment(Dungeon.depth), pos ).sprite.drop();
+		Dungeon.level.drop( new WaterFragment(), pos ).sprite.drop();
 
 
 		Badges.validateBossSlain();
