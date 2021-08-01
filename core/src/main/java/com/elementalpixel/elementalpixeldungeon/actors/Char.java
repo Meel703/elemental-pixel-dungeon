@@ -450,7 +450,7 @@ public abstract class Char extends Actor {
 	public int defenseProc( Char enemy, int damage ) {
 		return damage;
 	}
-	
+
 	public float speed() {
 		float speed = baseSpeed;
 		if ( buff( Cripple.class ) != null ) speed /= 2f;
