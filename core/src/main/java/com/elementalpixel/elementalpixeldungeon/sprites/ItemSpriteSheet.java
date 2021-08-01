@@ -526,6 +526,7 @@ public class ItemSpriteSheet {
 	public static final int POTION_CHARCOAL = POTIONS+9;
 	public static final int POTION_SILVER   = POTIONS+10;
 	public static final int POTION_IVORY    = POTIONS+11;
+	public static final int POTION_EMPTY    = POTIONS+12;
 	public static final int POTION_CATALYST = POTIONS+13;
 	static {
 		for (int i = POTIONS; i < POTIONS+16; i++)
@@ -678,29 +679,24 @@ public class ItemSpriteSheet {
 	public static final int HOLDER      = BAGS+2;
 	public static final int BANDOLIER   = BAGS+3;
 	public static final int HOLSTER     = BAGS+4;
-	//public static final int FIRE_SHARD  = BAGS+5;
-	//public static final int WATER_SHARD = QUEST+9;
-	//public static final int EARTH_SHARD = QUEST+10;
 	static{
 		assignItemRect(VIAL,        12, 12);
 		assignItemRect(POUCH,       14, 15);
 		assignItemRect(HOLDER,      16, 16);
 		assignItemRect(BANDOLIER,   15, 16);
 		assignItemRect(HOLSTER,     15, 16);
-		//assignItemRect(FIRE_SHARD,  20, 16);
-		//assignItemRect(WATER_SHARD, 22, 16);
-		//assignItemRect(EARTH_SHARD, 22, 16);
 	}
 
 	private static final int FRAGMENTS       =                                   xy(1, 32);  //16 slots
-	public static final int EARTH_FRAGMENT = FRAGMENTS+0;
-	public static final int FIRE_FRAGMENT  = FRAGMENTS+2;
-	public static final int WATER_FRAGMENT = FRAGMENTS+4;
-	public static final int AIR_FRAGMENT   = FRAGMENTS+6;
+	public static final int WATER_FRAGMENT = FRAGMENTS+0;
+	public static final int FIRE_FRAGMENT  = FRAGMENTS+1;
+	public static final int EARTH_FRAGMENT = FRAGMENTS+10;
+	public static final int AIR_FRAGMENT   = FRAGMENTS+10;
 	static{
+		assignItemRect(WATER_FRAGMENT, 19, 15);
+		assignItemRect(FIRE_FRAGMENT,  18, 13);
+
 		assignItemRect(EARTH_FRAGMENT, 22, 16);
-		assignItemRect(FIRE_FRAGMENT,  20, 16);
-		assignItemRect(WATER_FRAGMENT, 22, 16);
 		assignItemRect(AIR_FRAGMENT, 22, 16);
 	}
 
