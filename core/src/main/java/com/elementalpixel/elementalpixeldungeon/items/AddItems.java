@@ -165,10 +165,10 @@ public class AddItems extends Item {
             new Swiftthistle.Seed().quantity(20).collect();
 
             //FRAGMENTS
-            new FireFragment(Dungeon.depth).collect();
-            new AirFragment(Dungeon.depth).collect();
-            new WaterFragment(Dungeon.depth).collect();
-            new EarthFragment(Dungeon.depth).collect();
+            new FireFragment().collect();
+            new AirFragment().collect();
+            new WaterFragment().collect();
+            new EarthFragment().collect();
 
             Dungeon.hero.lvl = 30;
             Dungeon.hero.STR = 30;
