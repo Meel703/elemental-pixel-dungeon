@@ -1,10 +1,8 @@
 package com.elementalpixel.elementalpixeldungeon.items;
 
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
-import com.elementalpixel.elementalpixeldungeon.GamesInProgress;
-import com.elementalpixel.elementalpixeldungeon.actors.hero.Belongings;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
-import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroAction;
+import com.elementalpixel.elementalpixeldungeon.items.armor.LeatherArmor;
 import com.elementalpixel.elementalpixeldungeon.items.armor.PlateArmor;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.AlchemistsToolkit;
 import com.elementalpixel.elementalpixeldungeon.items.artifacts.HornOfPlenty;
@@ -42,8 +40,9 @@ import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfTeleportat
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfTerror;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfTransmutation;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfUpgrade;
+import com.elementalpixel.elementalpixeldungeon.items.stones.ElementalStone;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.melee.Glaive;
-import com.elementalpixel.elementalpixeldungeon.levels.Level;
+import com.elementalpixel.elementalpixeldungeon.items.weapon.melee.Mace;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.plants.Blindweed;
 import com.elementalpixel.elementalpixeldungeon.plants.Dreamfoil;
@@ -56,13 +55,9 @@ import com.elementalpixel.elementalpixeldungeon.plants.Starflower;
 import com.elementalpixel.elementalpixeldungeon.plants.Stormvine;
 import com.elementalpixel.elementalpixeldungeon.plants.Sungrass;
 import com.elementalpixel.elementalpixeldungeon.plants.Swiftthistle;
-import com.elementalpixel.elementalpixeldungeon.scenes.InterlevelScene;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
-import com.elementalpixel.elementalpixeldungeon.ui.Icons;
 import com.elementalpixel.elementalpixeldungeon.utils.GLog;
-import com.watabou.noosa.Game;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -120,8 +115,6 @@ public class AddItems extends Item {
             new PotionOfMindVision().quantity(15).identify().collect();
             new PotionOfPurity().quantity(15).identify().collect();
 
-
-
             //SCROLLS
             new ScrollOfIdentify().quantity(20).identify().collect();
             new ScrollOfMagicMapping().quantity(50).identify().collect();
@@ -149,9 +142,13 @@ public class AddItems extends Item {
 
             new Glaive().upgrade(30).identify().collect();
             new PlateArmor().upgrade(30).identify().collect();
+            new LeatherArmor().identify().collect();
+            new Mace().identify().collect();
 
             new Food().quantity(15).collect();
             new SmallRation().quantity(15).collect();
+
+            new ElementalStone().quantity(10).collect();
 
             //SEEDS
             new Sungrass.Seed().quantity(20).collect();
@@ -168,10 +165,13 @@ public class AddItems extends Item {
             new Swiftthistle.Seed().quantity(20).collect();
 
             //FRAGMENTS
-            /*new FireFragment(Dungeon.depth).collect();
+            new FireFragment(Dungeon.depth).collect();
             new AirFragment(Dungeon.depth).collect();
             new WaterFragment(Dungeon.depth).collect();
-            new EarthFragment(Dungeon.depth).collect();*/
+            new EarthFragment(Dungeon.depth).collect();
+
+            Dungeon.hero.lvl = 30;
+            Dungeon.hero.STR = 30;
 
 
         } else if (action.equals(AC_REMOVE)) {

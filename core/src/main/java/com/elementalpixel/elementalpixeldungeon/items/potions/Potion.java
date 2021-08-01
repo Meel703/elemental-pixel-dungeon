@@ -66,6 +66,7 @@ import com.elementalpixel.elementalpixeldungeon.plants.Starflower;
 import com.elementalpixel.elementalpixeldungeon.plants.Stormvine;
 import com.elementalpixel.elementalpixeldungeon.plants.Sungrass;
 import com.elementalpixel.elementalpixeldungeon.plants.Swiftthistle;
+import com.elementalpixel.elementalpixeldungeon.scenes.AlchemyScene;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSprite;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
@@ -227,7 +228,8 @@ public class Potion extends Item {
 	@Override
 	public ArrayList<String> actions( Hero hero ) {
 		ArrayList<String> actions = super.actions( hero );
-		actions.add( AC_DRINK );
+		actions.add(AC_DRINK);
+
 		return actions;
 	}
 	
@@ -307,6 +309,10 @@ public class Potion extends Item {
 		Sample.INSTANCE.play( Assets.Sounds.DRINK );
 		
 		hero.sprite.operate( hero.pos );
+
+		if (!new EmptyPotionFlask().collect()) {
+			Dungeon.level.drop(new EmptyPotionFlask(), hero.pos);
+		}
 	}
 
 	public static int targetPos;
@@ -497,11 +503,15 @@ public class Potion extends Item {
 			if (ingredients.size() != 3) {
 				return false;
 			}
+
+			if (!(AlchemyScene.input.item instanceof EmptyPotionFlask)) {
+				return false;
+			}
 			
 			for (Item ingredient : ingredients){
 				if (!(ingredient instanceof Plant.Seed
 						&& ingredient.quantity() >= 1
-						&& types.containsKey(ingredient.getClass()))){
+						&& types.containsKey(ingredient.getClass()))) {
 					return false;
 				}
 			}
@@ -560,7 +570,7 @@ public class Potion extends Item {
 			
 			return result;
 		}
-		
+
 		@Override
 		public Item sampleOutput(ArrayList<Item> ingredients) {
 			return new WndBag.Placeholder(ItemSpriteSheet.POTION_HOLDER){

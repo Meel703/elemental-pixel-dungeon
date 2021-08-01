@@ -202,11 +202,16 @@ public abstract class Recipe {
 	};
 	
 	private static Recipe[] threeIngredientRecipes = new Recipe[]{
-		new Potion.SeedToPotion(),
 		new ExoticPotion.PotionToExotic(),
 		new ExoticScroll.ScrollToExotic(),
 		new StewedMeat.threeMeat(),
-		new MeatPie.Recipe()
+		new MeatPie.Recipe(),
+		new Potion.SeedToPotion()
+
+	};
+
+	private static Recipe[] fourIngredientRecipe = new Recipe[] {
+		//new Potion.SeedToPotion()
 	};
 	
 	public static Recipe findRecipe(ArrayList<Item> ingredients){
@@ -231,7 +236,13 @@ public abstract class Recipe {
 					return recipe;
 				}
 			}
-		}
+		} /*else if (ingredients.size() == 4) {
+			for (Recipe recipe : fourIngredientRecipe) {
+				if (recipe.testIngredients(ingredients)) {
+					return recipe;
+				}
+			}
+		}*/
 		
 		return null;
 	}

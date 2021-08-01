@@ -41,6 +41,7 @@ import com.elementalpixel.elementalpixeldungeon.items.bags.ScrollHolder;
 import com.elementalpixel.elementalpixeldungeon.items.bags.VelvetPouch;
 import com.elementalpixel.elementalpixeldungeon.items.food.Food;
 import com.elementalpixel.elementalpixeldungeon.items.fragments.Fragment;
+import com.elementalpixel.elementalpixeldungeon.items.potions.EmptyPotionFlask;
 import com.elementalpixel.elementalpixeldungeon.items.potions.Potion;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.Scroll;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
@@ -99,7 +100,8 @@ public class WndBag extends WndTabbed {
 		RECYCLABLE,
 		NOT_EQUIPPED,
 		FRAGMENT,
-		ARMOR_WEAPON
+		ARMOR_WEAPON,
+		EMPTY_POTION_FLASK
 	}
 
 	protected static final int COLS_P   = 5;
@@ -458,6 +460,7 @@ public class WndBag extends WndTabbed {
 						mode == Mode.RECYCLABLE && Recycle.isRecyclable(item) ||
 						mode == Mode.FRAGMENT && (item instanceof Fragment) ||
 						mode == Mode.ARMOR_WEAPON && (item instanceof Armor || item instanceof Weapon) ||
+						mode == Mode.EMPTY_POTION_FLASK && (item instanceof EmptyPotionFlask) ||
 						mode == Mode.ALL
 					);
 				}

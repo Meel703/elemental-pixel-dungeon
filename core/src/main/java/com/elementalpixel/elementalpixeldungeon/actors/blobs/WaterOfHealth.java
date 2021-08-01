@@ -33,6 +33,7 @@ import com.elementalpixel.elementalpixeldungeon.effects.particles.ShaftParticle;
 import com.elementalpixel.elementalpixeldungeon.items.Ankh;
 import com.elementalpixel.elementalpixeldungeon.items.DewVial;
 import com.elementalpixel.elementalpixeldungeon.items.Item;
+import com.elementalpixel.elementalpixeldungeon.items.potions.EmptyPotionFlask;
 import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfHealing;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfRemoveCurse;
 import com.elementalpixel.elementalpixeldungeon.journal.Notes.Landmark;
@@ -83,6 +84,11 @@ public class WaterOfHealth extends WellWater {
 			}
 			Sample.INSTANCE.play( Assets.Sounds.DRINK );
 			return item;
+		} else if (item instanceof EmptyPotionFlask) {
+			CellEmitter.get( pos ).start(Speck.factory(Speck.LIGHT), 0.2f, 3);
+			Sample.INSTANCE.play( Assets.Sounds.DRINK );
+
+			return new PotionOfHealing();
 		}
 		return null;
 	}
