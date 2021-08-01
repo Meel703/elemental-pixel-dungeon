@@ -31,7 +31,6 @@ import com.elementalpixel.elementalpixeldungeon.Statistics;
 import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
 import com.elementalpixel.elementalpixeldungeon.actors.blobs.Blob;
-import com.elementalpixel.elementalpixeldungeon.actors.buffs.Berserk;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.ChampionEnemy;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroSubClass;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
@@ -86,6 +85,7 @@ import com.elementalpixel.elementalpixeldungeon.ui.CharHungerIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.GameLog;
 import com.elementalpixel.elementalpixeldungeon.ui.LootIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.QuickSlotButton;
+import com.elementalpixel.elementalpixeldungeon.ui.RageIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.ResumeIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.StatusPane;
 import com.elementalpixel.elementalpixeldungeon.ui.TargetHealthIndicator;
@@ -172,6 +172,7 @@ public class GameScene extends PixelScene {
 	private AttackIndicator attack;
 	private LootIndicator loot;
 	private ActionIndicator action;
+	private RageIndicator rage;
 	private ResumeIndicator resume;
 	
 	@Override
@@ -340,6 +341,12 @@ public class GameScene extends PixelScene {
 		action = new ActionIndicator();
 		action.camera = uiCamera;
 		add( action );
+
+		rage = new RageIndicator();
+		rage.camera = uiCamera;
+		if (Dungeon.hero.subClass == HeroSubClass.BERSERKER) {
+		}
+		add(rage);
 
 		resume = new ResumeIndicator();
 		resume.camera = uiCamera;
@@ -637,18 +644,21 @@ public class GameScene extends PixelScene {
 		if (tagAttack != attack.active ||
 				tagLoot != loot.visible ||
 				tagAction != action.visible ||
-				tagResume != resume.visible) {
+				tagResume != resume.visible ||
+				tagRage != rage.visible) {
 
 			//we only want to change the layout when new tags pop in, not when existing ones leave.
 			boolean tagAppearing = (attack.active && !tagAttack) ||
 									(loot.visible && !tagLoot) ||
 									(action.visible && !tagAction) ||
-									(resume.visible && !tagResume);
+									(resume.visible && !tagResume) ||
+									(rage.visible && !tagRage);
 
 			tagAttack = attack.active;
 			tagLoot = loot.visible;
 			tagAction = action.visible;
 			tagResume = resume.visible;
+			tagRage = rage.visible;
 
 			if (tagAppearing) layoutTags();
 		}
@@ -665,6 +675,7 @@ public class GameScene extends PixelScene {
 	private boolean tagLoot      = false;
 	private boolean tagAction    = false;
 	private boolean tagResume    = false;
+	private boolean tagRage      = false;
 
 	public static void layoutTags() {
 
@@ -697,6 +708,13 @@ public class GameScene extends PixelScene {
 			scene.action.flip(tagLeft == 0);
 			pos = scene.action.top();
 		}
+
+		if (scene.tagRage) {
+			scene.rage.setPos( tagLeft, pos - scene.rage.height() );
+			scene.rage.flip(tagLeft == 0);
+			pos = scene.rage.top();
+		}
+
 
 		if (scene.tagResume) {
 			scene.resume.setPos( tagLeft, pos - scene.resume.height() );

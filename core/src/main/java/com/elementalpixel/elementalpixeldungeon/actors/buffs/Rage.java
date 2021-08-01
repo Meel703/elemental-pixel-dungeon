@@ -4,13 +4,13 @@ import com.elementalpixel.elementalpixeldungeon.Assets;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.effects.Speck;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
-import com.elementalpixel.elementalpixeldungeon.ui.ActionIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.BuffIndicator;
+import com.elementalpixel.elementalpixeldungeon.ui.RageIndicator;
 import com.watabou.noosa.Image;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Bundle;
 
-public class Rage extends Buff implements ActionIndicator.Action{
+public class Rage extends Buff implements RageIndicator.Action{
 
     {
         type = buffType.POSITIVE;
@@ -38,7 +38,7 @@ public class Rage extends Buff implements ActionIndicator.Action{
 
         if(RageLevel == 0 && RageCooldown == 0) {
             detach();
-            ActionIndicator.clearAction(this);
+            RageIndicator.clearAction(this);
         }
 
         if(raging()){
@@ -78,7 +78,7 @@ public class Rage extends Buff implements ActionIndicator.Action{
             postpone(target.cooldown()+(1/target.speed()));
             RageLevel = Math.min(RageLevel + 1, 10);
             RageLevel = (float) Math.ceil(RageLevel);
-            ActionIndicator.setAction(this);
+            RageIndicator.setAction(this);
         }
     }
 
@@ -142,7 +142,7 @@ public class Rage extends Buff implements ActionIndicator.Action{
         Sample.INSTANCE.play( Assets.Sounds.CHALLENGE );
         target.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
         BuffIndicator.refreshHero();
-        ActionIndicator.clearAction(this);
+        RageIndicator.clearAction(this);
     }
 
 }

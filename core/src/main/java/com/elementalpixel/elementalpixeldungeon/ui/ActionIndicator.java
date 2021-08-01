@@ -24,7 +24,6 @@ package com.elementalpixel.elementalpixeldungeon.ui;
 
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.SPDAction;
-import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroSubClass;
 import com.elementalpixel.elementalpixeldungeon.scenes.PixelScene;
 import com.watabou.input.GameAction;
 import com.watabou.noosa.Image;

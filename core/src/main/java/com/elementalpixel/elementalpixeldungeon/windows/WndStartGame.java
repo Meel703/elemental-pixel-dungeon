@@ -40,6 +40,7 @@ import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
 import com.elementalpixel.elementalpixeldungeon.ui.ActionIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.IconButton;
 import com.elementalpixel.elementalpixeldungeon.ui.Icons;
+import com.elementalpixel.elementalpixeldungeon.ui.RageIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.RedButton;
 import com.elementalpixel.elementalpixeldungeon.ui.RenderedTextBlock;
 import com.elementalpixel.elementalpixeldungeon.ui.Window;
@@ -96,6 +97,7 @@ public class WndStartGame extends Window {
 				GamesInProgress.curSlot = slot;
 				Dungeon.hero = null;
 				ActionIndicator.action = null;
+				RageIndicator.action = null;
 				InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
 				
 				if (SPDSettings.intro()) {

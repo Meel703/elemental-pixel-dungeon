@@ -34,6 +34,7 @@ import com.elementalpixel.elementalpixeldungeon.scenes.StartScene;
 import com.elementalpixel.elementalpixeldungeon.sprites.HeroSprite;
 import com.elementalpixel.elementalpixeldungeon.ui.ActionIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.Icons;
+import com.elementalpixel.elementalpixeldungeon.ui.RageIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.RedButton;
 import com.elementalpixel.elementalpixeldungeon.ui.RenderedTextBlock;
 import com.elementalpixel.elementalpixeldungeon.ui.Window;
@@ -129,6 +130,7 @@ public class WndGameInProgress extends Window {
 				
 				Dungeon.hero = null;
 				ActionIndicator.action = null;
+				RageIndicator.action = null;
 				InterlevelScene.mode = InterlevelScene.Mode.CONTINUE;
 				ShatteredPixelDungeon.switchScene(InterlevelScene.class);
 			}

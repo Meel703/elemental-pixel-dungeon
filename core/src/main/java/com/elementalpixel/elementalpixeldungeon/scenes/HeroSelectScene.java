@@ -32,17 +32,16 @@ import com.elementalpixel.elementalpixeldungeon.ShatteredPixelDungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroClass;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroSubClass;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
-import com.elementalpixel.elementalpixeldungeon.effects.CheckedCell;
 import com.elementalpixel.elementalpixeldungeon.journal.Journal;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSprite;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
-import com.elementalpixel.elementalpixeldungeon.sprites.ShamanSprite;
 import com.elementalpixel.elementalpixeldungeon.ui.ActionIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.CheckBox;
 import com.elementalpixel.elementalpixeldungeon.ui.ExitButton;
 import com.elementalpixel.elementalpixeldungeon.ui.IconButton;
 import com.elementalpixel.elementalpixeldungeon.ui.Icons;
+import com.elementalpixel.elementalpixeldungeon.ui.RageIndicator;
 import com.elementalpixel.elementalpixeldungeon.ui.RedButton;
 import com.elementalpixel.elementalpixeldungeon.ui.RenderedTextBlock;
 import com.elementalpixel.elementalpixeldungeon.ui.StyledButton;
@@ -62,9 +61,6 @@ import com.watabou.utils.GameMath;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.hide;
-import static com.elementalpixel.elementalpixeldungeon.items.Item.curUser;
 
 public class HeroSelectScene extends PixelScene {
 
@@ -134,6 +130,7 @@ public class HeroSelectScene extends PixelScene {
 
 				Dungeon.hero = null;
 				ActionIndicator.action = null;
+				RageIndicator.action = null;
 				InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
 
 				if (SPDSettings.intro()) {
