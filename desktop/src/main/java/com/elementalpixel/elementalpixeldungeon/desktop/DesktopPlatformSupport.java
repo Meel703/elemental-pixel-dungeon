@@ -48,7 +48,6 @@ public class DesktopPlatformSupport extends PlatformSupport {
 		}
 	}
 
-	@Override
 	public void setTrue() {
 		WndSettings.dev = true;
 	}

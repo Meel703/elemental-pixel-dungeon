@@ -2,7 +2,6 @@ package com.elementalpixel.elementalpixeldungeon.actors.buffs;
 
 import com.elementalpixel.elementalpixeldungeon.Assets;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
-import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
 import com.elementalpixel.elementalpixeldungeon.effects.Speck;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.ui.ActionIndicator;
@@ -20,8 +19,8 @@ public class Rage extends Buff implements ActionIndicator.Action{
     }
 
     private static float RageLevel = 0f;
-    private int RageCooldown = 0;
-    private static int RageDuration = 0;
+    private float RageCooldown = 0f;
+    private static float RageDuration = 0f;
 
     private static final String LEVEL = "level";
     private static final String COOLDOWN = "cd";
@@ -31,22 +30,22 @@ public class Rage extends Buff implements ActionIndicator.Action{
     public boolean act(){
         if(RageCooldown > 0) {
             RageCooldown --;
-            if(!raging()){
-                detach(Dungeon.hero, Barrier.class);
-            }
         }
 
         if(RageLevel > 0 && !raging()){
             RageLevel -= 0.25f;
         }
 
-        if(RageLevel == 0) {
+        if(RageLevel == 0 && RageCooldown == 0) {
             detach();
             ActionIndicator.clearAction(this);
         }
 
         if(raging()){
             RageDuration --;
+            if(RageDuration == 0){
+                detach(Dungeon.hero, Barrier.class);
+            }
         }
 
         spend(TICK);
@@ -66,8 +65,8 @@ public class Rage extends Buff implements ActionIndicator.Action{
         super.restoreFromBundle(bundle);
 
         RageLevel = bundle.getFloat(LEVEL);
-        RageCooldown = bundle.getInt(COOLDOWN);
-        RageDuration = bundle.getInt(DURATION);
+        RageCooldown = bundle.getFloat(COOLDOWN);
+        RageDuration = bundle.getFloat(DURATION);
     }
 
     public static boolean raging(){
@@ -78,6 +77,7 @@ public class Rage extends Buff implements ActionIndicator.Action{
         if (RageCooldown <= 0){
             postpone(target.cooldown()+(1/target.speed()));
             RageLevel = Math.min(RageLevel + 1, 10);
+            RageLevel = (float) Math.ceil(RageLevel);
             ActionIndicator.setAction(this);
         }
     }
@@ -113,33 +113,34 @@ public class Rage extends Buff implements ActionIndicator.Action{
         } else if (RageCooldown > 0){
             return Messages.get(this, "recovering");
         } else {
-            return Messages.get(this, "rage");
+            return Messages.get(this, "enraged");
         }
     }
 
     @Override
     public String desc() {
         if (RageDuration > 0){
-            return Messages.get(this, "raging_desc", RageDuration);
+            return Messages.get(this, "raging_desc", (RageLevel * 10f), RageDuration);
         } else if (RageCooldown > 0){
             return Messages.get(this, "recovering_desc", RageCooldown);
         } else {
-            return Messages.get(this, "rage_desc", RageLevel);
+            return Messages.get(this, "enraged_desc", RageLevel);
         }
     }
 
     public Image getIcon() {
-        Image im = new Image(Assets.Interfaces.BUFFS_LARGE, 144, 32, 16, 16);
-        im.hardlight(0x99992E);
+        Image im = new Image(Assets.Interfaces.BUFFS_LARGE, 144, 0, 16, 16);
+        im.hardlight(0xFFFF4C);
         return im;
     }
 
     public void doAction() {
-        Buff.affect(Dungeon.hero, Barrier.class).setShield((int) (0.5f * Dungeon.hero.HT + 10));
-        RageDuration = (int) (2 * RageLevel);
-        RageCooldown = (int) (10 + 12 * RageLevel);
-        Sample.INSTANCE.play(Assets.Sounds.MISS, 1f, 0.8f);
-        target.sprite.emitter().burst(Speck.factory(Speck.JET), 5+ (int) (RageLevel));
+        RageLevel = (float) Math.ceil(RageLevel);
+        Buff.affect(Dungeon.hero, Barrier.class).setShield((int) (0.4f * Dungeon.hero.HT));
+        RageDuration = RageLevel;
+        RageCooldown = (10 + 12 * RageLevel);
+        Sample.INSTANCE.play( Assets.Sounds.CHALLENGE );
+        target.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
         BuffIndicator.refreshHero();
         ActionIndicator.clearAction(this);
     }

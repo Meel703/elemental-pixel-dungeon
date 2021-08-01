@@ -24,6 +24,7 @@ package com.elementalpixel.elementalpixeldungeon.ui;
 
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.SPDAction;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroSubClass;
 import com.elementalpixel.elementalpixeldungeon.scenes.PixelScene;
 import com.watabou.input.GameAction;
 import com.watabou.noosa.Image;
@@ -43,7 +44,7 @@ public class ActionIndicator extends Tag {
 		setSize( 24, 24 );
 		visible = false;
 	}
-	
+
 	@Override
 	public GameAction keyAction() {
 		return SPDAction.TAG_ACTION;
