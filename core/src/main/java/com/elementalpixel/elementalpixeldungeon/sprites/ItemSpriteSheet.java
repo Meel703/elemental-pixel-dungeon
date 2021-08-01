@@ -594,7 +594,7 @@ public class ItemSpriteSheet {
 	private static final int SPELLS         =                               xy(1, 27);  //16 slots
 	public static final int MAGIC_PORTER    = SPELLS+0;
 	public static final int PHASE_SHIFT     = SPELLS+1;
-	public static final int WILD_ENERGY = SPELLS+2;
+	public static final int WILD_ENERGY     = SPELLS+2;
 	public static final int RETURN_BEACON   = SPELLS+3;
 	
 	public static final int AQUA_BLAST      = SPELLS+5;
@@ -689,15 +689,14 @@ public class ItemSpriteSheet {
 
 	private static final int FRAGMENTS       =                                   xy(1, 32);  //16 slots
 	public static final int WATER_FRAGMENT = FRAGMENTS+0;
-	public static final int FIRE_FRAGMENT  = FRAGMENTS+1;
-	public static final int EARTH_FRAGMENT = FRAGMENTS+10;
-	public static final int AIR_FRAGMENT   = FRAGMENTS+10;
+	public static final int FIRE_FRAGMENT  = FRAGMENTS+2;
+	public static final int EARTH_FRAGMENT = FRAGMENTS+4;
+	public static final int AIR_FRAGMENT   = FRAGMENTS+6;
 	static{
 		assignItemRect(WATER_FRAGMENT, 19, 15);
-		assignItemRect(FIRE_FRAGMENT,  18, 13);
-
-		assignItemRect(EARTH_FRAGMENT, 22, 16);
-		assignItemRect(AIR_FRAGMENT, 22, 16);
+		assignItemRect(FIRE_FRAGMENT,  19, 15);
+		assignItemRect(EARTH_FRAGMENT, 19, 15);
+		assignItemRect(AIR_FRAGMENT,   19, 15);
 	}
 
 
