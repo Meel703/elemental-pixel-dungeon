@@ -2,6 +2,7 @@ package com.elementalpixel.elementalpixeldungeon.actors.buffs;
 
 import com.elementalpixel.elementalpixeldungeon.Assets;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
+import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.effects.Speck;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.ui.BuffIndicator;
@@ -45,6 +46,7 @@ public class Rage extends Buff implements RageIndicator.Action{
             RageDuration --;
             if(RageDuration == 0){
                 detach(Dungeon.hero, Barrier.class);
+                Talent.onRageEnd(Dungeon.hero);
             }
         }
 
@@ -76,7 +78,7 @@ public class Rage extends Buff implements RageIndicator.Action{
     public void gainLevel(){
         if (RageCooldown <= 0){
             postpone(target.cooldown()+(1/target.speed()));
-            RageLevel = Math.min(RageLevel + 1, 10);
+            RageLevel = Math.min(RageLevel + 1, 10 + 2 * Dungeon.hero.pointsInTalent(Talent.ENHANCED_RAGE));
             RageLevel = (float) Math.ceil(RageLevel);
             RageIndicator.setAction(this);
         }
@@ -85,7 +87,7 @@ public class Rage extends Buff implements RageIndicator.Action{
     public int damageFactor(int damage){
         if(raging()){
             float damageBuff = RageLevel;
-            damage += damage * (damageBuff / 10);
+            damage += damage * (damageBuff / 20);
         }
         return damage;
     }
@@ -135,10 +137,10 @@ public class Rage extends Buff implements RageIndicator.Action{
     }
 
     public void doAction() {
+        Talent.onRage(Dungeon.hero);
         RageLevel = (float) Math.ceil(RageLevel);
-        Buff.affect(Dungeon.hero, Barrier.class).setShield((int) (0.4f * Dungeon.hero.HT));
         RageDuration = RageLevel;
-        RageCooldown = (10 + 12 * RageLevel);
+        RageCooldown = (10 + 5 * RageLevel);
         Sample.INSTANCE.play( Assets.Sounds.CHALLENGE );
         target.sprite.centerEmitter().start( Speck.factory( Speck.SCREAM ), 0.3f, 3 );
         BuffIndicator.refreshHero();

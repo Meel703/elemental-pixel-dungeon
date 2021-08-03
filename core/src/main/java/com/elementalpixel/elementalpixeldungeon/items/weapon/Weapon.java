@@ -25,8 +25,8 @@ package com.elementalpixel.elementalpixeldungeon.items.weapon;
 import com.elementalpixel.elementalpixeldungeon.Badges;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
-import com.elementalpixel.elementalpixeldungeon.actors.buffs.Berserk;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.MagicImmune;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Rage;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.items.Item;
@@ -351,9 +351,8 @@ abstract public class Weapon extends KindOfWeapon {
 		protected float procChanceMultiplier(Char attacker) {
 			float multi = 1f;
 			if (attacker instanceof Hero && ((Hero) attacker).hasTalent(Talent.ENRAGED_CATALYST)) {
-				Berserk rage = attacker.buff(Berserk.class);
-				if (rage != null) {
-					multi += (rage.rageAmount() / 6f) * ((Hero) attacker).pointsInTalent(Talent.ENRAGED_CATALYST);
+				if (Rage.raging()) {
+					multi += 17 * ((Hero) attacker).pointsInTalent(Talent.ENRAGED_CATALYST);
 				}
 			}
 			return multi;

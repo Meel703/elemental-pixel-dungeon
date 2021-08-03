@@ -26,16 +26,27 @@ import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.ArtifactRecharge;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Barrier;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Bleeding;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Blindness;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Burning;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.CounterBuff;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Cripple;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Drowsy;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.ElementalistImmunity;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.EnhancedRings;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.FlavourBuff;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Haste;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Hunger;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Poison;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Recharging;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Roots;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Slow;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Vertigo;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Vulnerable;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.WandEmpower;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Weakness;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Mob;
 import com.elementalpixel.elementalpixeldungeon.effects.CellEmitter;
 import com.elementalpixel.elementalpixeldungeon.effects.Speck;
@@ -101,7 +112,7 @@ public enum Talent {
 	//Warrior T3
 	HOLD_FAST(9, 3), STRONGMAN(10, 3),
 	//Berserker T3
-	ENDLESS_RAGE(11, 3), BERSERKING_STAMINA(12, 3), ENRAGED_CATALYST(13, 3),
+	ENHANCED_RAGE(11, 3), BODY_OF_STEEL(12, 3), ENRAGED_CATALYST(13, 3),
 	//Gladiator T3
 	CLEAVE(14, 3), LETHAL_DEFENSE(15, 3), ENHANCED_COMBO(16, 3),
 
@@ -356,6 +367,28 @@ public enum Talent {
 				}
 			}
 			Dungeon.observe();
+		}
+	}
+	
+	public static void onRage(Hero hero){
+		if(hero.hasTalent(BODY_OF_STEEL) && hero.pointsInTalent(BODY_OF_STEEL) >= 1){
+			PotionOfHealing.cure(hero);
+		}
+
+		if(Dungeon.hero.hasTalent(Talent.BODY_OF_STEEL) && Dungeon.hero.pointsInTalent(Talent.BODY_OF_STEEL) >= 2){
+			Buff.affect(Dungeon.hero, Barrier.class).setShield((int) (0.5f * Dungeon.hero.HT));
+		} else {
+			Buff.affect(Dungeon.hero, Barrier.class).setShield((int) (0.4f * Dungeon.hero.HT));
+		}
+	}
+
+	public static void onRageEnd(Hero hero){
+		if(hero.hasTalent(BODY_OF_STEEL) && hero.pointsInTalent(BODY_OF_STEEL) == 3){
+			BrokenSeal.WarriorShield shield = hero.buff(BrokenSeal.WarriorShield.class);
+			if (shield != null){
+				int shieldToGive = Math.round(shield.maxShield());
+				shield.supercharge(shieldToGive);
+			}
 		}
 	}
 
@@ -687,7 +720,7 @@ public enum Talent {
 		//tier 3
 		switch (cls){
 			case BERSERKER: default:
-				Collections.addAll(tierTalents, ENDLESS_RAGE, BERSERKING_STAMINA, ENRAGED_CATALYST);
+				Collections.addAll(tierTalents, ENHANCED_RAGE, BODY_OF_STEEL, ENRAGED_CATALYST);
 				break;
 			case GLADIATOR:
 				Collections.addAll(tierTalents, CLEAVE, LETHAL_DEFENSE, ENHANCED_COMBO);
