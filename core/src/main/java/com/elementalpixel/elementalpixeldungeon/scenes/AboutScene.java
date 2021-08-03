@@ -38,8 +38,6 @@ import com.watabou.noosa.PointerArea;
 import com.watabou.noosa.ui.Component;
 import com.watabou.utils.DeviceCompat;
 
-import javax.swing.Icon;
-
 
 public class AboutScene extends PixelScene {
 
@@ -60,15 +58,36 @@ public class AboutScene extends PixelScene {
 		content.clear();
 		//Elemental Pixel Dungeon credits
 		String elpxLink = "https://github.com/Meel703/elemental-pixel-dungeon";
+		String elpxDiscord = "https://discord.gg/wADHvVC2V9";
 		final int ELPX_COLOR = 0xf5df1b;
 		CreditsBlock elpx = new CreditsBlock(true, ELPX_COLOR,
 				"Elemental Pixel Dungeon\n",
 				null,
-				"Developed by: _Meel_\nBased on Shattered Pixel Dungeon",
+				"Developed by: _Meel_ and _Figure In Snow_\nBased on Shattered Pixel Dungeon",
 				"Available on GitHub",
-				elpxLink);
+				elpxLink,
+				null,
+				null
+				);
 		elpx.setRect((w - fullWidth)/2f, 6, 120, 0);
 		content.add(elpx);
+
+		CreditsBlock discordelpx = new CreditsBlock(false, Window.SHPX_COLOR,
+				null,
+				null,
+				null,
+				"discord",
+				elpxDiscord,
+				null,
+				null);
+		discordelpx.setSize(colWidth/2f, 0);
+		if (landscape()){
+			discordelpx.setPos(elpx.right(), elpx.top() + (elpx.height() - discordelpx.height())/2f);
+		} else {
+			discordelpx.setPos(w/2f - colWidth/2f, elpx.bottom()+5);
+		}
+		//content.add(discordelpx);
+
 
 		//*** Shattered Pixel Dungeon Credits ***
 		String shpxLink = "https://ShatteredPixel.com";
@@ -82,7 +101,7 @@ public class AboutScene extends PixelScene {
 				Icons.SHPX.get(),
 				"Developed by: _Evan Debenham_\nBased on Pixel Dungeon's open source",
 				"ShatteredPixel.com",
-				shpxLink);
+				shpxLink, null, null);
 		shpx.setRect(elpx.left(),elpx.bottom() + 8, colWidth, 0);
 		content.add(shpx);
 		addLine(shpx.top() - 4, content);
@@ -92,7 +111,7 @@ public class AboutScene extends PixelScene {
 				Icons.ALEKS.get(),
 				"Aleksandar Komitov",
 				"alekskomitov.com",
-				"https://www.alekskomitov.com");
+				"https://www.alekskomitov.com", null, null);
 		alex.setSize(colWidth/2f, 0);
 		if (landscape()){
 			alex.setPos(shpx.right(), shpx.top() + (shpx.height() - alex.height())/2f);
@@ -106,7 +125,7 @@ public class AboutScene extends PixelScene {
 				Icons.CHARLIE.get(),
 				"Charlie",
 				"s9menine.itch.io",
-				"https://s9menine.itch.io");
+				"https://s9menine.itch.io", null, null);
 		charlie.setRect(alex.right(), alex.top(), colWidth/2f, 0);
 		content.add(charlie);
 
@@ -118,7 +137,7 @@ public class AboutScene extends PixelScene {
 				Icons.WATA.get(),
 				"Developed by: _Watabou_\nInspired by Brian Walker's Brogue",
 				"pixeldungeon.watabou.ru",
-				"http://pixeldungeon.watabou.ru");
+				"http://pixeldungeon.watabou.ru", null, null);
 		if (landscape()){
 			wata.setRect(shpx.left(), shpx.bottom() + 8, colWidth, 0);
 		} else {
@@ -133,7 +152,7 @@ public class AboutScene extends PixelScene {
 				Icons.CUBE_CODE.get(),
 				"Cube Code",
 				null,
-				null);
+				null, null, null);
 		cube.setSize(colWidth/2f, 0);
 		if (landscape()){
 			cube.setPos(wata.right(), wata.top() + (wata.height() - cube.height())/2f);
@@ -151,7 +170,7 @@ public class AboutScene extends PixelScene {
 				Icons.LIBGDX.get(),
 				"ShatteredPD is powered by _libGDX_!",
 				"libGDX.com",
-				"https://libGDX.com/");
+				"https://libGDX.com/", null, null);
 		if (landscape()){
 			gdx.setRect(wata.left(), wata.bottom() + 8, colWidth, 0);
 		} else {
@@ -172,7 +191,7 @@ public class AboutScene extends PixelScene {
 				Icons.ARCNOR.get(),
 				"Edu García",
 				"twitter.com/arcnor",
-				"https://twitter.com/arcnor");
+				"https://twitter.com/arcnor", null,null);
 		arcnor.setSize(colWidth/2f, 0);
 		if (landscape()){
 			arcnor.setPos(gdx.right(), gdx.top() + (gdx.height() - arcnor.height())/2f);
@@ -186,7 +205,7 @@ public class AboutScene extends PixelScene {
 				Icons.PURIGRO.get(),
 				"Kevin MacMartin",
 				"github.com/prurigro",
-				"https://github.com/prurigro/");
+				"https://github.com/prurigro/", null,null);
 		purigro.setRect(arcnor.right()+2, arcnor.top(), colWidth/2f, 0);
 		content.add(purigro);
 
@@ -198,7 +217,7 @@ public class AboutScene extends PixelScene {
 				null,
 				"ShatteredPD is community-translated via _Transifex_! Thank you so much to all of Shattered's volunteer translators!",
 				"www.transifex.com/shattered-pixel/",
-				"https://www.transifex.com/shattered-pixel/shattered-pixel-dungeon/");
+				"https://www.transifex.com/shattered-pixel/shattered-pixel-dungeon/", null, null);
 		transifex.setRect((Camera.main.width - colWidth)/2f, purigro.bottom() + 8, colWidth, 0);
 		content.add(transifex);
 
@@ -235,7 +254,7 @@ public class AboutScene extends PixelScene {
 				"_Lemon,Juicy,Squeeze,Fruit.wav_ by _Filipe Chagas_\n" +
 				"_Lemon,Squeeze,Squishy,Fruit.wav_ by _Filipe Chagas_",
 				"www.freesound.org",
-				"https://www.freesound.org");
+				"https://www.freesound.org", null, null);
 		freesound.setRect(transifex.left()-10, transifex.bottom() + 8, colWidth+20, 0);
 		content.add(freesound);
 
@@ -271,11 +290,15 @@ public class AboutScene extends PixelScene {
 		RenderedTextBlock body;
 
 		RenderedTextBlock link;
+		RenderedTextBlock link2;
 		ColorBlock linkUnderline;
+		ColorBlock linkUnderline2;
 		PointerArea linkButton;
+		PointerArea linkButton2;
+
 
 		//many elements can be null, but body is assumed to have content.
-		private CreditsBlock(boolean large, int highlight, String title, Image avatar, String body, String linkText, String linkUrl){
+		private CreditsBlock(boolean large, int highlight, String title, Image avatar, String body, String linkText, String linkUrl, String linkText2, String linkUrl2){
 			super();
 
 			this.large = large;
@@ -320,6 +343,27 @@ public class AboutScene extends PixelScene {
 				};
 				add(linkButton);
 			}
+
+			if (linkText2 != null && linkUrl2 != null){
+
+				int color = 0xFFFFFFFF;
+				if (highlight != -1) color = 0xFF000000 | highlight;
+				this.linkUnderline2 = new ColorBlock(1, 1, color);
+				add(this.linkUnderline2);
+
+				this.link = PixelScene.renderTextBlock(linkText2, 6);
+				if (highlight != -1) this.link.hardlight(highlight);
+				add(this.link2);
+
+				linkButton2 = new PointerArea(0, 0, 0, 0){
+					@Override
+					protected void onClick( PointerEvent event ) {
+						DeviceCompat.openURI( linkUrl2 );
+					}
+				};
+				add(linkButton2);
+			}
+
 
 		}
 
@@ -393,6 +437,24 @@ public class AboutScene extends PixelScene {
 				linkUnderline.y = link.bottom()+1;
 
 			}
+
+			if (link2 != null){
+				if (large) topY += 1;
+				link.maxWidth((int)width());
+				link.setPos( x + (width() - link.width())/2f, topY);
+				topY += link.height() + 2;
+
+				linkButton2.x = link2.left()-1;
+				linkButton2.y = link2.top()-1;
+				linkButton2.width = link2.width()+2;
+				linkButton2.height = link2.height()+2;
+
+				linkUnderline2.size(link.width(), PixelScene.align(0.49f));
+				linkUnderline2.x = link.left();
+				linkUnderline2.y = link.bottom()+1;
+
+			}
+
 
 			topY -= 2;
 
