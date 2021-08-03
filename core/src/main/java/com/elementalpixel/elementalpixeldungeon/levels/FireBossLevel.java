@@ -31,12 +31,10 @@ import com.elementalpixel.elementalpixeldungeon.levels.builders.Builder;
 import com.elementalpixel.elementalpixeldungeon.levels.builders.FigureEightBuilder;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.HallsPainter;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.Painter;
-import com.elementalpixel.elementalpixeldungeon.levels.painters.SewerPainter;
 import com.elementalpixel.elementalpixeldungeon.levels.rooms.Room;
 import com.elementalpixel.elementalpixeldungeon.levels.rooms.sewerboss.FireGooRoom;
 import com.elementalpixel.elementalpixeldungeon.levels.rooms.sewerboss.GooBossRoom;
 import com.elementalpixel.elementalpixeldungeon.levels.rooms.sewerboss.SewerBossEntranceRoom;
-import com.elementalpixel.elementalpixeldungeon.levels.rooms.sewerboss.SewerBossExitRoom;
 import com.elementalpixel.elementalpixeldungeon.levels.rooms.standard.ExitRoom;
 import com.elementalpixel.elementalpixeldungeon.levels.rooms.standard.StandardRoom;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
@@ -46,7 +44,7 @@ import com.watabou.utils.Random;
 
 import java.util.ArrayList;
 
-public class FireBossLevel extends FireLevel {
+public class FireBossLevel extends InfernalBastionLevel {
 
 	{
 		color1 = 0x48763c;

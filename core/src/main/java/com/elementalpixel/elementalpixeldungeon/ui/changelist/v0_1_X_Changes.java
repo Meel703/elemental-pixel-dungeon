@@ -45,6 +45,7 @@ public class v0_1_X_Changes {
 		add_v0_1_2_Changes(changeInfos);
 		add_v0_1_2_1_Changes(changeInfos);
 		add_v0_1_2_2_Changes(changeInfos);
+		add_v0_1_2_3_Changes(changeInfos);
 	}
 	
 
@@ -150,12 +151,35 @@ public class v0_1_X_Changes {
 				)
 		);
 
-		changes.addButton( new ChangeButton(new ItemSprite(ItemSpriteSheet.ELEMENTAL_STONE, null), "Elemental Stones",
+		changes.addButton(new ChangeButton(new ItemSprite(ItemSpriteSheet.ELEMENTAL_STONE, null), "Elemental Stones",
 				"Elemental Stones can transfer upgrades! Movable are only upgrades gained via upgrading with Scroll of Upgrade\n"
 
 		));
+	}
 
+	public static void add_v0_1_2_3_Changes( ArrayList<ChangeInfo> changeInfos ) {
+		ChangeInfo changes = new ChangeInfo("v0.1.2.3a", false, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
 
+		changes.addButton(new ChangeButton(new Image(Assets.Sprites.SPINNER, 144, 0, 16, 16), Messages.get(ChangesScene.class, "bugfixes"),
+						"_-_ Fixed that Alchemist flask couldn't be augmented or enchanted\n\n" +
+								"_-_ Fixed that fragments couldn't be saved.\n\n" +
+								"_-_ Fixed that bosses after Yog occasionally didn't drop fragments\n"
+				)
+		);
 
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+						"_-_ Added empty potion flasks which are necessary for crafting regular potions. Empty potion flasks can be acquired by drinking any potion, elixir or brew\n\n" +
+								"_-_ Changed fragments' sprites\n\n" +
+								"_-_ Added Infernal fire which inflicts infernal flame\n\n"
+
+				)
+		);
+
+		changes.addButton( new ChangeButton(new Image(Assets.Sprites.WARRIOR, 0, 90, 12, 15),  "Reworked Berserker",
+				"_-_ Berserker has been heavily reworked. He can no longer survive lethal damage and passive damage boost has been removed, although rage meter remains. Berserker can now manually activate berserking to gain shielding and damage boost, scaling with his amount of rage. After berserking ends, berserker has to wait until he can start building rage again.\n\n" +
+						"_-_ Berserker's talents have been tweaked as a response to his rework\n\n"
+		) );
 	}
 }
