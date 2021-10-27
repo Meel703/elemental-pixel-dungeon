@@ -22,11 +22,15 @@
 package com.elementalpixel.elementalpixeldungeon.items.stones;
 
 
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfTeleportation;
+import com.elementalpixel.elementalpixeldungeon.levels.InfernalBastionBossLevel;
 import com.elementalpixel.elementalpixeldungeon.mechanics.Ballistica;
+import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
+import com.elementalpixel.elementalpixeldungeon.utils.GLog;
 
 public class StoneOfBlink extends Runestone {
 	
@@ -38,17 +42,28 @@ public class StoneOfBlink extends Runestone {
 	
 	@Override
 	public int throwPos(Hero user, int dst) {
-		throwPath = new Ballistica( user.pos, dst, Ballistica.PROJECTILE );
+		if (Dungeon.bossLevel() && (InfernalBastionBossLevel.boss.phase == 0 || InfernalBastionBossLevel.boss.phase == 3 || InfernalBastionBossLevel.boss.phase == 3.1f)) {
+			GLog.w(Messages.get(StoneOfBlink.class, "no_tele"));
+			return user.pos;
+		} else {
+
+		throwPath = new Ballistica(user.pos, dst, Ballistica.PROJECTILE);
 		return throwPath.collisionPos;
+		}
 	}
 	
 	@Override
 	protected void onThrow(int cell) {
-		if (Actor.findChar(cell) != null && throwPath.dist >= 1){
-			cell = throwPath.path.get(throwPath.dist-1);
+		if (Dungeon.bossLevel() && (InfernalBastionBossLevel.boss.phase == 0 || InfernalBastionBossLevel.boss.phase == 3 || InfernalBastionBossLevel.boss.phase == 3.1f)) {
+			new StoneOfBlink().collect();
+		} else {
+
+			if (Actor.findChar(cell) != null && throwPath.dist >= 1) {
+				cell = throwPath.path.get(throwPath.dist - 1);
+			}
+			throwPath = null;
+			super.onThrow(cell);
 		}
-		throwPath = null;
-		super.onThrow(cell);
 	}
 	
 	@Override

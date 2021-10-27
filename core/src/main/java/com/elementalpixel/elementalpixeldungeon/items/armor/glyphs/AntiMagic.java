@@ -31,6 +31,7 @@ import com.elementalpixel.elementalpixeldungeon.actors.buffs.Vulnerable;
 import com.elementalpixel.elementalpixeldungeon.actors.buffs.Weakness;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.DM100;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Eye;
+import com.elementalpixel.elementalpixeldungeon.actors.mobs.GreatFireDemon;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Shaman;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Warlock;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Yog;
@@ -83,6 +84,7 @@ public class AntiMagic extends Armor.Glyph {
 		RESISTS.add( DM100.LightningBolt.class );
 		RESISTS.add( Shaman.EarthenBolt.class );
 		RESISTS.add( Warlock.DarkBolt.class );
+		RESISTS.add( GreatFireDemon.DarkBolt.class );
 		RESISTS.add( Eye.DeathGaze.class );
 		RESISTS.add( Yog.BurningFist.DarkBolt.class );
 		RESISTS.add( YogFist.BrightFist.LightBeam.class );

@@ -46,6 +46,7 @@ import com.elementalpixel.elementalpixeldungeon.items.bags.MagicalHolster;
 import com.elementalpixel.elementalpixeldungeon.items.rings.RingOfEnergy;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.ScrollOfRecharging;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.melee.MagesStaff;
+import com.elementalpixel.elementalpixeldungeon.levels.InfernalBastionBossLevel;
 import com.elementalpixel.elementalpixeldungeon.mechanics.Ballistica;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.scenes.CellSelector;
@@ -481,73 +482,76 @@ public abstract class Wand extends Item {
 		public void onSelect( Integer target ) {
 			
 			if (target != null) {
-				
-				//FIXME this safety check shouldn't be necessary
-				//it would be better to eliminate the curItem static variable.
-				final Wand curWand;
-				if (curItem instanceof Wand) {
-					curWand = (Wand) Wand.curItem;
+				if (Dungeon.depth == 35 && (InfernalBastionBossLevel.boss.phase == 3 || InfernalBastionBossLevel.boss.phase == 3.1f)) {
+					GLog.w("You cannot use wand right now");
 				} else {
-					return;
-				}
 
-				final Ballistica shot = new Ballistica( curUser.pos, target, curWand.collisionProperties(target));
-				int cell = shot.collisionPos;
-				
-				if (target == curUser.pos || cell == curUser.pos) {
-					if (target == curUser.pos && curUser.hasTalent(Talent.SHIELD_BATTERY)){
-						float shield = curUser.HT * (0.05f*curWand.curCharges);
-						if (curUser.pointsInTalent(Talent.SHIELD_BATTERY) == 2) shield *= 1.5f;
-						Buff.affect(curUser, Barrier.class).setShield(Math.round(shield));
-						curWand.curCharges = 0;
-						curUser.sprite.operate(curUser.pos);
-						Sample.INSTANCE.play(Assets.Sounds.CHARGEUP);
-						ScrollOfRecharging.charge(curUser);
-						updateQuickslot();
-						curUser.spend(Actor.TICK);
+					//FIXME this safety check shouldn't be necessary
+					//it would be better to eliminate the curItem static variable.
+					final Wand curWand;
+					if (curItem instanceof Wand) {
+						curWand = (Wand) Wand.curItem;
+					} else {
 						return;
 					}
-					GLog.i( Messages.get(Wand.class, "self_target") );
-					return;
-				}
 
-				curUser.sprite.zap(cell);
+					final Ballistica shot = new Ballistica(curUser.pos, target, curWand.collisionProperties(target));
+					int cell = shot.collisionPos;
 
-				//attempts to target the cell aimed at if something is there, otherwise targets the collision pos.
-				if (Actor.findChar(target) != null)
-					QuickSlotButton.target(Actor.findChar(target));
-				else
-					QuickSlotButton.target(Actor.findChar(cell));
-				
-				if (curWand.tryToZap(curUser, target)) {
-					
-					curUser.busy();
-					
-					if (curWand.cursed){
-						if (!curWand.cursedKnown){
-							GLog.n(Messages.get(Wand.class, "curse_discover", curWand.name()));
+					if (target == curUser.pos || cell == curUser.pos) {
+						if (target == curUser.pos && curUser.hasTalent(Talent.SHIELD_BATTERY)) {
+							float shield = curUser.HT * (0.05f * curWand.curCharges);
+							if (curUser.pointsInTalent(Talent.SHIELD_BATTERY) == 2) shield *= 1.5f;
+							Buff.affect(curUser, Barrier.class).setShield(Math.round(shield));
+							curWand.curCharges = 0;
+							curUser.sprite.operate(curUser.pos);
+							Sample.INSTANCE.play(Assets.Sounds.CHARGEUP);
+							ScrollOfRecharging.charge(curUser);
+							updateQuickslot();
+							curUser.spend(Actor.TICK);
+							return;
 						}
-						CursedWand.cursedZap(curWand,
-								curUser,
-								new Ballistica(curUser.pos, target, Ballistica.MAGIC_BOLT),
-								new Callback() {
-									@Override
-									public void call() {
-										curWand.wandUsed();
-									}
-								});
-					} else {
-						curWand.fx(shot, new Callback() {
-							public void call() {
-								curWand.onZap(shot);
-								curWand.wandUsed();
-							}
-						});
+						GLog.i(Messages.get(Wand.class, "self_target"));
+						return;
 					}
-					curWand.cursedKnown = true;
-					
+
+					curUser.sprite.zap(cell);
+
+					//attempts to target the cell aimed at if something is there, otherwise targets the collision pos.
+					if (Actor.findChar(target) != null)
+						QuickSlotButton.target(Actor.findChar(target));
+					else
+						QuickSlotButton.target(Actor.findChar(cell));
+
+					if (curWand.tryToZap(curUser, target)) {
+
+						curUser.busy();
+
+						if (curWand.cursed) {
+							if (!curWand.cursedKnown) {
+								GLog.n(Messages.get(Wand.class, "curse_discover", curWand.name()));
+							}
+							CursedWand.cursedZap(curWand,
+									curUser,
+									new Ballistica(curUser.pos, target, Ballistica.MAGIC_BOLT),
+									new Callback() {
+										@Override
+										public void call() {
+											curWand.wandUsed();
+										}
+									});
+						} else {
+							curWand.fx(shot, new Callback() {
+								public void call() {
+									curWand.onZap(shot);
+									curWand.wandUsed();
+								}
+							});
+						}
+						curWand.cursedKnown = true;
+
+					}
 				}
-				
 			}
 		}
 		

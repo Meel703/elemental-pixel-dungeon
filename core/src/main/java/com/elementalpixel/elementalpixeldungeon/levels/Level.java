@@ -22,6 +22,11 @@
 package com.elementalpixel.elementalpixeldungeon.levels;
 
 
+import static com.elementalpixel.elementalpixeldungeon.levels.InfernalBastionBossLevel.boss;
+import static com.elementalpixel.elementalpixeldungeon.levels.InfernalBastionBossLevel.bossSpawnPoint;
+import static com.elementalpixel.elementalpixeldungeon.levels.InfernalBastionBossLevel.door;
+import static com.elementalpixel.elementalpixeldungeon.levels.InfernalBastionBossLevel.topDoor;
+
 import com.elementalpixel.elementalpixeldungeon.Assets;
 import com.elementalpixel.elementalpixeldungeon.Challenges;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
@@ -46,6 +51,7 @@ import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroSubClass;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Bestiary;
+import com.elementalpixel.elementalpixeldungeon.actors.mobs.GreatFireDemon;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Mimic;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.Mob;
 import com.elementalpixel.elementalpixeldungeon.actors.mobs.YogFist;
@@ -82,11 +88,13 @@ import com.elementalpixel.elementalpixeldungeon.utils.GLog;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.Group;
 import com.watabou.noosa.audio.Sample;
+import com.watabou.noosa.tweeners.AlphaTweener;
 import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
 import com.watabou.utils.Random;
+import com.watabou.utils.Rect;
 import com.watabou.utils.Reflection;
 import com.watabou.utils.SparseArray;
 
@@ -109,10 +117,10 @@ public abstract class Level implements Bundlable {
 		SECRETS
 	}
 
-	protected int width;
+	public static int width;
 	protected int height;
 	protected int length;
-	
+
 	protected static final float TIME_TO_RESPAWN	= 50;
 
 	public int version;
@@ -144,6 +152,7 @@ public abstract class Level implements Bundlable {
 
 	//when a boss level has become locked.
 	public boolean locked = false;
+	public boolean spawned = false;
 	
 	public HashSet<Mob> mobs;
 	public SparseArray<Heap> heaps;
@@ -463,7 +472,7 @@ public abstract class Level implements Bundlable {
 		return feeling == Feeling.CHASM ? Terrain.EMPTY_SP : Terrain.EMPTY;
 	}
 
-	public int width() {
+	public static int width() {
 		return width;
 	}
 
@@ -503,10 +512,33 @@ public abstract class Level implements Bundlable {
 
 	abstract protected void createItems();
 
-	public void seal(){
+	public void seal()   {
 		if (!locked) {
 			locked = true;
 			Buff.affect(Dungeon.hero, LockedFloor.class);
+
+			if (Dungeon.depth == 35 && !boss.killed) {
+				boss = new GreatFireDemon();
+				boss.state = boss.HUNTING;
+				boss.pos = bossSpawnPoint;
+				GameScene.add(boss);
+				InfernalBastionBossLevel.canSpawn = false;
+
+				boss.notice();
+
+				if (heroFOV[boss.pos]) {
+					boss.notice();
+					boss.sprite.alpha(0);
+					boss.sprite.parent.add(new AlphaTweener(boss.sprite, 1, 0.1f));
+				}
+
+				set(door, Terrain.LOCKED_DOOR);
+				GameScene.updateMap(door);
+
+				set(topDoor, Terrain.LOCKED_DOOR);
+				GameScene.updateMap(topDoor);
+
+			}
 		}
 	}
 
@@ -762,6 +794,14 @@ public abstract class Level implements Bundlable {
 	
 	public static void set( int cell, int terrain ){
 		set( cell, terrain, Dungeon.level );
+	}
+
+	public static void set( Rect rect, int terrain) {
+		for (int i2 = 0; i2 < rect.bottom; i2++) {
+			for (int i = 0; i < rect.right; i++) {
+				set (rect.left + i, terrain, Dungeon.level);
+			}
+		}
 	}
 	
 	public static void set( int cell, int terrain, Level level ) {

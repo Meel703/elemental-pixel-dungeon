@@ -44,16 +44,15 @@ import com.elementalpixel.elementalpixeldungeon.items.potions.Potion;
 import com.elementalpixel.elementalpixeldungeon.items.rings.Ring;
 import com.elementalpixel.elementalpixeldungeon.items.scrolls.Scroll;
 import com.elementalpixel.elementalpixeldungeon.journal.Notes;
-import com.elementalpixel.elementalpixeldungeon.levels.AirBossLevel;
 import com.elementalpixel.elementalpixeldungeon.levels.AirLevel;
 import com.elementalpixel.elementalpixeldungeon.levels.CavesLevel;
 import com.elementalpixel.elementalpixeldungeon.levels.CityLevel;
 import com.elementalpixel.elementalpixeldungeon.levels.DeadEndLevel;
 import com.elementalpixel.elementalpixeldungeon.levels.EarthBossLevel;
 import com.elementalpixel.elementalpixeldungeon.levels.EarthLevel;
-import com.elementalpixel.elementalpixeldungeon.levels.FireBossLevel;
-import com.elementalpixel.elementalpixeldungeon.levels.FireLevel;
 import com.elementalpixel.elementalpixeldungeon.levels.HallsLevel;
+import com.elementalpixel.elementalpixeldungeon.levels.InfernalBastionBossLevel;
+import com.elementalpixel.elementalpixeldungeon.levels.InfernalBastionLevel;
 import com.elementalpixel.elementalpixeldungeon.levels.LastLevel;
 import com.elementalpixel.elementalpixeldungeon.levels.LastShopLevel;
 import com.elementalpixel.elementalpixeldungeon.levels.Level;
@@ -323,10 +322,10 @@ public class Dungeon {
 		case 32:
 		case 33:
 		case 34:
-			level = new FireLevel();
+			level = new InfernalBastionLevel();
 			break;
 		case 35:
-			level = new FireBossLevel();
+			level = new InfernalBastionBossLevel() /*FireBossLevel()*/;
 			break;
 		case 36:
 		case 37:

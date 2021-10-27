@@ -21,7 +21,6 @@
 
 package com.elementalpixel.elementalpixeldungeon.actors.mobs;
 
-import com.elementalpixel.elementalpixeldungeon.items.fragments.Fragment;
 import com.watabou.utils.Random;
 
 import java.util.ArrayList;
@@ -42,6 +41,7 @@ public class Bestiary {
 		switch(depth){
 			
 			// Sewers
+			//6 enemies
 			case 1: default:
 				//3x rat, 1x snake
 				return new ArrayList<>(Arrays.asList(
@@ -67,6 +67,7 @@ public class Bestiary {
 						Slime.class, Slime.class));
 				
 			// Prison
+			//5 + 1 enemies
 			case 6:
 				//3x skeleton, 1x thief, 1x swarm
 				return new ArrayList<>(Arrays.asList(Skeleton.class, Skeleton.class, Skeleton.class,
@@ -94,6 +95,7 @@ public class Bestiary {
 						Necromancer.class, Necromancer.class));
 				
 			// Caves
+			//5 enemies
 			case 11:
 				//3x bat, 1x brute, 1x shaman
 				return new ArrayList<>(Arrays.asList(
@@ -125,6 +127,7 @@ public class Bestiary {
 						DM200.class, DM200.class));
 				
 			// City
+			//5 enemies
 			case 16:
 				//2x ghoul, 2x elemental, 1x warlock
 				return new ArrayList<>(Arrays.asList(
@@ -155,6 +158,7 @@ public class Bestiary {
 						Golem.class, Golem.class, Golem.class));
 				
 			// Halls
+			// 3 + 1 enemies
 			case 21:
 				//2x succubus, 1x evil eye
 				return new ArrayList<>(Arrays.asList(

@@ -86,7 +86,8 @@ public enum Icons {
 	CHARLIE,
 	CUBE_CODE,
 	PURIGRO,
-	ARCNOR;
+	ARCNOR,
+	ELPX;
 
 	public Image get() {
 		return get( this );
@@ -246,6 +247,9 @@ public enum Icons {
 			icon.frame( icon.texture.uvRect( 101, 32, 128, 62 ) );
 			icon.scale.set(PixelScene.align(0.49f));
 			break;
+		case ELPX:
+			icon.frame( icon.texture.uvRect( 64, 96, 96, 128) );
+			icon.scale.set(PixelScene.align(0.49f));
 
 		}
 		return icon;

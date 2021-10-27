@@ -21,17 +21,20 @@
 
 package com.elementalpixel.elementalpixeldungeon.actors.blobs;
 
+import static com.elementalpixel.elementalpixeldungeon.items.Item.curUser;
+
 import com.elementalpixel.elementalpixeldungeon.Badges;
 import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Buff;
+import com.elementalpixel.elementalpixeldungeon.actors.buffs.Healing;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.HeroSubClass;
 import com.elementalpixel.elementalpixeldungeon.effects.BlobEmitter;
 import com.elementalpixel.elementalpixeldungeon.effects.Speck;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.utils.GLog;
-import static com.elementalpixel.elementalpixeldungeon.items.Item.curUser;
 
 public class ToxicGas extends Blob implements Hero.Doom {
 
@@ -51,7 +54,8 @@ public class ToxicGas extends Blob implements Hero.Doom {
 					if (!ch.isImmune(this.getClass())) {
 
 						if (curUser.subClass == HeroSubClass.ELEMENTALIST && ch instanceof Hero) {
-							ch.HP += damage / 2;
+							Buff.affect(ch, Healing.class).setHeal((damage / 2), 0.25f, 0);
+
 							if (ch.HP > ch.HT) ch.HP = ch.HT;
 						} else {
 							ch.damage(damage, this);

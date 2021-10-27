@@ -46,6 +46,7 @@ public class v0_1_X_Changes {
 		add_v0_1_2_1_Changes(changeInfos);
 		add_v0_1_2_2_Changes(changeInfos);
 		add_v0_1_2_3_Changes(changeInfos);
+		add_v0_1_2_4_Changes(changeInfos);
 	}
 	
 
@@ -182,4 +183,24 @@ public class v0_1_X_Changes {
 						"_-_ Berserker's talents have been tweaked as a response to his rework\n\n"
 		) );
 	}
+
+	public static void add_v0_1_2_4_Changes( ArrayList<ChangeInfo> changeInfos) {
+		ChangeInfo changes = new ChangeInfo("v0.1.2.4a", false, "");
+		changes.hardlight(Window.TITLE_COLOR);
+		changeInfos.add(changes);
+
+		changes.addButton(new ChangeButton(Icons.get(Icons.PREFS), Messages.get(ChangesScene.class, "misc"),
+						"_-_ Changed names of chapters after final boss:\n\n_-_ Fire chapter is now Infernal Bastion\n_-_ Water chapter is now Endless lakes\n_-_ Air chapter is now Warden's Hideout\n_-_ Earth chapter is now The Last Stand\n\n"
+
+				)
+		);
+
+		changes.addButton( new ChangeButton(new Image(Assets.Sprites.STATUE, 0, 0, 12, 15),  "Added new boss",
+				"_-_ Boss in Infernal Bastion - Great Fire Demon has been added."
+		) );
+
+
+	}
+
+
 }

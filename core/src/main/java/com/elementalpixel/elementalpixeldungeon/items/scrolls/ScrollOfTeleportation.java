@@ -27,6 +27,7 @@ import com.elementalpixel.elementalpixeldungeon.Dungeon;
 import com.elementalpixel.elementalpixeldungeon.actors.Actor;
 import com.elementalpixel.elementalpixeldungeon.actors.Char;
 import com.elementalpixel.elementalpixeldungeon.actors.hero.Hero;
+import com.elementalpixel.elementalpixeldungeon.actors.mobs.Mob;
 import com.elementalpixel.elementalpixeldungeon.effects.Speck;
 import com.elementalpixel.elementalpixeldungeon.levels.RegularLevel;
 import com.elementalpixel.elementalpixeldungeon.levels.Terrain;
@@ -80,7 +81,23 @@ public class ScrollOfTeleportation extends Scroll {
 		GameScene.updateFog();
 		
 	}
-	
+
+	public static void teleportToLocation(Mob mob, int pos){
+		PathFinder.buildDistanceMap(pos, BArray.or(Dungeon.level.passable, Dungeon.level.avoid, null));
+		if (PathFinder.distance[mob.pos] == Integer.MAX_VALUE
+				|| (!Dungeon.level.passable[pos] && !Dungeon.level.avoid[pos])
+				|| Actor.findChar(pos) != null){
+			GLog.w( Messages.get(ScrollOfTeleportation.class, "cant_reach") );
+			return;
+		}
+
+		appear( mob, pos );
+		Dungeon.level.occupyCell(mob );
+		Dungeon.observe();
+		GameScene.updateFog();
+
+	}
+
 	public static void teleportHero( Hero hero ) {
 		teleportChar( hero );
 	}

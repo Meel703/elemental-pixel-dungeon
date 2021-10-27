@@ -49,45 +49,51 @@ public class InfernalFire extends Blob {
 		for (int i = area.left-1; i <= area.right; i++) {
 			for (int j = area.top-1; j <= area.bottom; j++) {
 				cell = i + j*Dungeon.level.width();
-				if (cur[cell] > 0) {
-					
-					if (freeze != null && freeze.volume > 0 && freeze.cur[cell] > 0){
-						freeze.clear(cell);
-						off[cell] = cur[cell] = 0;
-						continue;
-					}
+				try {
+					if (cur[cell] > 0) {
 
-					burn( cell );
+						if (freeze != null && freeze.volume > 0 && freeze.cur[cell] > 0){
+							freeze.clear(cell);
+							off[cell] = cur[cell] = 0;
+							continue;
+						}
 
-					fire = cur[cell] - 1;
-					if (fire <= 0 && flamable[cell]) {
-
-						Dungeon.level.destroy( cell );
-
-						observe = true;
-						GameScene.updateMap( cell );
-
-					}
-
-				} else if (freeze == null || freeze.volume <= 0 || freeze.cur[cell] <= 0) {
-
-					if (flamable[cell]
-							&& (cur[cell-1] > 0
-							|| cur[cell+1] > 0
-							|| cur[cell-Dungeon.level.width()] > 0
-							|| cur[cell+Dungeon.level.width()] > 0)) {
-						fire = 4;
 						burn( cell );
-						area.union(i, j);
+
+						fire = cur[cell] - 1;
+						if (fire <= 0 && flamable[cell]) {
+
+							Dungeon.level.destroy( cell );
+
+							observe = true;
+							GameScene.updateMap( cell );
+
+						}
+
+					} else if (freeze == null || freeze.volume <= 0 || freeze.cur[cell] <= 0) {
+
+						if (flamable[cell]
+								&& (cur[cell-1] > 0
+								|| cur[cell+1] > 0
+								|| cur[cell-Dungeon.level.width()] > 0
+								|| cur[cell+Dungeon.level.width()] > 0)) {
+							fire = 4;
+							burn( cell );
+							area.union(i, j);
+						} else {
+							fire = 0;
+						}
+
 					} else {
 						fire = 0;
 					}
 
-				} else {
-					fire = 0;
+					volume += (off[cell] = fire);
+
+				} catch (ArrayIndexOutOfBoundsException e) {
+					Buff.detach(Dungeon.hero, InfernalFlame.class);
 				}
 
-				volume += (off[cell] = fire);
 			}
 		}
 

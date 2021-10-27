@@ -34,6 +34,7 @@ import com.elementalpixel.elementalpixeldungeon.actors.hero.Talent;
 import com.elementalpixel.elementalpixeldungeon.effects.Chains;
 import com.elementalpixel.elementalpixeldungeon.effects.Pushing;
 import com.elementalpixel.elementalpixeldungeon.items.rings.RingOfEnergy;
+import com.elementalpixel.elementalpixeldungeon.levels.InfernalBastionBossLevel;
 import com.elementalpixel.elementalpixeldungeon.mechanics.Ballistica;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.scenes.CellSelector;
@@ -111,23 +112,27 @@ public class EtherealChains extends Artifact {
 		@Override
 		public void onSelect(Integer target) {
 			if (target != null && (Dungeon.level.visited[target] || Dungeon.level.mapped[target])){
-
-				//chains cannot be used to go where it is impossible to walk to
-				PathFinder.buildDistanceMap(target, BArray.or(Dungeon.level.passable, Dungeon.level.avoid, null));
-				if (PathFinder.distance[curUser.pos] == Integer.MAX_VALUE){
-					GLog.w( Messages.get(EtherealChains.class, "cant_reach") );
-					return;
-				}
-				
-				final Ballistica chain = new Ballistica(curUser.pos, target, Ballistica.STOP_TARGET);
-				
-				if (Actor.findChar( chain.collisionPos ) != null){
-					chainEnemy( chain, curUser, Actor.findChar( chain.collisionPos ));
+				if (Dungeon.depth == 35 && InfernalBastionBossLevel.boss.phase == 0 ) {
+					GLog.w("You cannot use Ethereal chains right now");
 				} else {
-					chainLocation( chain, curUser );
+
+					//chains cannot be used to go where it is impossible to walk to
+					PathFinder.buildDistanceMap(target, BArray.or(Dungeon.level.passable, Dungeon.level.avoid, null));
+					if (PathFinder.distance[curUser.pos] == Integer.MAX_VALUE) {
+						GLog.w(Messages.get(EtherealChains.class, "cant_reach"));
+						return;
+					}
+
+					final Ballistica chain = new Ballistica(curUser.pos, target, Ballistica.STOP_TARGET);
+
+					if (Actor.findChar(chain.collisionPos) != null) {
+						chainEnemy(chain, curUser, Actor.findChar(chain.collisionPos));
+					} else {
+						chainLocation(chain, curUser);
+					}
+					throwSound();
+					Sample.INSTANCE.play(Assets.Sounds.CHAINS);
 				}
-				throwSound();
-				Sample.INSTANCE.play( Assets.Sounds.CHAINS );
 
 			}
 

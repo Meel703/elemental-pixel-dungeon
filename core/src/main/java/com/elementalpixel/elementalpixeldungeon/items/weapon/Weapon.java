@@ -53,6 +53,7 @@ import com.elementalpixel.elementalpixeldungeon.items.weapon.enchantments.Projec
 import com.elementalpixel.elementalpixeldungeon.items.weapon.enchantments.Shocking;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.enchantments.Unstable;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.enchantments.Vampiric;
+import com.elementalpixel.elementalpixeldungeon.levels.InfernalBastionBossLevel;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSprite;
 import com.elementalpixel.elementalpixeldungeon.utils.GLog;
@@ -104,22 +105,28 @@ abstract public class Weapon extends KindOfWeapon {
 	@Override
 	public int proc(Char attacker, Char defender, int damage) {
 
-		if (enchantment != null && attacker.buff(MagicImmune.class) == null) {
-			damage = enchantment.proc(this, attacker, defender, damage);
-		}
-
-		if (!levelKnown && attacker == Dungeon.hero) {
-			float uses = Math.min(availableUsesToID, Talent.itemIDSpeedFactor(Dungeon.hero, this));
-			availableUsesToID -= uses;
-			usesLeftToID -= uses;
-			if (usesLeftToID <= 0) {
-				identify();
-				GLog.p(Messages.get(Weapon.class, "identify"));
-				Badges.validateItemLevelAquired(this);
+		if (Dungeon.depth == 35 && Dungeon.level.distance(Dungeon.hero.pos, InfernalBastionBossLevel.boss.pos) != 1 && (InfernalBastionBossLevel.boss.phase == 3 || InfernalBastionBossLevel.boss.phase == 3.1f) ) {
+			GLog.n("Great Fire Demon: You have to come closer and fight fair, kid");
+			return 0;
+		} else {
+			if (enchantment != null && attacker.buff(MagicImmune.class) == null) {
+				damage = enchantment.proc(this, attacker, defender, damage);
 			}
+
+			if (!levelKnown && attacker == Dungeon.hero) {
+				float uses = Math.min(availableUsesToID, Talent.itemIDSpeedFactor(Dungeon.hero, this));
+				availableUsesToID -= uses;
+				usesLeftToID -= uses;
+				if (usesLeftToID <= 0) {
+					identify();
+					GLog.p(Messages.get(Weapon.class, "identify"));
+					Badges.validateItemLevelAquired(this);
+				}
+			}
+
+			return damage;
 		}
 
-		return damage;
 	}
 
 	public void onHeroGainExp(float levelPercent, Hero hero) {

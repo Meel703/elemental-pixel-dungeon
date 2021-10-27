@@ -23,13 +23,21 @@ package com.elementalpixel.elementalpixeldungeon.levels;
 
 
 import com.elementalpixel.elementalpixeldungeon.Assets;
+import com.elementalpixel.elementalpixeldungeon.Dungeon;
+import com.elementalpixel.elementalpixeldungeon.actors.Actor;
+import com.elementalpixel.elementalpixeldungeon.actors.Char;
+import com.elementalpixel.elementalpixeldungeon.actors.mobs.GreatFireDemon;
 import com.elementalpixel.elementalpixeldungeon.items.fragments.FireFragment;
+import com.elementalpixel.elementalpixeldungeon.items.potions.PotionOfHealing;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.HallsPainter;
 import com.elementalpixel.elementalpixeldungeon.levels.painters.Painter;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
+import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
 import com.watabou.noosa.Group;
 import com.watabou.utils.Bundle;
+import com.watabou.utils.PathFinder;
 import com.watabou.utils.Point;
+import com.watabou.utils.Random;
 import com.watabou.utils.Rect;
 
 public class InfernalBastionBossLevel extends Level {
@@ -37,20 +45,32 @@ public class InfernalBastionBossLevel extends Level {
 	{
 		color1 = 0x4b6636;
 		color2 = 0xf2f2f2;
+
+		viewDistance = 12;
 	}
 
 	private static int WIDTH = 45;
 	private static int HEIGHT = 144;
 
 	private static final Rect entry = new Rect(9, 38, 20, 48);
-	private static final Rect arena = new Rect(1, 11, 28, 38);
+	public static final Rect arena = new Rect(1, 11, 28, 38);
 	private static final Rect end = new Rect(11, 0, 18, 11);
 
-	private static final Rect pillar = new Rect(20, 16, 23, 19);
-	private static final Rect pillar2 = new Rect(20, 30, 23, 33);
+	protected static final Rect pillar = new Rect(20, 15, 23, 18);
+	private static final Rect pillar2 = new Rect(20, 31, 23, 34);
 
-	private static final Rect pillar3 = new Rect(6, 16, 9, 19);
-	private static final Rect pillar4 = new Rect(6, 30, 9, 33);
+	public static final Rect pillar3 = new Rect(6, 15, 9, 18);
+	private static final Rect pillar4 = new Rect(6, 31, 9, 34);
+
+	private static final Rect empty3 = new Rect(6, 16, 9, 19);
+	private static final Rect empty4 = new Rect(6, 30, 9, 33);
+
+	private static final Rect empty5 = new Rect(20, 16, 23, 19);
+	private static final Rect empty6 = new Rect(20, 30, 23, 33);
+
+	public static final Rect chasmDuringBossFight = new Rect(2, 16, 27, 17);
+	private static final Rect chasmDuringBossFight2 = new Rect();
+	private static final Rect chasmDuringBossFight3 = new Rect();
 
 	private static final Rect water = new Rect(9, 19, 20, 30);
 	private static final Rect water2 = new Rect(11, 21, 18, 28);
@@ -62,8 +82,16 @@ public class InfernalBastionBossLevel extends Level {
 
 	private static final Rect wall = new Rect(11, 0, 18, 1);
 
-	private static final int bottomDoor = 7 + (arena.bottom-1)*15;
-	private static final int topDoor = 7 + arena.top*15;
+	protected final Rect debris = new Rect();
+
+	private static int bottomDoor;
+	public static int topDoor;
+	public static int door;
+
+	public static int bossSpawnPoint;
+
+	public static GreatFireDemon boss;
+	public static boolean canSpawn = true;
 
 
 	@Override
@@ -75,8 +103,6 @@ public class InfernalBastionBossLevel extends Level {
 	public String waterTex() {
 		return Assets.Environment.WATER_HALLS;
 	}
-
-	private static final String IMP_SHOP = "imp_shop";
 
 	@Override
 	public void storeInBundle( Bundle bundle ) {
@@ -105,11 +131,11 @@ public class InfernalBastionBossLevel extends Level {
 			Painter.set(this, c.x, c.y - i, Terrain.EMPTY);
 		}
 
-		Painter.set(this, c.x, c.y - 5, Terrain.DOOR);
 
-		entrance = c.x + (c.y+0) * width();
-		Rect e = new Rect(6, 44, 7, 45);
+		entrance = c.x + c.y * width();
+		door = c.x + (c.y - 5)  * width();
 
+		Painter.set(this, door, Terrain.DOOR);
 		Painter.set(this, entrance, Terrain.ENTRANCE);
 
 		//Arena
@@ -124,6 +150,13 @@ public class InfernalBastionBossLevel extends Level {
 
 		Painter.fill(this, pillar3, Terrain.WALL);
 		Painter.fill(this, pillar4, Terrain.WALL);
+
+		/*Painter.fill(this, pillar.left + 1, pillar.bottom - 2, 1, 1, Terrain.STATUE_SP);
+		Painter.fill(this, pillar2.left + 1, pillar2.bottom - 2, 1, 1, Terrain.STATUE_SP);
+
+		Painter.fill(this, pillar3.left + 1, pillar3.bottom - 2, 1, 1, Terrain.STATUE_SP);
+		Painter.fill(this, pillar4.left + 1, pillar4.bottom - 2, 1, 1, Terrain.STATUE_SP);
+*/
 
 		Painter.fill(this, water, Terrain.WATER);
 		Painter.fill(this, empty, Terrain.EMPTY);
@@ -140,8 +173,12 @@ public class InfernalBastionBossLevel extends Level {
 
 
 		Painter.fill(this, wall, Terrain.WALL);
-		exit = c.x + (arena.top-2)*width();
 
+		exit = c.x + (arena.top-2)*width();
+		bossSpawnPoint = c.x + (arena.top + 13) * width();
+
+		topDoor = c.x + (arena.top) * width();
+		bottomDoor = entrance;
 
 		new HallsPainter().paint(this, null);
 
@@ -155,7 +192,58 @@ public class InfernalBastionBossLevel extends Level {
 
 	@Override
 	protected void createItems() {
+		drop(new PotionOfHealing(), exit);
 		drop(new FireFragment(), exit);
+	}
+
+	@Override
+	public void occupyCell(Char ch) {
+		super.occupyCell(ch);
+
+		Point c = arena.center();
+		if (map[entrance] == Terrain.ENTRANCE && map[exit] != Terrain.EXIT
+				&& Dungeon.level.distance(Dungeon.hero.pos, entrance) >= 30) {
+
+			seal();
+		}
+	}
+
+	@Override
+	public void seal() {
+		super.seal();
+	}
+
+	@Override
+	public void unseal() {
+		super.unseal();
+
+		set(door, Terrain.DOOR);
+		GameScene.updateMap(door);
+
+		set(topDoor, Terrain.DOOR);
+		GameScene.updateMap(topDoor);
+
+		for (int i = 1; i < 4; i++) {
+			for (int i2 = 0; i2 < 3; i2++) {
+				set(((arena.top + 1) + i) + ((arena.top + 1) + i2) * width(), Terrain.EMPTY_SP);
+				GameScene.updateMap(((arena.top + 1) + i) + ((arena.top + 1) + i2) * width());
+			}
+		}
+
+		Dungeon.observe();
+	}
+
+	@Override
+	public int randomRespawnCell(Char ch) {
+		int pos = entrance;
+		int cell;
+		do {
+			cell = pos + PathFinder.NEIGHBOURS8[Random.Int(8)];
+		} while (!passable[cell]
+				|| (Char.hasProp(ch, Char.Property.LARGE) && !openSpace[cell])
+				|| Actor.findChar(cell) != null);
+		return cell;
+
 	}
 
 	@Override

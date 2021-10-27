@@ -34,12 +34,14 @@ import com.elementalpixel.elementalpixeldungeon.effects.Splash;
 import com.elementalpixel.elementalpixeldungeon.items.rings.RingOfFuror;
 import com.elementalpixel.elementalpixeldungeon.items.rings.RingOfSharpshooting;
 import com.elementalpixel.elementalpixeldungeon.items.weapon.missiles.MissileWeapon;
+import com.elementalpixel.elementalpixeldungeon.levels.InfernalBastionBossLevel;
 import com.elementalpixel.elementalpixeldungeon.messages.Messages;
 import com.elementalpixel.elementalpixeldungeon.scenes.CellSelector;
 import com.elementalpixel.elementalpixeldungeon.scenes.GameScene;
 import com.elementalpixel.elementalpixeldungeon.sprites.ItemSpriteSheet;
 import com.elementalpixel.elementalpixeldungeon.sprites.MissileSprite;
 import com.elementalpixel.elementalpixeldungeon.ui.QuickSlotButton;
+import com.elementalpixel.elementalpixeldungeon.utils.GLog;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.Callback;
 import com.watabou.utils.Random;
@@ -77,11 +79,13 @@ public class SpiritBow extends Weapon {
 		super.execute(hero, action);
 		
 		if (action.equals(AC_SHOOT)) {
-			
-			curUser = hero;
-			curItem = this;
-			GameScene.selectCell( shooter );
-			
+			if (Dungeon.depth == 35 && Dungeon.level.distance(Dungeon.hero.pos, InfernalBastionBossLevel.boss.pos) != 1 && (InfernalBastionBossLevel.boss.phase == 3 || InfernalBastionBossLevel.boss.phase == 3.1f) ) {
+
+			} else {
+				curUser = hero;
+				curItem = this;
+				GameScene.selectCell(shooter);
+			}
 		}
 	}
 	
@@ -362,7 +366,13 @@ public class SpiritBow extends Weapon {
 		@Override
 		public void onSelect( Integer target ) {
 			if (target != null) {
-				knockArrow().cast(curUser, target);
+				if (Dungeon.depth == 35 && Dungeon.level.distance(Dungeon.hero.pos, InfernalBastionBossLevel.boss.pos) != 1 && (InfernalBastionBossLevel.boss.phase == 3 || InfernalBastionBossLevel.boss.phase == 3.1f) ) {
+					GLog.n("Great Fire Demon: You have to come closer and fight fair, kid");
+
+				} else {
+
+					knockArrow().cast(curUser, target);
+				}
 			}
 		}
 		@Override

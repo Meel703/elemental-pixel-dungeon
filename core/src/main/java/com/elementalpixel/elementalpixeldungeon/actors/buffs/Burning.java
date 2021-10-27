@@ -198,6 +198,14 @@ public class Burning extends Buff implements Hero.Doom {
 	public void fx(boolean on) {
 		if (on) target.sprite.add(CharSprite.State.BURNING);
 		else target.sprite.remove(CharSprite.State.BURNING);
+
+		if (Dungeon.hero.subClass == HeroSubClass.ELEMENTALIST && target instanceof Hero) {
+			if (on) {
+				target.sprite.add(CharSprite.State.HEALING);
+			} else {
+				target.sprite.remove(CharSprite.State.HEALING);
+			}
+		}
 	}
 
 	@Override

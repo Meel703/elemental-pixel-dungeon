@@ -94,6 +94,7 @@ public abstract class Mob extends Char {
 	public AiState WANDERING	= new Wandering();
 	public AiState FLEEING		= new Fleeing();
 	public AiState PASSIVE		= new Passive();
+	public AiState STANDING     = new Standing();
 	public AiState state = SLEEPING;
 	
 	public Class<? extends CharSprite> spriteClass;
@@ -106,8 +107,8 @@ public abstract class Mob extends Char {
 	public int maxLvl = Hero.MAX_LEVEL;
 	
 	protected Char enemy;
-	protected boolean enemySeen;
-	protected boolean alerted = false;
+	public boolean enemySeen;
+	public boolean alerted = false;
 
 	protected static final float TIME_TO_WAKE_UP = 1f;
 	
@@ -131,6 +132,8 @@ public abstract class Mob extends Char {
 			bundle.put( STATE, Fleeing.TAG );
 		} else if (state == PASSIVE) {
 			bundle.put( STATE, Passive.TAG );
+		} else if (state == STANDING) {
+			bundle.put( STATE, Standing.TAG );
 		}
 		bundle.put( SEEN, enemySeen );
 		bundle.put( TARGET, target );
@@ -153,6 +156,8 @@ public abstract class Mob extends Char {
 			this.state = FLEEING;
 		} else if (state.equals( Passive.TAG )) {
 			this.state = PASSIVE;
+		} else if (state.equals( Standing.TAG )) {
+			this.state = STANDING;
 		}
 
 		enemySeen = bundle.getBoolean( SEEN );
@@ -893,7 +898,7 @@ public abstract class Mob extends Char {
 			return true;
 		}
 
-		protected void awaken( boolean enemyInFOV ){
+		public void awaken( boolean enemyInFOV ){
 			if (enemyInFOV) {
 				enemySeen = true;
 				notice();
@@ -1132,6 +1137,23 @@ public abstract class Mob extends Char {
 	
 	public static void clearHeldAllies(){
 		heldAllies.clear();
+	}
+
+	protected class Standing implements AiState {
+
+		public static final String TAG = "STANDING";
+
+		@Override
+		public boolean act(boolean enemyInFOV, boolean justAlerted) {
+			GreatFireDemon demon = new GreatFireDemon();
+			int lastPos = demon.pos;
+
+			if (lastPos != pos) {
+				demon.pos = lastPos;
+			}
+			spend( TICK );
+			return true;
+		}
 	}
 }
 

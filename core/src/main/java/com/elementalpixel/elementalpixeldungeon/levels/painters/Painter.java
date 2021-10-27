@@ -51,6 +51,14 @@ public abstract class Painter {
 	public static void set(Level level, Point p, int value ) {
 		set( level, p.x, p.y, value );
 	}
+
+	public static void set(Level level, Rect rect, int value) {
+		for (int i2 = 0; i2 < rect.bottom; i2++) {
+			for (int i = 0; i < rect.right; i++) {
+				set(level, rect.left + i, value);
+			}
+		}
+	}
 	
 	public static void fill( Level level, int x, int y, int w, int h, int value ) {
 		
