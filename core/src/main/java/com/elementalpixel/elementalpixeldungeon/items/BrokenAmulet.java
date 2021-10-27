@@ -38,7 +38,7 @@ public class BrokenAmulet extends Item {
     protected WndBag.Mode mode = WndBag.Mode.FRAGMENT;
 
     {
-        image = ItemSpriteSheet.AMULET;
+        image = ItemSpriteSheet.BROKEN_AMULET;
 
         unique = true;
     }
